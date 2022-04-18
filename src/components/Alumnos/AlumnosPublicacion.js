@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
-import Card from 'react-bootstrap/Card'
+import Card from 'react-bootstrap/Card';
 
 
 import NavBar from './AlumnosNavBar';
 import Container from './FondoAlumnos';
+import './alumno.css';
 
 let publicaciones = [
   {
@@ -105,17 +106,18 @@ function AlumnosPublicacion() {
           <NavBar estudiante={alumno} />
           <br />
           <br />
-          <div style={{ margin: '0 auto', width: '85%', color: 'white' }}>
+          <div className='principal'>
             <div className="d-flex  justify-content-end align-items-center" style={{ marginLeft: '2%' }}>
               <h2>Publicaciones</h2>
-              <div className="card-body d-flex justify-content-between align-items-center" style={{ marginLeft: '60%' }}>
+              <div className="card-body d-flex justify-content-between align-items-center"
+                style={{ marginLeft: '60%' }}>
                 Grupo:
                 <Button onClick={() => handleRowClick(0)}>{'<'}</Button>
                 {(indice / 10) + 1}
                 <Button onClick={() => handleRowClick(0)}>{'>'}</Button>
               </div>
             </div>
-            <div class="bg-light" style={{ height: '455px', display: 'block', marginLeft: '2%', marginRight: '1.5%' }}>
+            <div class="bg-light container-tabla" >
               <Table striped bordered hover >
                 <thead>
                   <tr>
@@ -147,13 +149,11 @@ function AlumnosPublicacion() {
         :
         <Container>
           <NavBar estudiante={alumno} />
-          <div className="d-flex justify-content-center align-items-center"
-            style={{ margin: '0 auto', width: '50%', color: 'black', height: '90%' }}>
+          <div class="d-flex justify-content-center align-items-center container-publicacion">
             <Card style={{ width: '100%', height: '80%' }}>
               <Card.Header as="h5" >
-                <button style={{ textDecoration:'none', fontSize:'larger',
-                 backgroundColor:'transparent', border:'none',
-                 color: 'blue', width:'8%', textAlign:'left'}} onClick={()=>setPub(0)}> {"<"} </button>
+                <button className='boton-regreso-publicacion'
+                  onClick={() => setPub(0)}> {"<"} </button>
                 Asunto de Publicacion
               </Card.Header>
               <Card.Body style={{ overflowY: 'auto' }}>

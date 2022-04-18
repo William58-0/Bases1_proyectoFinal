@@ -9,6 +9,7 @@ import MaestrosNotas from './components/Maestros/MaestrosNotas';
 // ------------------------------------------------------------------------------ ALUMNOS
 import AlumnosPublicacion from './components/Alumnos/AlumnosPublicacion';
 import AlumnosActividades from './components/Alumnos/AlumnosActividades';
+import AlumnosEntregarActividad from './components/Alumnos/AlumnosEntregarActividad';
 import AlumnosNotas from './components/Alumnos/AlumnosNotas';
 
 // ------------------------------------------------------------------------------ ADMINISTRADOR
@@ -17,6 +18,7 @@ import AdminHome from './components/Administrador/AdminHome';
 import styled from 'styled-components';
 
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+
 
 const Container = styled.div`
   margin: 0 auto;
@@ -50,6 +52,12 @@ class App extends Component {
                 exact
                 strict
                 component={AlumnosActividades}
+              />
+              <Route
+                path="/alumnos/actividades/:identificacion/:actividad"
+                exact
+                strict
+                component={AlumnosEntregarActividad}
               />
               <Route
                 path="/alumnos/notas/:identificacion"
