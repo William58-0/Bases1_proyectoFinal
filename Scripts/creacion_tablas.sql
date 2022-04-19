@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS clase (
 
 
 CREATE TABLE IF NOT EXISTS asignacion_clase (
-	id_asignacion_clase INT,
+	id_asignacion_clase INT NOT NULL AUTO_INCREMENT,
 	id_clase INT,
 	id_alumno INT,
 	PRIMARY KEY (id_asignacion_clase),
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS pregunta (
 
 
 CREATE TABLE IF NOT EXISTS asignacion_clase (
-	id_asignacion_clase INT,
+	id_asignacion_clase INT NOT NULL AUTO_INCREMENT,	
 	id_clase INT,
 	id_alumno INT,
 	PRIMARY KEY (id_asignacion_clase),
