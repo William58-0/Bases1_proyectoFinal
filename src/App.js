@@ -11,6 +11,8 @@ import AlumnosPublicacion from './components/Alumnos/AlumnosPublicacion';
 import AlumnosActividades from './components/Alumnos/AlumnosActividades';
 import AlumnosEntregarActividad from './components/Alumnos/AlumnosEntregarActividad';
 import AlumnosNotas from './components/Alumnos/AlumnosNotas';
+import AlumnosExamenes from './components/Alumnos/AlumnosExamenes';
+import AlumnosHacerExamen from './components/Alumnos/AlumnosHacerExamen';
 
 // ------------------------------------------------------------------------------ ADMINISTRADOR
 import AdminHome from './components/Administrador/AdminHome';
@@ -69,7 +71,13 @@ class App extends Component {
                 path="/alumnos/examenes/:identificacion"
                 exact
                 strict
-                component={AlumnosNotas}
+                component={AlumnosExamenes}
+              />
+              <Route
+                path="/alumnos/examenes/:identificacion/:examen"
+                exact
+                strict
+                component={AlumnosHacerExamen}
               />
 
               <Route
