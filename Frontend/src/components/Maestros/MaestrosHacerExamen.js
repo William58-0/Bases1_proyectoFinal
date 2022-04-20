@@ -49,8 +49,8 @@ function MaestrosEntregarActividad() {
 
 
   useEffect(() => {
-    // obtener los datos del estudiante
-    // obtener datos de actividad para el estudiante
+    // obtener los datos del maestro
+    // obtener datos de actividad para el maestro
   }, [])
 
   const renderRedirect = () => {
@@ -99,7 +99,7 @@ function MaestrosEntregarActividad() {
   return (
     <>
       <Container>
-        <NavBar estudiante={maestro} />
+        <NavBar maestro={maestro} />
         <div class="d-flex justify-content-center align-items-center container-publicacion">
           <Card style={{ width: '100%', height: '80%' }}>
             <Card.Header as="h5" >

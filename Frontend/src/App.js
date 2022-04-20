@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Home from './components/Home';
 
 // ------------------------------------------------------------------------------ PROFESORES
-import MaestrosPublicacion from './components/Maestros/MaestrosPublicacion';
+import MaestrosPublicaciones from './components/Maestros/MaestrosPublicaciones';
 import MaestrosActividades from './components/Maestros/MaestrosActividades';
 import MaestrosNotas from './components/Maestros/MaestrosNotas';
 
@@ -13,9 +13,10 @@ import AlumnosEntregarActividad from './components/Alumnos/AlumnosEntregarActivi
 import AlumnosNotas from './components/Alumnos/AlumnosNotas';
 import AlumnosExamenes from './components/Alumnos/AlumnosExamenes';
 import AlumnosHacerExamen from './components/Alumnos/AlumnosHacerExamen';
+import AlumnosNotificaciones from './components/Alumnos/AlumnosNotificaciones';
 
 // ------------------------------------------------------------------------------ ADMINISTRADOR
-import AdminHome from './components/Administrador/AdminHome';
+import AdminUsuarios from './components/Administrador/AdminUsuarios';
 
 import styled from 'styled-components';
 
@@ -44,7 +45,7 @@ class App extends Component {
               />
 
               <Route
-                path="/alumnos/publicacion/:identificacion"
+                path="/alumnos/publicaciones/:identificacion"
                 exact
                 strict
                 component={AlumnosPublicacion}
@@ -79,12 +80,18 @@ class App extends Component {
                 strict
                 component={AlumnosHacerExamen}
               />
-
               <Route
-                path="/maestros/publicacion/:identificacion"
+                path="/alumnos/notificaciones/:identificacion"
                 exact
                 strict
-                component={MaestrosPublicacion}
+                component={AlumnosNotificaciones}
+              />
+
+              <Route
+                path="/maestros/publicaciones/:identificacion"
+                exact
+                strict
+                component={MaestrosPublicaciones}
               />
               <Route
                 path="/maestros/actividades/:identificacion"
@@ -100,10 +107,10 @@ class App extends Component {
               />
 
               <Route
-                path="/administrador"
+                path="/admin"
                 exact
                 strict
-                component={AdminHome}
+                component={AdminUsuarios}
               />
 
               <Redirect to="/" />

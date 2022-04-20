@@ -104,9 +104,12 @@ function AlumnosEntregarActividad() {
           <Card style={{ width: '100%', height: '80%' }}>
             <Card.Header as="h5" >
               {renderRedirect()}
+
               <button className='boton-regreso-publicacion'
                 onClick={() => setRedirect(true)}> {"<"} </button>
-              Pregunta {pregunta}
+                <label className='label-publicacion'>Pregunta {pregunta}</label>
+
+            
             </Card.Header>
             <Card.Body style={{ overflowY: 'auto' }}>
               <Card.Text>

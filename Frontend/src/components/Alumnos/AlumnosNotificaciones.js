@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import { Button, Table, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import Table from 'react-bootstrap/Table';
+import Card from 'react-bootstrap/Card';
 
 
 import NavBar from './AlumnosNavBar';
@@ -10,79 +12,79 @@ import './alumno.css';
 let publicaciones = [
   {
     id: 1,
-    curso: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
+    titulo: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
     descripcion: 'blablfdassssssssssssssssssssssssssblablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssa' +
       'blablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
     fecha: 'hoy'
   },
   {
     id: 2,
-    curso: 'matematicas',
+    titulo: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 3,
-    curso: 'matematicas',
+    titulo: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 4,
-    curso: 'matematicas',
+    titulo: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 5,
-    curso: 'matematicas',
+    titulo: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 6,
-    curso: 'matematicas',
+    titulo: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 7,
-    curso: 'matematicas',
+    titulo: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 8,
-    curso: 'matematicas',
+    titulo: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 9,
-    curso: 'matematicas',
+    titulo: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 10,
-    curso: 'matematicas',
+    titulo: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 11,
-    curso: 'matematicas',
+    titulo: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
 ]
 
-function AlumnosPublicacion() {
+function AlumnosNotificaciones() {
   const [alumno, setAlumno] = useState(useParams().identificacion)
   const [indice, setIndice] = useState(0);
   const [publicacion, setPub] = useState(0);
   //
-  const [curso, setCurso] = useState("");
+  const [titulo, setCurso] = useState("");
   const [descripcion, setDesc] = useState("");
   const [fecha, setFecha] = useState("");
   const [autor, setAutor] = useState("");
@@ -94,7 +96,7 @@ function AlumnosPublicacion() {
 
   const verPublicacion = (row) => {
     alert(row);
-    setCurso(row.curso);
+    setCurso(row.titulo);
     setDesc(row.descripcion);
     setFecha(row.fecha);
     // obtener los datos para la publicacion seleccionada
@@ -118,9 +120,9 @@ function AlumnosPublicacion() {
           <br />
           <div className='principal'>
             <div className="d-flex  justify-content-end align-items-center" style={{ marginLeft: '2%' }}>
-              <h2>Publicaciones</h2>
+              <h2>Notificaciones</h2>
               <div className="card-body d-flex justify-content-between align-items-center"
-                style={{ marginLeft: '60%' }}>
+                style={{ marginLeft: '59%' }}>
                 Grupo:
                 <Button onClick={() => verPublicacion(0)}>{'<'}</Button>
                 {(indice / 10) + 1}
@@ -131,9 +133,9 @@ function AlumnosPublicacion() {
               <Table striped bordered hover >
                 <thead>
                   <tr>
-                    <th >Fecha</th>
-                    <th >Curso</th>
-                    <th >Descripcion</th>
+                    <th >Fecha y Hora</th>
+                    <th >Titulo</th>
+                    <th >Contenido</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -146,7 +148,7 @@ function AlumnosPublicacion() {
                         </td>
 
                         <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                          {log['curso']}
+                          {log['titulo']}
                         </td>
 
                         <td style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -167,7 +169,7 @@ function AlumnosPublicacion() {
               <Card.Header as="h5" >
                 <button className='boton-regreso-publicacion'
                   onClick={() => salirDePublicacion()}> {"<"} </button>
-                <label className='label-publicacion'>Curso: {curso}</label>
+                <label className='label-publicacion'>Titulo: {titulo}</label>
 
               </Card.Header>
               <Card.Body style={{ overflowY: 'auto' }}>
@@ -176,7 +178,7 @@ function AlumnosPublicacion() {
                 </Card.Text>
               </Card.Body>
               <Card.Footer style={{ textAlign: 'right' }}>
-                <small className="text-muted">Fecha: {fecha}</small><br />
+                <small className="text-muted">{fecha}</small><br />
               </Card.Footer>
             </Card>
           </div>
@@ -186,4 +188,4 @@ function AlumnosPublicacion() {
   );
 }
 
-export default AlumnosPublicacion;
+export default AlumnosNotificaciones;

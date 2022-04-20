@@ -12,69 +12,80 @@ import './alumno.css';
 let publicaciones = [
   {
     id: 1,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarfdsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaafdea 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
   {
     id: 2,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarea 1',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
   {
     id: 3,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarea 1',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
   {
     id: 4,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarea 1',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
   {
     id: 5,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarea 1',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
   {
     id: 6,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarea 1',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
   {
     id: 7,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarea 1',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
   {
     id: 8,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarea 1',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
   {
     id: 9,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarea 1',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
   {
     id: 10,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarea 1',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
   {
     id: 11,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    curso: 'tarea 1',
+    fecha_publicacion: 'blabla',
+    inicio: 'hoy',
+    fin:'maniana'
   },
 ]
 
@@ -85,7 +96,7 @@ function AlumnosPublicacion() {
   const [redirect, setRedirect] = useState(false);
   //
   const [asunto, setAsunto] = useState("");
-  const [descripcion, setDesc] = useState("");
+  const [fecha_publicacion, setDesc] = useState("");
   const [fecha, setFecha] = useState("");
   const [autor, setAutor] = useState("");
 
@@ -119,7 +130,7 @@ function AlumnosPublicacion() {
           <div className="d-flex  justify-content-end align-items-center" style={{ marginLeft: '2%' }}>
             <h2>Examenes</h2>
             <div className="card-body d-flex justify-content-between align-items-center"
-              style={{ marginLeft: '62.5%' }}>
+              style={{ marginLeft: '64.5%' }}>
               Grupo:
               <Button onClick={() => handleRowClick(0)}>{'<'}</Button>
               {(indice / 10) + 1}
@@ -130,8 +141,10 @@ function AlumnosPublicacion() {
             <Table striped bordered hover >
               <thead>
                 <tr>
-                  <th>Asunto</th>
-                  <th colSpan={12}>Fecha</th>
+                  <th>Publicación</th>
+                  <th>Curso</th>
+                  <th>Hora Inicio</th>
+                  <th>Hora Fin</th>
                 </tr>
               </thead>
               <tbody>
@@ -141,11 +154,19 @@ function AlumnosPublicacion() {
                       <tr key={log.id} onClick={() => handleRowClick(log.id)}>
 
                         <td >
-                          {log['tema']}
+                          {log['fecha_publicacion']}
                         </td>
 
-                        <td colSpan={12}>
-                          {log['fecha']}
+                        <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {log['curso']}
+                        </td>
+
+                        <td >
+                          {log['inicio']}
+                        </td>
+
+                        <td >
+                          {log['fin']}
                         </td>
                       </tr>
                     </>

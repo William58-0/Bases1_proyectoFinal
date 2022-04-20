@@ -89,8 +89,8 @@ function MaestrosPublicacion() {
   const [autor, setAutor] = useState("");
 
   useEffect(() => {
-    // obtener los datos del estudiante
-    // obtener publicaciones para el estudiante
+    // obtener los datos del maestro
+    // obtener publicaciones para el maestro
   }, [])
 
   const handleRowClick = (row) => {
@@ -103,7 +103,7 @@ function MaestrosPublicacion() {
     <>
       {publicacion === 0 ?
         <Container>
-          <NavBar estudiante={maestro} />
+          <NavBar maestro={maestro} />
           <br />
           <br />
           <div className='principal'>
@@ -113,11 +113,11 @@ function MaestrosPublicacion() {
                 style={{ marginLeft: '60%' }}>
                 Grupo:
                 <Button onClick={() => handleRowClick(0)}>{'<'}</Button>
-                {(indice / 9) + 1}
+                {(indice / 8) + 1}
                 <Button onClick={() => handleRowClick(0)}>{'>'}</Button>
               </div>
             </div>
-            <div class="bg-light container-tabla" >
+            <div class="bg-light container-tabla-publicacion" >
               <Table striped bordered hover >
                 <thead>
                   <tr>
@@ -127,7 +127,7 @@ function MaestrosPublicacion() {
                 </thead>
                 <tbody>
                   {
-                    publicaciones.slice(indice, indice + 9).map((log) =>
+                    publicaciones.slice(indice, indice + 8).map((log) =>
                       <>
                         <tr key={log.id} onClick={() => handleRowClick(log.id)}>
 
@@ -144,11 +144,14 @@ function MaestrosPublicacion() {
                 </tbody>
               </Table>
             </div>
+            <div >
+              <Button style={{marginTop:'2%', float:'right', marginRight:'2%'}}>Crear Publicación</Button>
+            </div>
           </div>
         </Container>
         :
         <Container>
-          <NavBar estudiante={maestro} />
+          <NavBar maestro={maestro} />
           <div class="d-flex justify-content-center align-items-center container-publicacion">
             <Card style={{ width: '100%', height: '80%' }}>
               <Card.Header as="h5" >

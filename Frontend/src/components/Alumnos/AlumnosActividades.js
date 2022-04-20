@@ -12,69 +12,80 @@ import './alumno.css';
 let publicaciones = [
   {
     id: 1,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    titulo: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
+    descripcion: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 2,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 3,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 4,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 5,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 6,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 7,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 8,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 9,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 10,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 11,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
 ]
 
@@ -86,7 +97,7 @@ function AlumnosPublicacion() {
   //
   const [asunto, setAsunto] = useState("");
   const [descripcion, setDesc] = useState("");
-  const [fecha, setFecha] = useState("");
+  const [fecha_publicacion, setFecha] = useState("");
   const [autor, setAutor] = useState("");
 
   useEffect(() => {
@@ -130,8 +141,10 @@ function AlumnosPublicacion() {
             <Table striped bordered hover >
               <thead>
                 <tr>
-                  <th>Asunto</th>
-                  <th colSpan={12}>Fecha</th>
+                  <th>Publicacion</th>
+                  <th>Título</th>
+                  <th>Descripcion</th>
+                  <th>Estado</th>
                 </tr>
               </thead>
               <tbody>
@@ -140,12 +153,20 @@ function AlumnosPublicacion() {
                     <>
                       <tr key={log.id} onClick={() => handleRowClick(log.id)}>
 
-                        <td >
-                          {log['tema']}
+                        <td style={{ maxWidth: '100px' }}>
+                          {log['fecha_publicacion']}
                         </td>
 
-                        <td colSpan={12}>
-                          {log['fecha']}
+                        <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {log['titulo']}
+                        </td>
+
+                        <td style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {log['descripcion']}
+                        </td>
+
+                        <td >
+                          {log['estado']}
                         </td>
                       </tr>
                     </>

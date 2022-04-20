@@ -90,8 +90,8 @@ function MaestrosPublicacion() {
   const [autor, setAutor] = useState("");
 
   useEffect(() => {
-    // obtener los datos del estudiante
-    // obtener publicaciones para el estudiante
+    // obtener los datos del maestro
+    // obtener publicaciones para el maestro
   }, [])
 
   const handleRowClick = (row) => {
@@ -112,7 +112,7 @@ function MaestrosPublicacion() {
     <>
 
       <Container>
-        <NavBar estudiante={maestro} />
+        <NavBar maestro={maestro} />
         <br />
         <br />
         <div className='principal'>

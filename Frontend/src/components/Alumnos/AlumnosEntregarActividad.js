@@ -13,7 +13,15 @@ import './alumno.css';
 function AlumnosEntregarActividad() {
   const [alumno, setAlumno] = useState(useParams().identificacion)
   const [actividad, setActividad] = useState(useParams().actividad);
-  const [estado, setEstado] = useState(0);
+  const [entregado, setEntregado] = useState(false);
+
+  // para los detalles de la entrega
+  const [verDetalles, setVerDet] = useState(false);
+  const [fecha_entrega, setFechaEnt] = useState("");
+  const [punteo, setPunteo] = useState("");
+  const [valor, setValor] = useState("");
+  const [observaciones, setObservaciones] = useState("");
+
   const [redirect, setRedirect] = useState(false);
 
   //
@@ -31,7 +39,7 @@ function AlumnosEntregarActividad() {
     })
     if (response) setStatus(response.statusText)
     */
-    setEstado(1);
+    setEntregado(true);
   }
 
   const handleFileChange = (e) => {
@@ -61,21 +69,40 @@ function AlumnosEntregarActividad() {
         <div class="d-flex justify-content-center align-items-center container-publicacion">
           <Card style={{ width: '100%', height: '80%' }}>
             <Card.Header as="h5" >
-            {renderRedirect()}
+              {renderRedirect()}
+
+
               <button className='boton-regreso-publicacion'
                 onClick={() => setRedirect(true)}> {"<"} </button>
-              Asunto de actividad
+              <label className='label-publicacion'>Actividad: {actividad}</label>
+
+
             </Card.Header>
             <Card.Body style={{ overflowY: 'auto' }}>
+
               <Card.Text>
-                hacer la tarea
+                {!verDetalles ?
+                  <>
+                    hacer la tarea
+                  </>
+                  :
+                  <>
+                    <label>Fecha de entrega: {fecha_entrega}</label><br/>
+                    <label>Punteo: {punteo} / {valor}</label><br/><br/>
+                    <label>Observaciones: </label> <br/>
+                    <p>
+                    {observaciones}hola
+                    </p>
+                  </>
+                }
+
               </Card.Text>
             </Card.Body>
 
-            <Card.Footer style={{ textAlign: estado === 0 ? 'none' : 'right' }}>
-              {estado === 0 ?
+            <Card.Footer >
+              {!entregado ?
                 <>
-                  <p style={{ textAlign: 'center' }}>Estado: No Entregado</p>
+                  <p style={{ textAlign: 'center' }}>Entregado: No Entregado</p>
                   <form onSubmit={handleSubmit}>
                     <input type='file' name='file' onChange={handleFileChange}></input>
                     <Button type='submit' style={{ float: 'right' }}>Enviar</Button>
@@ -83,8 +110,20 @@ function AlumnosEntregarActividad() {
                 </>
                 :
                 <>
-                  <small className="text-muted">Fecha</small><br />
-                  <small className="text-muted">Autor</small>
+                  <p style={{ textAlign: 'center' }}>Entregado: Entregado</p>
+                  <div>
+                    <small className="text-muted">Fecha</small>
+                    {!verDetalles ?
+                      <>
+                        <Button onClick={() =>setVerDet(true)} style={{ float: 'right' }}>Detalles de Entrega</Button>
+                      </>
+                      :
+                      <>
+                        <Button variant='success' onClick={() => setVerDet(false)} style={{ float: 'right' }}>Descripción</Button>
+                      </>
+                    }
+
+                  </div>
                 </>
               }
 

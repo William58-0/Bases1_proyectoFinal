@@ -39,11 +39,11 @@ function Home() {
 
         if (redirect) {
             if (tipo == "Maestro") {
-                return <Redirect to={'/maestros/publicacion/' + identificacion} />
+                return <Redirect to={'/maestros/publicaciones/' + identificacion} />
             } else if (tipo == "Alumno") {
-                return <Redirect to={'/alumnos/publicacion/' + identificacion} />
+                return <Redirect to={'/alumnos/publicaciones/' + identificacion} />
             } else {
-                return <Redirect to={'/administrador'} />
+                return <Redirect to={'/admin'} />
             }
 
         }
@@ -65,7 +65,7 @@ function Home() {
                 <Container>
                     <h1>Iniciar Sesión</h1>
                     <Form>
-                        <label>{tipo === "Estudiante" ? 'Carnet' : 'Registro'} </label><br />
+                        <label>{tipo === "Alumno" ? 'Carnet' : 'Registro'} </label><br />
                         <input style={{ marginBottom: "2%" }} value={identificacion}
                             onChange={(e) => setId(e.target.value)}
                             type="text" />

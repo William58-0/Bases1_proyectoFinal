@@ -31,15 +31,16 @@ const NavBar = (props) => {
   return (
     <div>
       <Container>
-        <p style={{color:'white', margin: '0 20px', fontWeight: 'bold'}}>Maestro: {props.estudiante}</p>
-        <StyledLink to={"/maestros/publicacion/" + props.estudiante}>Publicacion</StyledLink>
-        <StyledLink to={"/maestros/actividades/" + props.estudiante}>Actividades</StyledLink>
-        <StyledLink to={"/maestros/notas/" + props.estudiante}>Mis Notas</StyledLink>
-        <StyledLink to={"/maestros/examenes/" + props.estudiante}>Examenes</StyledLink>
-        <Link style={{ marginRight: '2%', marginLeft: 'auto' }}>
-          <FontAwesomeIcon icon={faBell} color='white' size='1x' />
-        </Link>
-        <Link to="/" style={{ marginRight: '2%' }}>
+        <img style={{ borderRadius: '50%', marginLeft: "1%" }}
+          src='https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg'
+          width={27}
+        />
+        <p style={{ color: 'white', margin: '0 10px', fontWeight: 'bold' }}>Maestro: {props.maestro}</p>
+        <StyledLink to={"/maestros/publicaciones/" + props.maestro}>Publicacion</StyledLink>
+        <StyledLink to={"/maestros/actividades/" + props.maestro}>Actividades</StyledLink>
+        <StyledLink to={"/maestros/notas/" + props.maestro}>Mis Notas</StyledLink>
+        <StyledLink to={"/maestros/examenes/" + props.maestro}>Examenes</StyledLink>
+        <Link to="/" style={{ marginRight: '2%', marginLeft: 'auto' }}>
           <FontAwesomeIcon icon={faSignOut} color='white' size='1x' />
         </Link>
       </Container>

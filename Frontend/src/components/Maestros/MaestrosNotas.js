@@ -69,7 +69,7 @@ function MaestrosNotas() {
 
   return (
     <Container >
-      <NavBar estudiante={maestro} />
+      <NavBar maestro={maestro} />
       <br />
       <div className='principal'>
         <h1 style={{ textAlign: 'center' }}>Control de Notas</h1>

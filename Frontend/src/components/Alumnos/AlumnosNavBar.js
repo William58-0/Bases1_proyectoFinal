@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-solid-svg-icons'
-import { faSignOut } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faSignOut } from '@fortawesome/free-solid-svg-icons'
 
 const StyledLink = styled(Link)`
   color: #fff;
@@ -31,12 +30,16 @@ const NavBar = (props) => {
   return (
     <div>
       <Container>
-        <p style={{color:'white', margin: '0 20px', fontWeight: 'bold'}}>Alumno: {props.estudiante}</p>
-        <StyledLink to={"/alumnos/publicacion/" + props.estudiante}>Publicacion</StyledLink>
+        <img style={{ borderRadius: '50%', marginLeft: "1%" }}
+          src='https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg'
+          width={27}
+        />
+        <p style={{ margin: '0 10px', fontWeight: 'bold' }}>Alumno: {props.estudiante}</p>
+        <StyledLink to={"/alumnos/publicaciones/" + props.estudiante}>Publicacion</StyledLink>
         <StyledLink to={"/alumnos/actividades/" + props.estudiante}>Actividades</StyledLink>
         <StyledLink to={"/alumnos/notas/" + props.estudiante}>Mis Notas</StyledLink>
         <StyledLink to={"/alumnos/examenes/" + props.estudiante}>Examenes</StyledLink>
-        <Link style={{ marginRight: '2%', marginLeft: 'auto' }}>
+        <Link to={"/alumnos/notificaciones/" + props.estudiante} style={{ marginRight: '2%', marginLeft: 'auto' }}>
           <FontAwesomeIcon icon={faBell} color='white' size='1x' />
         </Link>
         <Link to="/" style={{ marginRight: '2%' }}>

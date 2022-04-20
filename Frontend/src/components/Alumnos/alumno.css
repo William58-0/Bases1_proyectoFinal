@@ -31,13 +31,24 @@
 }
 
 .boton-regreso-publicacion {
-  text-decoration: none;
   font-size: larger;
+  font-weight: bold;
   background-color: transparent;
   border: none;
   color: blue;
-  width: 8%;
   text-align: left;
+  position: absolute;
+  padding: 0;
+  box-sizing : content-box;
+}
+
+.label-publicacion {
+  margin-left: 4%;
+  max-width: 94%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 0.5%;
 }
 
 .probarcolores {
