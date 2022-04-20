@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import Home from './components/Home';
 
-// ------------------------------------------------------------------------------ PROFESORES
+// ------------------------------------------------------------------------------ Maestros
 import MaestrosPublicaciones from './components/Maestros/MaestrosPublicaciones';
 import MaestrosActividades from './components/Maestros/MaestrosActividades';
 import MaestrosNotas from './components/Maestros/MaestrosNotas';
+import MaestrosExamenes from './components/Maestros/MaestrosExamenes'
 
 // ------------------------------------------------------------------------------ ALUMNOS
 import AlumnosPublicacion from './components/Alumnos/AlumnosPublicacion';
@@ -45,17 +46,19 @@ class App extends Component {
               />
 
               <Route
+                path="/alumnos/actividades/:identificacion"
+                exact
+                strict
+                component={AlumnosActividades}
+              /> 
+
+              <Route
                 path="/alumnos/publicaciones/:identificacion"
                 exact
                 strict
                 component={AlumnosPublicacion}
               />
-              <Route
-                path="/alumnos/actividades/:identificacion"
-                exact
-                strict
-                component={AlumnosActividades}
-              />
+
               <Route
                 path="/alumnos/actividades/:identificacion/:actividad"
                 exact
@@ -93,18 +96,28 @@ class App extends Component {
                 strict
                 component={MaestrosPublicaciones}
               />
+
               <Route
                 path="/maestros/actividades/:identificacion"
                 exact
                 strict
                 component={MaestrosActividades}
               />
+
+              <Route
+                path="/maestros/examenes/:identificacion"
+                exact
+                strict
+                component={MaestrosExamenes}
+              />  
+
               <Route
                 path="/maestros/notas/:identificacion"
                 exact
                 strict
                 component={MaestrosNotas}
               />
+              
 
               <Route
                 path="/admin"
