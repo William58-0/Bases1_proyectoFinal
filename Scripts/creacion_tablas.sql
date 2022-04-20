@@ -14,11 +14,12 @@ CREATE TABLE IF NOT EXISTS maestro (
 	id_maestro INT NOT NULL AUTO_INCREMENT,
 	nombre VARCHAR(250),
 	apellido VARCHAR(250),
-	telefono INT,
+	telefono VARCHAR(250),
 	direccion VARCHAR(250),
 	correo  VARCHAR(250),
 	fecha_nacimiento DATETIME,
-	dpi INT,
+	dpi BIGINT,
+	contrasenia VARCHAR(250),
 	PRIMARY KEY (id_maestro)
 );
 
@@ -28,10 +29,10 @@ CREATE TABLE IF NOT EXISTS alumno (
     carnet INT,
     nombre VARCHAR(250),
     apellido VARCHAR(250),
-    telefono INT,
+    telefono VARCHAR(250),
     direccion VARCHAR(250),
     correo VARCHAR(250),
-    contrasena VARCHAR(250),
+    contrasenia VARCHAR(250),
     PRIMARY KEY (id_alumno)
 );
 
