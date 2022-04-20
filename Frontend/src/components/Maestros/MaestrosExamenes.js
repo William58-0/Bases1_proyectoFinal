@@ -110,15 +110,16 @@ function MaestrosPublicacion() {
 
   return (
     <>
+
       <Container>
         <NavBar maestro={maestro} />
-        <div>hola</div>
         <br />
         <br />
         <div className='principal'>
           <div className="d-flex  justify-content-end align-items-center" style={{ marginLeft: '2%' }}>
             <h2>Examenes</h2>
-            <div className="card-body d-flex justify-content-between align-items-center" style={{ marginLeft: '62.5%' }}>
+            <div className="card-body d-flex justify-content-between align-items-center"
+              style={{ marginLeft: '62.5%' }}>
               Grupo:
               <Button onClick={() => handleRowClick(0)}>{'<'}</Button>
               {(indice / 10) + 1}
