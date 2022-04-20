@@ -81,7 +81,7 @@ let publicaciones = [
 function MaestrosPublicacion() {
   const [maestro, setMaestro] = useState(useParams().identificacion)
   const [indice, setIndice] = useState(0);
-  const [actividad, setActi] = useState(0);
+  const [examen, setExam] = useState(0);
   const [redirect, setRedirect] = useState(false);
   //
   const [asunto, setAsunto] = useState("");
@@ -97,14 +97,14 @@ function MaestrosPublicacion() {
   const handleRowClick = (row) => {
     alert(row);
     // obtener los datos para la publicacion seleccionada
-    setActi(row);
+    setExam(row);
     setRedirect(true);
 
   }
 
   const renderRedirect = () => {
     if (redirect) {
-      return <Redirect to={'/maestros/actividades/' + maestro + '/' + actividad} />
+      return <Redirect to={'/maestros/examenes/' + maestro + '/' + examen} />
     }
   }
 
@@ -117,7 +117,7 @@ function MaestrosPublicacion() {
         <br />
         <div className='principal'>
           <div className="d-flex  justify-content-end align-items-center" style={{ marginLeft: '2%' }}>
-            <h2>Actividades</h2>
+            <h2>Examenes</h2>
             <div className="card-body d-flex justify-content-between align-items-center"
               style={{ marginLeft: '62.5%' }}>
               Grupo:

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
+import { faSignOut } from '@fortawesome/free-solid-svg-icons'
 
 const StyledLink = styled(Link)`
   color: #fff;
@@ -10,12 +11,17 @@ const StyledLink = styled(Link)`
   text-transform: capitalize;
   text-decoration: none;
   margin: 0 20px;
+
+  &:focus, &:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
 `;
 
 const Container = styled.div`
   width: 100%;
   height: 50px;
-  background-color: #333;
+  background-color: rgb(45, 88, 138);
   display: flex;
   justify-content: left;
   align-items: center;
@@ -25,13 +31,16 @@ const NavBar = (props) => {
   return (
     <div>
       <Container>
-        <StyledLink to="/">{props.maestro}</StyledLink>
-        <StyledLink to="/maestros/publicacion">Publicacion</StyledLink>
-        <StyledLink to="/maestros/actividades">Actividades</StyledLink>
-        <StyledLink to="/maestros/notas">Mis Notas</StyledLink>
-        <StyledLink to="/maestros/examenes">Examenes</StyledLink>
+        <p style={{color:'white', margin: '0 20px', fontWeight: 'bold'}}>Maestro: {props.estudiante}</p>
+        <StyledLink to={"/maestros/publicacion/" + props.estudiante}>Publicacion</StyledLink>
+        <StyledLink to={"/maestros/actividades/" + props.estudiante}>Actividades</StyledLink>
+        <StyledLink to={"/maestros/notas/" + props.estudiante}>Mis Notas</StyledLink>
+        <StyledLink to={"/maestros/examenes/" + props.estudiante}>Examenes</StyledLink>
         <Link style={{ marginRight: '2%', marginLeft: 'auto' }}>
           <FontAwesomeIcon icon={faBell} color='white' size='1x' />
+        </Link>
+        <Link to="/" style={{ marginRight: '2%' }}>
+          <FontAwesomeIcon icon={faSignOut} color='white' size='1x' />
         </Link>
       </Container>
     </div>

@@ -1,24 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import jsPDF from "jspdf";
+import { Link, Redirect, useParams } from 'react-router-dom';
 import "jspdf-autotable";
+import { Button, Table } from "react-bootstrap";
 
-class App extends React.Component {
 
-  constructor() {
-    super();
-    this.state = {
-      people: [
-        { name: "Keanu Reeves", profession: "Actor" },
-        { name: "Lionel Messi", profession: "Football Player" },
-        { name: "Cristiano Ronaldo", profession: "Football Player" },
-        { name: "Jack Nicklaus", profession: "Golf Player" },
-      ],
+import NavBar from './MaestrosNavBar';
+import Container from './FondoMaestros';
+import './maestro.css';
 
-      indiceR: 0,
-    }
-  }
+function MaestrosNotas() {
+  const [people, setPeople] = useState([
+    { actividad: "Parcial 1", nota: "9" },
+    { actividad: "Tarea 1", nota: "2" },
+    { actividad: "Tarea 2", nota: "3" },
+    { actividad: "Parcial 2", nota: "10" },
+    { actividad: "Parcial 2", nota: "10" },
+    { actividad: "Parcial 2", nota: "10" },
+    { actividad: "Parcial 2", nota: "10" },
+    { actividad: "Parcial 2", nota: "10" },
+    { actividad: "Parcial 2", nota: "10" },
+    { actividad: "Parcial 2", nota: "10" },
+    { actividad: "Parcial 2", nota: "10" },
+    { actividad: "Parcial 2", nota: "10" },
+    { actividad: "Parcial 2", nota: "10" },
+    { actividad: "Parcial 2", nota: "10" },
+  ]);
+  const [maestro, setMaestro] = useState(useParams().identificacion);
+  const [indice, setIndice] = useState(0);
 
-  exportPDF = () => {
+  const exportPDF = () => {
     const unit = "pt";
     const size = "A4"; // Use A1, A2, A3 or A4
     const orientation = "portrait"; // portrait or landscape
@@ -28,10 +39,10 @@ class App extends React.Component {
 
     doc.setFontSize(15);
 
-    const title = "My Awesome Report";
-    const headers = [["NAME", "PROFESSION"]];
+    const title = "Reporte de Notas - Curso";
+    const headers = [["Actividad", "Nota"]];
 
-    const data = this.state.people.map(elt => [elt.name, elt.profession]);
+    const data = people.map(elt => [elt.actividad, elt.nota]);
 
     let content = {
       startY: 50,
@@ -44,38 +55,81 @@ class App extends React.Component {
     doc.save("report.pdf")
   }
 
-  render() {
-    var indiceR = this.state.indiceR;
-    return (
-      <div >
-        <table responsive variant="light" style={{ margin: '0 auto', width: '90%' }}>
-          <thead>
-            <tr>
-              <th>Asunto</th>
-              <th>Fecha</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.state.people.slice(indiceR, indiceR + 10).map((log) =>
-                <>
-                  <tr key={log.id}>
-                    <td>
-                      {log['name']}
-                    </td>
-                    <td>
-                      {log['profession']}
-                    </td>
-                  </tr>
-                </>
-              )}
-          </tbody>
-        </table>
+  const handleRowClick = (row) => {
+    // borrar esta funcion luego
 
-        <button onClick={() => this.exportPDF()}>Generate Report</button>
-      </div>
-    );
   }
+
+  const handleChange = (e) => {
+    alert(e.target.value);
+    //setTipo(e.target.value);
+    //setTipo(e.target.value);
+  }
+
+
+  return (
+    <Container >
+      <NavBar estudiante={maestro} />
+      <br />
+      <div className='principal'>
+        <h1 style={{ textAlign: 'center' }}>Control de Notas</h1>
+        <div className="d-flex  justify-content-start align-items-center" style={{ marginLeft: '2%' }}>
+          Materia:
+          <select onChange={(e) => handleChange(e)} style={{ marginLeft: '2%' }}>
+            <option key={'Maestro'} value={'Maestro'}>Matemáticas</option>
+            <option key={'Maestro'} value={'Maestro'}>Maestro</option>
+            <option key={'Administrador'} value={'Administrador'}>Administrador</option>
+          </select>
+
+          <div style={{ marginLeft: 'auto', marginRight: '1.5%' }}>
+            <Button variant='success' onClick={() => exportPDF()}>Descargar PDF</Button>
+          </div>
+          
+        </div>
+        <br />
+        <div class='container-tabla-notas'>
+          <Table striped bordered hover variant='light' >
+            <thead>
+              <tr>
+                <th>Actividad</th>
+                <th>Nota</th>
+              </tr>
+            </thead>
+            <tbody >
+              {
+                people.map((log) =>
+                  <>
+                    <tr key={log.id}>
+                      <td>
+                        {log['actividad']}
+                      </td>
+                      <td>
+                        {log['nota']}
+                      </td>
+                    </tr>
+                  </>
+                )}
+
+            </tbody>
+          </Table>
+        </div>
+        <br />
+        <label class='bg-primary' style={{
+          fontWeight: 'bold', fontSize: 'large',
+          float: 'right', marginRight: '2%', 
+          width:' 15%', textAlign:'center',
+          borderRadius: '5px'
+        }}>
+          Total: 100
+        </label>
+
+        <br />
+
+      </div>
+
+    </Container>
+  );
+
 }
 
-export default App;
+export default MaestrosNotas;

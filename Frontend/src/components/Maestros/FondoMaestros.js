@@ -11,7 +11,9 @@ background-size: cover;
 justify-content: center;
 align-items: center;
 color: white;
-overflow-y: hidden;
+background-repeat: no-repeat;
+background-attachment: fixed;
+overflow: auto;
 `;
 
 
