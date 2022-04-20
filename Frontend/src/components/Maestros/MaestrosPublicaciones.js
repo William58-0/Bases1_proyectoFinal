@@ -12,67 +12,68 @@ import './maestro.css';
 let publicaciones = [
   {
     id: 1,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
+    curso: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
+    descripcion: 'blablfdassssssssssssssssssssssssssblablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssa' +
+      'blablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
     fecha: 'hoy'
   },
   {
     id: 2,
-    tema: 'tarea 1',
+    curso: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 3,
-    tema: 'tarea 1',
+    curso: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 4,
-    tema: 'tarea 1',
+    curso: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 5,
-    tema: 'tarea 1',
+    curso: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 6,
-    tema: 'tarea 1',
+    curso: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 7,
-    tema: 'tarea 1',
+    curso: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 8,
-    tema: 'tarea 1',
+    curso: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 9,
-    tema: 'tarea 1',
+    curso: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 10,
-    tema: 'tarea 1',
+    curso: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
   {
     id: 11,
-    tema: 'tarea 1',
+    curso: 'matematicas',
     descripcion: 'blabla',
     fecha: 'hoy'
   },
@@ -83,7 +84,7 @@ function MaestrosPublicacion() {
   const [indice, setIndice] = useState(0);
   const [publicacion, setPub] = useState(0);
   //
-  const [asunto, setAsunto] = useState("");
+  const [curso, setCurso] = useState("");
   const [descripcion, setDesc] = useState("");
   const [fecha, setFecha] = useState("");
   const [autor, setAutor] = useState("");
@@ -93,10 +94,21 @@ function MaestrosPublicacion() {
     // obtener publicaciones para el maestro
   }, [])
 
-  const handleRowClick = (row) => {
+  const verPublicacion = (row) => {
     alert(row);
+    setCurso(row.curso);
+    setDesc(row.descripcion);
+    setFecha(row.fecha);
     // obtener los datos para la publicacion seleccionada
     setPub(row);
+  }
+
+  const salirDePublicacion = () => {
+    setCurso("");
+    setDesc("");
+    setFecha("");
+    // obtener los datos para la publicacion seleccionada
+    setPub(0);
   }
 
   return (
@@ -112,31 +124,36 @@ function MaestrosPublicacion() {
               <div className="card-body d-flex justify-content-between align-items-center"
                 style={{ marginLeft: '60%' }}>
                 Grupo:
-                <Button onClick={() => handleRowClick(0)}>{'<'}</Button>
+                <Button onClick={() => verPublicacion({})}>{'<'}</Button>
                 {(indice / 8) + 1}
-                <Button onClick={() => handleRowClick(0)}>{'>'}</Button>
+                <Button onClick={() => verPublicacion({})}>{'>'}</Button>
               </div>
             </div>
             <div class="bg-light container-tabla-publicacion" >
               <Table striped bordered hover >
                 <thead>
                   <tr>
-                    <th>Asunto</th>
-                    <th colSpan={12}>Fecha</th>
+                    <th >Fecha</th>
+                    <th >Curso</th>
+                    <th >Descripcion</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
                     publicaciones.slice(indice, indice + 8).map((log) =>
                       <>
-                        <tr key={log.id} onClick={() => handleRowClick(log.id)}>
+                        <tr key={log.id} onClick={() => verPublicacion(log)}>
 
                           <td >
-                            {log['tema']}
+                            {log['fecha']}
                           </td>
 
-                          <td colSpan={12}>
-                            {log['fecha']}
+                          <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {log['curso']}
+                          </td>
+
+                          <td style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {log['descripcion']}
                           </td>
                         </tr>
                       </>
@@ -145,7 +162,7 @@ function MaestrosPublicacion() {
               </Table>
             </div>
             <div >
-              <Button style={{marginTop:'2%', float:'right', marginRight:'2%'}}>Crear Publicación</Button>
+              <Button style={{ marginTop: '2%', float: 'right', marginRight: '2%' }}>Crear Publicación</Button>
             </div>
           </div>
         </Container>
@@ -156,17 +173,17 @@ function MaestrosPublicacion() {
             <Card style={{ width: '100%', height: '80%' }}>
               <Card.Header as="h5" >
                 <button className='boton-regreso-publicacion'
-                  onClick={() => setPub(0)}> {"<"} </button>
-                Asunto de Publicacion
+                  onClick={() => salirDePublicacion()}> {"<"} </button>
+                <label className='label-publicacion'>Curso: {curso}</label>
+
               </Card.Header>
               <Card.Body style={{ overflowY: 'auto' }}>
                 <Card.Text>
-                  blajfkdlasjfkdlajfdlajfdklajfdlaifdjfkdlafdklanfld
+                  {descripcion}
                 </Card.Text>
               </Card.Body>
               <Card.Footer style={{ textAlign: 'right' }}>
-                <small className="text-muted">Fecha</small><br />
-                <small className="text-muted">Autor</small>
+                <small className="text-muted">Fecha: {fecha}</small><br />
               </Card.Footer>
             </Card>
           </div>
