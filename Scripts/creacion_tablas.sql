@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS asignacion_examen (
 CREATE TABLE IF NOT EXISTS opcion (
 	id_opcion INT NOT NULL AUTO_INCREMENT,
 	texto VARCHAR(250),
-	validez BIT,
+	validez INT,
 	id_pregunta INT,
 	PRIMARY KEY (id_opcion),
 	FOREIGN KEY (id_pregunta) REFERENCES pregunta (id_pregunta) ON DELETE CASCADE

@@ -1,4 +1,4 @@
--- ___________________________ Carga de publicacion ___________________________
+-- ___________________________ procedimientos de publicacion ___________________________
 CREATE PROCEDURE create_publicacion (
 	IN descripcion VARCHAR(250), 
 	IN fecha VARCHAR(250), 
@@ -42,15 +42,6 @@ END;
 
 DROP PROCEDURE IF EXISTS delete_publicacion;
 CALL delete_publicacion(1);
-
-
-CREATE PROCEDURE get_publicacion (
-	IN id_publucacion INT
-)
-BEGIN
-	DECLARE publicion 
-	DELETE FROM publicacion WHERE id_publucacion = id_publucacion;
-END;
 
 SELECT * FROM publicacion;
 DELETE FROM publicacion;

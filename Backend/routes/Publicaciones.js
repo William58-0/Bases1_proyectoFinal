@@ -44,4 +44,27 @@ router.get("/deletePublicacion", async function (req, res) {
   });
 });
 
+
+router.get("/getPublicacionesMaestro", async function (req, res) {
+  const {id_maestro, id_curso} = req.body 
+  let consulta = `
+    SELECT *
+    FROM clase
+    INNER JOIN publicacion USING (id_clase)
+    WHERE (clase.id_curso = ${id_curso} AND clase.id_maestro = ${id_maestro});
+  `;
+  service.consultar(consulta, function (result) {
+    res.status(200).json(result);
+  });
+});
+
+
+router.get("/getPublicacionesAlumno", async function (req, res) {
+  const {id_alumno, id_maestro, id_curso} = req.body 
+  let consulta = `CALL delete_publicacion(${id_publicacion});`;
+  service.consultar(consulta, function (result) {
+    res.status(200).json(result);
+  });
+});
+
 module.exports = router;
