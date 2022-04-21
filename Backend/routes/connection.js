@@ -3,26 +3,27 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "12345",
+  password: "201909103",
   database: 'proyecto_lab'
 });
 
 async function consultar(consulta, callback) {
   try {
-    var res={};
     connection.query(consulta, async function (err, result) {
       if (err) {
-        throw err
+        console.log(err.message);
+        callback({ "status": 400, "message": err.message });
+        return { "status": 400, "message": err.message };
       } else {
-        callback(result);
-        return result;
+        callback({ "status": 200, "message": result });
+        return { "status": 200, "message": result };
       }
     });
 
     callback();
-    //return { "status": 200, "message": res }
+    
   } catch (error) {
-    return { "status": 400, "message": error.message }
+    return { "status": 400, "message": error }
   }
 }
 

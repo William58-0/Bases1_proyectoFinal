@@ -5,6 +5,8 @@ import { Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
+import { crearUsuario, getUsuarios } from '../../endpoints/endpoints';
+
 import fondo from '../../images/admin.jpg';
 
 const Form = styled.form`
@@ -32,14 +34,14 @@ const estadoInicial = {
     opcion: 0,
     tipo: "Maestro",
 
-    nombre: "",
-    apellido: "",
-    telefono: "",
-    direccion: "",
-    correo: "",
-    nacimiento: "",
-    dpi: "",
-    contrasenia: "",
+    nombre: "fdaa",
+    apellido: "fdafdsa",
+    telefono: "afdas",
+    direccion: "fdasfdsa",
+    correo: "afda",
+    nacimiento: "afdafda",
+    dpi_carnet: "dafda",
+    contrasenia: "fdsafdsa",
 
     imagen: { preview: '', data: '' },
     estado: ""
@@ -52,23 +54,21 @@ class Administrador extends React.Component {
         this.state = estadoInicial;
     }
 
-    cambiarTipo = (e) => {
-        alert(e.target.value);
-        this.setState({ tipo: e.target.value });
-        //setTipo(e.target.value);
-    }
-
-    regresar() {
-        this.setState(estadoInicial);
-    }
-
-    formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi, contrasenia, modo) {
+    formulario(nombre, apellido, telefono, direccion,
+        correo, nacimiento, dpi_carnet,
+        contrasenia, modo, alumno_profesor) {
         return (
             <div class='row' >
                 <div class='column' style={{ width: '50%' }}>
                     <label>Nombre: </label><br />
                     <input style={{ marginBottom: "2%" }} value={nombre} readOnly={modo}
                         onChange={(e) => this.setState({ nombre: e.target.value })}
+                        type="text" />
+                    <br /><br />
+
+                    <label>{alumno_profesor ? 'Carnet' : 'Registro'}</label><br />
+                    <input style={{ marginBottom: "2%" }} value={dpi_carnet} readOnly={modo}
+                        onChange={(e) => this.setState({ dpi_carnet: e.target.value })}
                         type="text" />
                     <br /><br />
 
@@ -92,6 +92,12 @@ class Administrador extends React.Component {
                         type="text" />
                     <br /><br />
 
+                    <label>Contraseña: </label><br />
+                    <input style={{ marginBottom: "2%" }} value={contrasenia} readOnly={modo}
+                        onChange={(e) => this.setState({ contrasenia: e.target.value })}
+                        type="password" />
+                    <br /><br />
+
                     <label>Dirección: </label><br />
                     <input style={{ marginBottom: "2%" }} value={direccion} readOnly={modo}
                         onChange={(e) => this.setState({ direccion: e.target.value })}
@@ -103,9 +109,55 @@ class Administrador extends React.Component {
                         onChange={(e) => this.setState({ nacimiento: e.target.value })}
                         type="date" />
                     <br />
+
                 </div>
             </div>
         );
+    }
+
+    cambiarTipo = (e) => {
+        alert(e.target.value);
+        this.setState({ tipo: e.target.value });
+        //setTipo(e.target.value);
+    }
+
+    //// ------------------------------------------------------------------------ Crear un usuario
+    CrearUsuario = async () => {
+        console.log(this.state);
+        var imagen = this.state.imagen;
+        //crearUsuario(this.state);
+        if (imagen.data != "") {
+            //alert("pasa por aqui")
+            //e.preventDefault()
+            let formData = new FormData()
+            formData.append('file', imagen.data);
+            formData.append('state', this.state);
+            const response = await fetch('http://localhost:9000/Usuarios/crearUsuario', {
+                method: 'POST',
+                body: formData,
+            })
+            const json = await response.json()
+            console.log(json);
+
+        }
+        else {
+            crearUsuario(this.state).then((response) => {
+                console.log(response)
+            });
+        }
+
+    }
+
+    GetUsuarios = async () => {
+
+        getUsuarios(this.state.tipo).then((response) => {
+            console.log(response)
+        });
+
+    }
+
+    regresar() {
+        this.setState(estadoInicial);
     }
 
     renderizarOpcion() {
@@ -125,17 +177,17 @@ class Administrador extends React.Component {
         var estado = this.state.estado;
 
         const handleSubmit = async (e) => {
-            /*
-            e.preventDefault()
+            alert("pasa por aqui")
+            //e.preventDefault()
             let formData = new FormData()
-            formData.append('file', image.data);
-            formData.append('nombre', 'william');
-            const response = await fetch('http://localhost:5000/image', {
-              method: 'POST',
-              body: formData,
+            formData.append('file', imagen.data);
+            formData.append('state', this.state);
+            const response = await fetch('http://localhost:9000/image', {
+                method: 'POST',
+                body: formData,
             })
-            if (response) setStatus(response.statusText)
-            */
+            //if (response) setStatus(response.statusText)
+
             //setEntregado(true);
         }
 
@@ -152,7 +204,7 @@ class Administrador extends React.Component {
                 <>
                     <Container>
                         <div class="d-flex justify-content-center align-items-center container-publicacion">
-                            <Card style={{ width: '100%', height: '80%' }}>
+                            <Card style={{ width: '100%', height: '95%' }}>
                                 <Card.Header as="h5" >
                                     <button className='boton-regreso-publicacion'
                                         onClick={() => this.regresar()}> {"<"} </button>
@@ -164,7 +216,7 @@ class Administrador extends React.Component {
                                 </Card.Header>
                                 <Card.Body style={{ overflowY: 'auto' }}>
 
-                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi, contrasenia, false)}
+                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi, contrasenia, false, tipo === 'Alumno')}
                                     <br />
                                     <p >Fotografía (Opcional)</p>
                                     <form onSubmit={handleSubmit}>
@@ -174,7 +226,7 @@ class Administrador extends React.Component {
 
                                 </Card.Body>
                                 <Card.Footer style={{ textAlign: 'right' }}>
-                                    <Button type='submit' style={{ float: 'right' }}>Crear Usuario</Button>
+                                    <Button onClick={this.CrearUsuario} style={{ float: 'right' }}>Crear Usuario</Button>
                                 </Card.Footer>
                             </Card>
                         </div>
@@ -203,11 +255,11 @@ class Administrador extends React.Component {
                                         <option key={'Alumno'} value={'Alumno'}>Alumno</option>
                                     </select>
                                     <br /><br />
-                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi, contrasenia, true)}
+                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi, contrasenia, true, tipo === 'Alumno')}
 
                                 </Card.Body>
                                 <Card.Footer style={{ textAlign: 'right' }}>
-                                    <Button variant='danger' style={{ float: 'right' }}>Eliminar Usuario</Button>
+                                    <Button onClick={this.GetUsuarios} style={{ float: 'right' }}>Eliminar Usuario</Button>
                                 </Card.Footer>
                             </Card>
                         </div>
@@ -241,7 +293,7 @@ class Administrador extends React.Component {
 
                                 </Card.Body>
                                 <Card.Footer style={{ textAlign: 'right' }}>
-                                    <Button type='submit' style={{ float: 'right' }}>Cargar Información</Button>
+                                    <Button onClick={handleSubmit} style={{ float: 'right' }}>Cargar Información</Button>
                                 </Card.Footer>
                             </Card>
                         </div>
@@ -271,7 +323,7 @@ class Administrador extends React.Component {
                                         <option key={'Alumno'} value={'Alumno'}>Alumno</option>
                                     </select>
                                     <br /><br />
-                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi, contrasenia, false)}
+                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi, contrasenia, false, tipo === 'Alumno')}
 
                                 </Card.Body>
                                 <Card.Footer style={{ textAlign: 'right' }}>
@@ -362,8 +414,8 @@ class Administrador extends React.Component {
     render() {
         return (
             <>
-                <div style={{position:'absolute', marginLeft: '2%', marginTop:'2%'}}>
-                    <Link to="/" style={{  }}>
+                <div style={{ position: 'absolute', marginLeft: '2%', marginTop: '2%' }}>
+                    <Link to="/" style={{}}>
                         <FontAwesomeIcon icon={faArrowLeft} color='white' size='2x' />
                     </Link>
                 </div>
