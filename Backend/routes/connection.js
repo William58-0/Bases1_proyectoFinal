@@ -4,20 +4,23 @@ var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "12345",
-  database : 'proyecto_lab'
+  database: 'proyecto_lab'
 });
 
-async function consultar(consulta) {
+async function consultar(consulta, callback) {
   try {
-    let res;
-    connection.query(consulta, function (err, result) {
+    var res={};
+    connection.query(consulta, async function (err, result) {
       if (err) {
         throw err
       } else {
-        res = result
+        callback(result);
+        return result;
       }
     });
-    return { "status": 200, "data": res }
+
+    callback();
+    //return { "status": 200, "message": res }
   } catch (error) {
     return { "status": 400, "message": error.message }
   }
