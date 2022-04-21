@@ -9,14 +9,15 @@ var connection = mysql.createConnection({
 
 async function consultar(consulta) {
   try {
+    let res;
     connection.query(consulta, function (err, result) {
       if (err) {
         throw err
       } else {
-        console.log(result)
-        return { "status": 200, "data": result }
+        res = result
       }
     });
+    return { "status": 200, "data": res }
   } catch (error) {
     return { "status": 400, "message": error.message }
   }
