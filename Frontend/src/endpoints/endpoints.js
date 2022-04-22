@@ -12,3 +12,10 @@ export function getUsuarios(tipo) {
   return axios.post(route + 'Usuarios/getUsuarios', { tipo: tipo })
 }
 
+
+
+// --------------------------------------------------------------------------------------- Alumno
+export function getPublicaciones(datos) {
+  return axios.post(route + 'Usuarios/crearUsuario', datos)
+}
+

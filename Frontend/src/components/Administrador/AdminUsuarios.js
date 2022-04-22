@@ -42,6 +42,7 @@ const estadoInicial = {
     nacimiento: "afdafda",
     dpi_carnet: "dafda",
     contrasenia: "fdsafdsa",
+    curso: "",
 
     imagen: { preview: '', data: '' },
     estado: ""
@@ -172,7 +173,7 @@ class Administrador extends React.Component {
                 body: formData,
             })
             const json = await response.json()
-            if(json == 'OK'){
+            if (json == 'OK') {
                 alert("Datos cargados");
             }
 
@@ -199,6 +200,7 @@ class Administrador extends React.Component {
         var nacimiento = this.state.nacimiento;
         var dpi = this.state.dpi;
         var contrasenia = this.state.contrasenia;
+        var curso = this.state.curso;
 
         var imagen = this.state.imagen;
         var estado = this.state.estado;
@@ -226,7 +228,7 @@ class Administrador extends React.Component {
             this.setState({ imagen: img })
         }
 
-        if (this.state.opcion === 1) {
+        if (opcion === 1) {
             return (
                 <>
                     <Container>
@@ -260,12 +262,12 @@ class Administrador extends React.Component {
                     </Container>
                 </>
             );
-        } else if (this.state.opcion === 2) {
+        } else if (opcion === 2) {
             return (
                 <>
                     <Container>
                         <div class="d-flex justify-content-center align-items-center container-publicacion">
-                            <Card style={{ width: '100%', height: '80%' }}>
+                            <Card style={{ width: '100%', height: '90%' }}>
                                 <Card.Header as="h5" >
                                     <button className='boton-regreso-publicacion'
                                         onClick={() => this.regresar()}> {"<"} </button>
@@ -333,7 +335,7 @@ class Administrador extends React.Component {
                 <>
                     <Container>
                         <div class="d-flex justify-content-center align-items-center container-publicacion">
-                            <Card style={{ width: '100%', height: '80%' }}>
+                            <Card style={{ width: '100%', height: '90%' }}>
                                 <Card.Header as="h5" >
                                     <button className='boton-regreso-publicacion'
                                         onClick={() => this.regresar()}> {"<"} </button>
@@ -366,7 +368,69 @@ class Administrador extends React.Component {
                 <>
                     <Container>
                         <div class="d-flex justify-content-center align-items-center container-publicacion">
-                            <Card style={{ width: '100%', height: '80%' }}>
+                            <Card style={{ width: '100%', height: '60%' }}>
+                                <Card.Header as="h5" >
+                                    <button className='boton-regreso-publicacion'
+                                        onClick={() => this.regresar()}> {"<"} </button>
+                                    <label className='label-publicacion'>Asignar Cursos </label>
+                                    <select style={{ float: 'right' }} onChange={(e) => this.cambiarTipo(e)} >
+                                        <option key={'Maestro'} value={'Maestro'}>Maestro</option>
+                                        <option key={'Alumno'} value={'Alumno'}>Alumno</option>
+                                    </select>
+                                </Card.Header>
+                                <Card.Body style={{ overflowY: 'auto' }}>
+
+
+                                    <div class='row'>
+                                        <div class='col' >
+                                            Id de {tipo}:
+                                            <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarTipo(e)} >
+                                                <option key={'Maestro'} value={'Maestro'}>Maestro</option>
+                                                <option key={'Alumno'} value={'Alumno'}>Alumno</option>
+                                            </select>
+                                            <br /><br />
+                                            <label>{tipo === "Alumno" ? 'Carnet' : 'Registro'} </label><br />
+                                            <input style={{ marginBottom: "2%" }} value={nombre} readOnly={true}
+                                                onChange={(e) => this.setState({ nombre: e.target.value })}
+                                                type="text" />
+                                            <br /><br />
+                                            <label>Nombre: </label><br />
+                                            <input style={{ marginBottom: "2%" }}
+                                                value={nombre + "  " + apellido} readOnly={true}
+                                                type="text" />
+
+                                        </div>
+                                        <div class='col'>
+                                            Asignar a curso {curso}:
+                                            <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarTipo(e)} >
+                                                <option key={'Maestro'} value={'Maestro'}>Maestro</option>
+                                                <option key={'Alumno'} value={'Alumno'}>Alumno</option>
+                                            </select>
+                                            <br /><br />
+                                            <label>Curso: </label><br />
+                                            <input style={{ marginBottom: "2%" }} value={curso} readOnly={true}
+                                                type="text" />
+
+                                        </div>
+                                    </div>
+                                    <br />
+
+
+                                </Card.Body>
+                                <Card.Footer style={{ textAlign: 'right' }}>
+                                    <Button style={{ float: 'right' }}>Iniciar Sesión</Button>
+                                </Card.Footer>
+                            </Card>
+                        </div>
+                    </Container>
+                </>
+            );
+        } else if (opcion === 6) {
+            return (
+                <>
+                    <Container>
+                        <div class="d-flex justify-content-center align-items-center container-publicacion">
+                            <Card style={{ width: '100%', height: '60%' }}>
                                 <Card.Header as="h5" >
                                     <button className='boton-regreso-publicacion'
                                         onClick={() => this.regresar()}> {"<"} </button>
@@ -393,7 +457,6 @@ class Administrador extends React.Component {
                                     <input style={{ marginBottom: "2%" }} value={contrasenia} readOnly={true}
                                         onChange={(e) => this.setState({ contrasenia: e.target.value })}
                                         type="password" />
-                                    <br /><br />
 
                                 </Card.Body>
                                 <Card.Footer style={{ textAlign: 'right' }}>
@@ -429,6 +492,10 @@ class Administrador extends React.Component {
                         </Button><br />
                         <Button variant='success' style={{ marginBottom: "8%" }}
                             onClick={() => this.setState({ opcion: 5 })}>
+                            Asignar Cursos
+                        </Button><br />
+                        <Button style={{ marginBottom: "8%" }}
+                            onClick={() => this.setState({ opcion: 6 })}>
                             Ingresar como Usuario
                         </Button><br />
                     </Form>

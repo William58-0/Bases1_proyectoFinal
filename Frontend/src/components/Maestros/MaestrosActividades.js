@@ -12,89 +12,102 @@ import './maestro.css';
 let publicaciones = [
   {
     id: 1,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
+    titulo: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
+    descripcion: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 2,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 3,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 4,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 5,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 6,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 7,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 8,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 9,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 10,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
   {
     id: 11,
-    tema: 'tarea 1',
+    titulo: 'tarea 1',
     descripcion: 'blabla',
-    fecha: 'hoy'
+    fecha_publicacion: 'hoy',
+    estado: 'No Entregado'
   },
 ]
 
-function MaestrosPublicacion() {
+function MaestrosActividades() {
   const [maestro, setMaestro] = useState(useParams().identificacion)
   const [indice, setIndice] = useState(0);
   const [actividad, setActi] = useState(0);
+  const [destino, setDestino] = useState(0);
   const [redirect, setRedirect] = useState(false);
   //
-  const [asunto, setAsunto] = useState("");
+  const [crear, setCrear] = useState(false);
+  const [titulo, setTitulo] = useState("");
   const [descripcion, setDesc] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [autor, setAutor] = useState("");
+  const [valor, setValor] = useState(0);
+  const [fecha_entrega, setFecha] = useState("");
 
   useEffect(() => {
     // obtener los datos del maestro
     // obtener publicaciones para el maestro
   }, [])
 
-  const handleRowClick = (row) => {
+  const editarActividad = (row) => {
     alert(row);
     // obtener los datos para la publicacion seleccionada
     setActi(row);
@@ -108,53 +121,130 @@ function MaestrosPublicacion() {
     }
   }
 
+  const CrearActividad = () => {
+    // insertar la nueva actividad
+    setCrear(false)
+
+  }
+
+  const handleChange = (e) => {
+    alert(e.target.value);
+    //setTipo(e.target.value);
+    //setTipo(e.target.value);
+  }
+
   return (
     <>
-
       <Container>
         <NavBar maestro={maestro} />
-        <br />
-        <br />
-        <div className='principal'>
-          <div className="d-flex  justify-content-end align-items-center" style={{ marginLeft: '2%' }}>
-            <h2>Actividades</h2>
-            <div className="card-body d-flex justify-content-between align-items-center"
-              style={{ marginLeft: '62.5%' }}>
-              Grupo:
-              <Button onClick={() => handleRowClick(0)}>{'<'}</Button>
-              {(indice / 10) + 1}
-              <Button onClick={() => handleRowClick(0)}>{'>'}</Button>
+        {crear ? <>
+          <div class="d-flex justify-content-center align-items-center container-publicacion">
+            <Card style={{ width: '100%', height: '80%' }}>
+              <Card.Header as="h5" >
+                {renderRedirect()}
+
+                <button className='boton-regreso-publicacion'
+                  onClick={() => setCrear(false)}> {"<"} </button>
+                <label className='label-publicacion'>Titulo de la Actividad:</label>
+                <input type='text' style={{ marginLeft: '1%' }} value={titulo}
+                  onChange={(e) => setTitulo(e.target.value)}></input>
+
+              </Card.Header>
+              <Card.Body style={{ overflowY: 'auto' }}>
+                <Card.Text>
+
+                  Curso: <select style={{ marginLeft: '2%' }} onChange={(e) => handleChange(e)} >
+                    <option key={'Maestro'} value={'Maestro'}>Matematica</option>
+                    <option key={'Alumno'} value={'Alumno'}>Alumno</option>
+                    <option key={'Administrador'} value={'Administrador'}>Administrador</option>
+                  </select><br /><br />
+
+
+                  <label>Descripcion:</label><br />
+                  <textarea style={{ width: '100%' }} rows="4" value={descripcion}
+                    onChange={(e) => setDesc(e.target.value)}></textarea><br /><br />
+
+                  <label>Valor:</label>
+                  <input type='text' value={valor} onChange={(e) => setValor(e.target.value)}
+                    style={{ marginLeft: '2%', width: '5%', marginRight: '2%', textAlign: 'center' }}>
+
+                  </input> puntos <br /><br />
+
+                  <label>Fecha Entrega: </label>
+                  <input type='date' value={fecha_entrega} onChange={(e) => setFecha(e.target.value)}
+                    style={{ marginLeft: '2%', marginRight: '2%' }}>
+
+                  </input><br />
+
+                </Card.Text>
+              </Card.Body>
+              <Card.Footer style={{ textAlign: 'right' }}>
+                <Button onClick={() => CrearActividad()} style={{ float: 'right' }}>Aceptar</Button>
+              </Card.Footer>
+            </Card>
+          </div>
+        </> :
+          <>
+            <br />
+            <br />
+            <div className='principal'>
+              <div className="d-flex  justify-content-end align-items-center" style={{ marginLeft: '2%' }}>
+                <h2>Actividades</h2>
+                <div className="card-body d-flex justify-content-between align-items-center"
+                  style={{ marginLeft: '62.5%' }}>
+                  Grupo:
+                  <Button onClick={() => editarActividad(0)}>{'<'}</Button>
+                  {(indice / 8) + 1}
+                  <Button onClick={() => editarActividad(0)}>{'>'}</Button>
+                </div>
+              </div>
+              <div class="bg-light container-tabla-publicacion" >
+                <Table striped bordered hover >
+                  <thead>
+                    <tr>
+                      <th>Curso</th>
+                      <th>Publicacion</th>
+                      <th>Título</th>
+                      <th>Descripcion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      publicaciones.slice(indice, indice + 8).map((log) =>
+                        <>
+                          <tr key={log.id} onClick={() => editarActividad(log.id)}>
+
+                            <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {log['descripcion']}
+                            </td>
+
+                            <td >
+                              {log['fecha_publicacion']}
+                            </td>
+
+                            <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {log['titulo']}
+                            </td>
+
+                            <td style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {log['descripcion']}
+                            </td>
+                          </tr>
+                        </>
+                      )}
+                  </tbody>
+                  {renderRedirect()}
+                </Table>
+                <div>
+                  <Button variant='success' style={{ marginLeft: '76%', marginRight: '0' }}> Ver Entregas</Button>
+                  <Button onClick={() => setCrear(true)} style={{ float: 'right' }}> Crear Actividad</Button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="bg-light container-tabla" >
-            <Table striped bordered hover >
-              <thead>
-                <tr>
-                  <th>Asunto</th>
-                  <th colSpan={12}>Fecha</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  publicaciones.slice(indice, indice + 10).map((log) =>
-                    <>
-                      <tr key={log.id} onClick={() => handleRowClick(log.id)}>
+          </>
 
-                        <td >
-                          {log['tema']}
-                        </td>
+        }
 
-                        <td colSpan={12}>
-                          {log['fecha']}
-                        </td>
-                      </tr>
-                    </>
-                  )}
-              </tbody>
-              {renderRedirect()}
-            </Table>
-          </div>
-        </div>
       </Container>
 
 
@@ -162,4 +252,4 @@ function MaestrosPublicacion() {
   );
 }
 
-export default MaestrosPublicacion;
+export default MaestrosActividades;

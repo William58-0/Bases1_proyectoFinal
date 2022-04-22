@@ -4,9 +4,10 @@ import { useParams } from 'react-router-dom';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 // ------------------------------------------------------------------------------ PROFESORES
-import MaestrosPublicaciones from '../components/Maestros/MaestrosPublicaciones';
+import MaestrosPublicacion from '../components/Maestros/MaestrosPublicacion';
+import MaestrosEditarPublicacion from '../components/Maestros/MaestrosEditarPublicacion';
 import MaestrosActividades from '../components/Maestros/MaestrosActividades';
-import MaestrosNotas from '../components/Maestros/MaestrosNotas';
+import MaestrosEditarActividad from '../components/Maestros/MaestrosEditarActividad';
 
 // ------------------------------------------------------------------------------ ALUMNOS
 import AlumnosPublicacion from '../components/Alumnos/AlumnosPublicacion';
@@ -73,7 +74,13 @@ const Maestros = () => {
         path="/maestros/publicaciones/:identificacion"
         exact
         strict
-        component={MaestrosPublicaciones}
+        component={MaestrosPublicacion}
+      />
+      <Route
+        path="/maestros/publicaciones/:identificacion/:publicacion"
+        exact
+        strict
+        component={MaestrosEditarPublicacion}
       />
       <Route
         path="/maestros/actividades/:identificacion"
@@ -82,10 +89,10 @@ const Maestros = () => {
         component={MaestrosActividades}
       />
       <Route
-        path="/maestros/notas/:identificacion"
+        path="/maestros/actividades/:identificacion/:actividad"
         exact
         strict
-        component={MaestrosNotas}
+        component={MaestrosEditarActividad}
       />
     </Switch>
   );

@@ -106,7 +106,6 @@ router.post('/cargaMasiva', upload.single('file'), async function (req, res) {
 
 })
 
-
 router.post("/getUsuarios", async function (req, res) {
   const { tipo } = req.body
 
