@@ -156,6 +156,33 @@ class Administrador extends React.Component {
 
     }
 
+    // ----------------------------------------------------------------------------- Carga Masiva
+    CargaMasiva = async () => {
+        console.log(this.state);
+        var imagen = this.state.imagen;
+        //crearUsuario(this.state);
+        if (imagen.data != "") {
+            //alert("pasa por aqui")
+            //e.preventDefault()
+            let formData = new FormData()
+            formData.append('file', imagen.data);
+            formData.append('tipo', this.state.tipo);
+            const response = await fetch('http://localhost:9000/Usuarios/cargaMasiva', {
+                method: 'POST',
+                body: formData,
+            })
+            const json = await response.json()
+            if(json == 'OK'){
+                alert("Datos cargados");
+            }
+
+        }
+        else {
+            alert("No ha subido nada");
+        }
+
+    }
+
     regresar() {
         this.setState(estadoInicial);
     }
@@ -272,7 +299,7 @@ class Administrador extends React.Component {
                 <>
                     <Container>
                         <div class="d-flex justify-content-center align-items-center container-publicacion">
-                            <Card style={{ width: '100%', height: '80%' }}>
+                            <Card style={{ width: '90%', height: '50%' }}>
                                 <Card.Header as="h5" >
                                     <button className='boton-regreso-publicacion'
                                         onClick={() => this.regresar()}> {"<"} </button>
@@ -285,7 +312,7 @@ class Administrador extends React.Component {
                                         <option key={'Alumno'} value={'Alumno'}>Alumno</option>
                                     </select>
 
-                                    <br /><br /><br />
+                                    <br /><br /><br /><br /><br />
                                     <form onSubmit={handleSubmit}>
                                         <input type='file' name='file' onChange={handleFileChange}></input>
 
@@ -293,7 +320,7 @@ class Administrador extends React.Component {
 
                                 </Card.Body>
                                 <Card.Footer style={{ textAlign: 'right' }}>
-                                    <Button onClick={handleSubmit} style={{ float: 'right' }}>Cargar Información</Button>
+                                    <Button onClick={this.CargaMasiva} style={{ float: 'right' }}>Cargar Información</Button>
                                 </Card.Footer>
                             </Card>
                         </div>
