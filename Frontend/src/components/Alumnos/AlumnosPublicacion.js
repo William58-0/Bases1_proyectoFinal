@@ -88,6 +88,7 @@ function AlumnosPublicacion() {
   const [autor, setAutor] = useState("");
 
   useEffect(() => {
+    
     // obtener los datos del estudiante
     // obtener publicaciones para el estudiante
   }, [])

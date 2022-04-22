@@ -12,13 +12,6 @@
   margin-right: 1.5%;
 }
 
-.container-tabla-publicacion {
-  height: 375px;
-  display: block;
-  margin-left: 2%;
-  margin-right: 1.5%;
-}
-
 .container-tabla-notas {
   height: 350px;
   background-color: transparent;
@@ -37,14 +30,32 @@
   height: 90%;
 }
 
+.container-tabla-publicacion {
+  height: 375px;
+  display: block;
+  margin-left: 2%;
+  margin-right: 1.5%;
+}
+
+
 .boton-regreso-publicacion {
-  text-decoration: none;
   font-size: larger;
+  font-weight: bold;
   background-color: transparent;
   border: none;
   color: blue;
-  width: 8%;
   text-align: left;
+  padding: 0;
+  box-sizing : content-box;
+}
+
+.label-publicacion {
+  margin-left: 4%;
+  max-width: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 0.5%;
 }
 
 .probarcolores {
