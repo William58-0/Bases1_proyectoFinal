@@ -10,17 +10,17 @@ router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 
 router.post("/createPublicacion", async function (req, res) {
-  const {descripcion, fecha, id_clase} = req.body   
+  const {descripcion, fecha, id_clase} = req.body 
   let consulta = `CALL create_publicacion('${descripcion}','${fecha}', ${id_clase});`;
   service.consultar(consulta, function (result) {
-    res.status(200).json({ datos: result });
+    res.status(200).json(result);
   });
 });
 
 
-router.get("/getPublicaciones", async function (req, res) {
+router.get("/getPublicacion", async function (req, res) {
   const {id_publicacion} = req.body 
-  let consulta = `SELECT * FROM publicacion;`;
+  let consulta = `SELECT * FROM publicacion WHERE id_publicacion = ${id_publicacion};`;
   service.consultar(consulta, function (result) {
     res.status(200).json(result);
   });
