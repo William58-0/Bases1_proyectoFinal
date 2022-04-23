@@ -312,16 +312,6 @@ class Administrador extends React.Component {
     }
 
 
-
-
-    cambiarMaestro = async (e) => {
-        this.setState({ maestro: e.target.value });
-        getCurso(e.target.value).then((response) => {
-            this.setState({ nombreMaestro: response.data[0].nombre })
-        });
-    }
-
-
     renderizarOpcion() {
         var opcion = this.state.opcion;
         var tipo = this.state.tipo;

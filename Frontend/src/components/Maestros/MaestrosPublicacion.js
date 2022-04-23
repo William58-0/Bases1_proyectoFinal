@@ -5,8 +5,8 @@ import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 
 import {
-  crearPublicacion, getPublicacionesMaestro,
-  getCurso, getCursosMaestro
+  getMaestro, crearPublicacion, getPublicacionesMaestro,
+  getIdClase, getCursosMaestro
 } from '../../endpoints/endpoints';
 
 
@@ -14,129 +14,75 @@ import NavBar from './MaestrosNavBar';
 import Container from './FondoMaestros';
 import './maestro.css';
 
-/*
-let publicaciones = [
-  {
-    id: 1,
-    curso: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
-    descripcion: 'blablfdassssssssssssssssssssssssssblablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssa' +
-      'blablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
-    fecha: 'hoy'
-  },
-  {
-    id: 2,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 3,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 4,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 5,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 6,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 7,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 8,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 9,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 10,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 11,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-]
-*/
 
 function MaestrosPublicacion() {
-  const [maestro, setMaestro] = useState(useParams().identificacion)
+  //const [id_maestro, setMaestro] = useState(useParams().identificacion)
+  const [id_maestro, setMaestro] = useState(449)
+  const [nombre_maestro, setNombreMaestro] = useState("")
+  const [cursos, setCursos] = useState([]);
+  const [curso, setCurso] = useState(0);
+  const [nombreCurso, setNombreCurso] = useState("");
+
+
   const [indice, setIndice] = useState(0);
   const [publicacion, setPub] = useState(0);
   const [publicaciones, setPubs] = useState([]);
   const [redirect, setRedirect] = useState(false);
   //
   const [crear, setCrear] = useState("");
-  const [curso, setCurso] = useState("");
+  //const [curso, setCurso] = useState("");
   const [descripcion, setDesc] = useState("");
   const [fecha, setFecha] = useState("");
 
 
   useEffect(() => {
     // obtener los datos del maestro
-
+    getMaestro(id_maestro).then((response) => {
+      //setPubs(response.data.datos);
+      setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
+      //console.log(response.data[0].nombre + " " + response.data[0].apellido)
+    });
     // obtener publicaciones para el maestro
     getPublicacionesMaestro({ id_maestro: 449 }).then((response) => {
-      setPubs(response.data.datos);
+      setPubs(response.data);
       //console.log(response.data.datos)
     });
 
+
     // obtener los cursos para el maestro
-    getCursosMaestro({ id_maestro: 449, id_curso: 4 }).then((response) => {
+    getCursosMaestro({ id_maestro: 449 }).then((response) => {
       //setPubs(response.data.datos);
-      //console.log(response.data.datos)
+      var resp = response;
+     
+      setCursos(response.data);
+      setCurso(resp.data[0].id_curso);
+      setNombreCurso(resp.data[0].nombre_curso);
     });
+
   }, [])
 
 
 
   const renderRedirect = () => {
     if (redirect) {
-      return <Redirect to={'/maestros/publicaciones/' + maestro + '/' + publicacion} />
+      return <Redirect to={'/maestros/publicaciones/' + id_maestro + '/' + publicacion} />
     }
   }
 
 
 
   const CrearPublicacion = () => {
-    getCurso({ id_maestro: 449, id_curso: 4 }).then((response) => {
-      //setCurso(response.data.datos.datos[0].id_curso);
-      console.log("CLASEEEE");
-      console.log(response.data.datos[0].id_curso);
-      var curso = response.data.datos[0].id_curso;
+    getIdClase(id_maestro, curso).then((response) => {
 
-      // obtener los datos para la publicacion seleccionada
-      crearPublicacion({ descripcion: descripcion, id_curso: curso }).then((response) => {
-        console.log("CLASEEEE");
+      crearPublicacion(descripcion, response.data[0].id_clase ).then((response) => {
         
+        getPublicacionesMaestro({ id_maestro: 449 }).then((response) => {
+          setPubs(response.data);
+        });
+
       });
+
+
     });
 
 
@@ -161,16 +107,16 @@ function MaestrosPublicacion() {
 
   }
 
-  const handleChange = (e) => {
-    alert(e.target.value);
-    //setTipo(e.target.value);
+  const cambiarCurso = (e) => {
+    //alert(e.target.value);
+    setCurso(e.target.value);
     //setTipo(e.target.value);
   }
 
   return (
     <>
       <Container>
-        <NavBar maestro={maestro} />
+        <NavBar maestro={nombre_maestro} />
         {crear ?
           <>
             <div class="d-flex justify-content-center align-items-center container-publicacion">
@@ -189,11 +135,15 @@ function MaestrosPublicacion() {
                     <textarea style={{ width: '100%' }} rows="6"
                       value={descripcion}
                       onChange={(e) => setDesc(e.target.value)}></textarea><br /><br />
-                    Curso: <select style={{ marginLeft: '2%' }} onChange={(e) => handleChange(e)} >
-                      <option key={'Maestro'} value={'Maestro'}>Matematica</option>
-                      <option key={'Alumno'} value={'Alumno'}>Alumno</option>
-                      <option key={'Administrador'} value={'Administrador'}>Administrador</option>
+                    id_curso: <select style={{ marginLeft: '2%', marginRight: '2%' }}
+                      onChange={(e) => cambiarCurso(e)} >
+                      {
+                        cursos.map((curso) =>
+                          <option key={curso.id_curso} value={curso.id_curso}>{curso.id_curso}</option>
+                        )}
                     </select>
+                    Nombre del curso:
+                    <input style={{ marginLeft: '2%' }} type="text" value={nombreCurso} />
                   </Card.Text>
                 </Card.Body>
                 <Card.Footer style={{ textAlign: 'right' }}>

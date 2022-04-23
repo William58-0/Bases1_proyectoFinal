@@ -48,6 +48,15 @@ router.post('/crearUsuario', upload.single('file'), async function (req, res) {
   });
 })
 
+router.post("/crearCurso", async function (req, res) {
+  const { nombre } = req.body
+  let consulta = `INSERT INTO curso(nombre_curso) VALUES("${nombre}");`
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
+
+
 router.post('/cargaMasiva', upload.single('file'), async function (req, res) {
 
   const { tipo } = req.body
@@ -134,7 +143,6 @@ router.post("/getUsuario", async function (req, res) {
 
 });
 
-
 router.post("/eliminarUsuario", async function (req, res) {
   const { usuario, tipo } = req.body
 
@@ -174,5 +182,46 @@ router.post("/editarUsuario", async function (req, res) {
   });
 
 });
+
+router.get("/getCursos", async function (req, res) {
+  let consulta = `
+    SELECT * FROM curso;
+  `
+  service.consultar(consulta, function (result) {
+    res.status(200).json(result.datos);
+  });
+});
+
+router.post("/getCurso", async function (req, res) {
+  const { id_curso } = req.body
+  console.log("aquiii");
+  console.log(id_curso);
+  let consulta = `
+    SELECT * FROM curso WHERE id_curso = "${id_curso}";
+  `
+  service.consultar(consulta, function (result) {
+    res.status(200).json(result.datos);
+  });
+});
+
+router.get("/getMaestros", async function (req, res) {
+  let consulta = `
+    SELECT * FROM maestro;
+  `
+  service.consultar(consulta, function (result) {
+    res.status(200).json(result.datos);
+  });
+});
+
+router.get("/getAlumnos", async function (req, res) {
+  let consulta = `
+    SELECT * FROM alumno;
+  `
+  service.consultar(consulta, function (result) {
+    res.status(200).json(result.datos);
+  });
+});
+
+
 
 module.exports = router;
