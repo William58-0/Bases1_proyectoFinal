@@ -6,23 +6,12 @@ const cors = require("cors");
 const service = require("./connection.js");
 const multer = require('multer');
 let csvToJson = require('convert-csv-to-json');
-
+const fecha = require("./CorregirFecha");
 
 var router = express.Router();
 router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
 router.use(bodyParser.json({ limit: "50mb", extended: true }));
 router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-
-function corregirFecha(date) {
-  var date = new Date(date);
-
-  var mes = (1 + date.getMonth()).toString();
-
-  var dia = date.getDate().toString();
-
-  return date.getFullYear() + '-' + mes + '-' + dia;
-
-}
 
 // sirve para guardar los archivos enviados desde el frontend
 const storage = multer.diskStorage({
@@ -74,7 +63,7 @@ router.post('/cargaMasiva', upload.single('file'), async function (req, res) {
 
     if (tipo == 'Maestro') {
       json.forEach(reg => {
-        reg.FechaNacimiento = corregirFecha(reg.FechaNacimiento);
+        reg.FechaNacimiento = fecha.corregirFecha(reg.FechaNacimiento);
         var query = `INSERT INTO maestro(nombre, apellido, telefono, direccion, correo, fecha_nacimiento, dpi, contrasenia ) 
         VALUES( "${reg.Nombre}", "${reg.Apellido}", "${reg.Telefono}", "${reg.Direccion}", 
               "${reg.Correo}", "${reg.FechaNacimiento}", "${reg.DPI}", "${reg.Contrasena}" );`
@@ -109,13 +98,75 @@ router.post('/cargaMasiva', upload.single('file'), async function (req, res) {
 router.post("/getUsuarios", async function (req, res) {
   const { tipo } = req.body
 
-  console.log(req.body);
-
   var query = "";
   if (tipo == 'Maestro') {
     query = `SELECT * FROM maestro;`
   } else {
     query = `SELECT * FROM alumno;`
+  }
+
+  service.consultar(query, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+
+});
+
+router.post("/getUsuario", async function (req, res) {
+  const { usuario, tipo } = req.body
+
+  var query = "";
+  if (tipo == 'Maestro') {
+    query = `SELECT * FROM maestro WHERE id_maestro = "${usuario}";`
+  } else {
+    query = `SELECT * FROM alumno WHERE id_alumno = "${usuario}";`
+  }
+
+  service.consultar(query, function (result) {
+    if (tipo == 'Maestro') {
+
+      result.datos[0].fecha_nacimiento = fecha.enviarFecha(result.datos[0].fecha_nacimiento);
+
+      res.status(result.status).json(result.datos);
+    } else {
+      res.status(result.status).json(result.datos);
+    }
+  });
+
+});
+
+
+router.post("/eliminarUsuario", async function (req, res) {
+  const { usuario, tipo } = req.body
+
+  var query = "";
+  if (tipo == 'Maestro') {
+    query = `DELETE FROM maestro WHERE id_maestro = "${usuario}";`
+  } else {
+    query = `DELETE FROM maestro WHERE id_alumno = "${usuario}";`
+  }
+
+  service.consultar(query, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+
+});
+
+router.post("/editarUsuario", async function (req, res) {
+  const { usuario, tipo, nombre, apellido, telefono, direccion,
+    correo, nacimiento, dpi_carnet, contrasenia, imagen } = req.body
+
+  var query = "";
+  if (tipo == 'Maestro') {
+    query = `UPDATE maestro SET nombre="${nombre}", apellido = "${apellido}", telefono="${telefono}", direccion = "${direccion}",
+    correo="${correo}", fecha_nacimiento="${nacimiento}", dpi = "${dpi_carnet}", contrasenia = "${contrasenia}" 
+    WHERE id_maestro = "${usuario}";`
+  } else {
+    query = `INSERT INTO alumno(carnet, nombre, apellido, telefono, direccion, correo, contrasenia ) 
+      VALUES( "${dpi_carnet}", "${nombre}", "${apellido}", "${telefono}", "${direccion}", "${correo}", "${contrasenia}" );`
+
+    query = `UPDATE alumno SET carnet = "${dpi_carnet}",  nombre="${nombre}", apellido = "${apellido}", telefono="${telefono}",
+      direccion = "${direccion}", correo="${correo}", contrasenia = "${contrasenia}" 
+      WHERE id_alumno = "${usuario}";`
   }
 
   service.consultar(query, function (result) {

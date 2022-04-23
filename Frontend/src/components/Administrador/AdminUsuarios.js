@@ -1,11 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { Link } from 'react-router-dom';
 import { Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
-import { crearUsuario, getUsuarios } from '../../endpoints/endpoints';
+import {
+    crearUsuario, getUsuarios, getUsuario,
+    eliminarUsuario, editarUsuario, crearCurso,
+    getCursos, getCurso, getMaestros, getAlumnos
+} from '../../endpoints/endpoints';
 
 import fondo from '../../images/admin.jpg';
 
@@ -40,13 +45,19 @@ const estadoInicial = {
     direccion: "fdasfdsa",
     correo: "afda",
     nacimiento: "afdafda",
-    dpi_carnet: "dafda",
+    dpi_carnet: 0,
     contrasenia: "fdsafdsa",
-    curso: "",
+    nombreCurso: "",
+    nuevoCurso: "",
+    usuarios: [],
+    usuario: 0,
+    cursos: [],
+    curso: 0,
 
     imagen: { preview: '', data: '' },
     estado: ""
 }
+
 
 
 class Administrador extends React.Component {
@@ -105,11 +116,15 @@ class Administrador extends React.Component {
                         type="text" />
                     <br /><br />
 
-                    <label>Fecha de Nacimiento: </label><br />
-                    <input style={{ marginBottom: "2%" }} value={nacimiento} readOnly={modo}
-                        onChange={(e) => this.setState({ nacimiento: e.target.value })}
-                        type="date" />
-                    <br />
+                    {this.state.tipo === 'Maestro' ?
+                        <><label>Fecha de Nacimiento: </label><br />
+                            <input style={{ marginBottom: "2%" }} value={nacimiento} readOnly={modo}
+                                onChange={(e) => this.setState({ nacimiento: e.target.value })}
+                                type="date" />
+                            <br />
+                        </> : <></>
+                    }
+
 
                 </div>
             </div>
@@ -117,9 +132,17 @@ class Administrador extends React.Component {
     }
 
     cambiarTipo = (e) => {
-        alert(e.target.value);
+        //alert(e.target.value);
+        getUsuarios(e.target.value).then((response) => {
+            this.setState({ usuarios: response.data })
+        });
         this.setState({ tipo: e.target.value });
         //setTipo(e.target.value);
+        
+    }
+
+    regresar() {
+        this.setState(estadoInicial);
     }
 
     //// ------------------------------------------------------------------------ Crear un usuario
@@ -149,15 +172,53 @@ class Administrador extends React.Component {
 
     }
 
-    GetUsuarios = async () => {
+    // -------------------------------------------------------------------------- Eliminar un usuario
 
+    entrarEliminar = async () => {
+        console.log("entrarEliminar")
         getUsuarios(this.state.tipo).then((response) => {
-            console.log(response)
+            this.setState({ usuarios: response.data })
         });
-
+        this.setState({ opcion: 2 })
     }
 
-    // ----------------------------------------------------------------------------- Carga Masiva
+    cambiarUsuario = async (e) => {
+        this.setState({ usuario: e.target.value })
+        getUsuario(e.target.value, this.state.tipo).then((response) => {
+
+            var user = response.data[0];
+
+            if (this.state.tipo === 'Maestro') {
+                this.setState({
+                    nombre: user.nombre, apellido: user.apellido,
+                    telefono: user.telefono, direccion: user.direccion, contrasenia: user.contrasenia,
+                    correo: user.correo, nacimiento: user.fecha_nacimiento, dpi_carnet: user.dpi
+                })
+            } else {
+                this.setState({
+                    nombre: user.nombre, apellido: user.apellido, dpi_carnet: user.carnet,
+                    telefono: user.telefono, direccion: user.direccion, contrasenia: user.contrasenia,
+                    correo: user.correo
+                })
+            }
+        });
+    }
+
+    EliminarUsuario = async (e) => {
+        //this.setState({ usuario: e.target.value })
+        eliminarUsuario(this.state.usuario, this.state.tipo).then((response) => {
+
+            if (response.status == 200) {
+                alert("Usuario Eliminado");
+                this.setState(estadoInicial);
+            } else {
+                alert("rayos :(");
+            }
+
+        });
+    }
+
+    // -------------------------------------------------------------------------- Carga Masiva
     CargaMasiva = async () => {
         console.log(this.state);
         var imagen = this.state.imagen;
@@ -184,9 +245,82 @@ class Administrador extends React.Component {
 
     }
 
-    regresar() {
-        this.setState(estadoInicial);
+    // -------------------------------------------------------------------------- Editar un usuario
+
+    entrarEditar = async () => {
+        console.log("entrarEditar")
+        getUsuarios(this.state.tipo).then((response) => {
+            this.setState({ usuarios: response.data })
+        });
+        this.setState({ opcion: 4 })
     }
+
+    EditarUsuario = async (e) => {
+        //this.setState({ usuario: e.target.value })
+        editarUsuario(this.state).then((response) => {
+
+            if (response.status == 200) {
+                alert("Usuario Actualizado");
+                //this.setState(estadoInicial);
+            } else {
+                alert("rayos :(");
+            }
+
+        });
+    }
+
+    // -------------------------------------------------------------------------- Asignacion de Cursos
+    CrearCurso = (nuevoCurso) => {
+        alert(nuevoCurso);
+        if (nuevoCurso != "") {
+            crearCurso(nuevoCurso).then((response) => {
+                console.log(response)
+            });
+        }
+        //this.setState({ imagen: img })
+    }
+
+    EntrarAsignacion = () => {
+        getCursos().then((response) => {
+            this.setState({ cursos: response.data })
+        });
+
+        if (this.state.tipo === 'Maestro') {
+            getMaestros().then((response) => {
+                console.log("maestros");
+                console.log(response);
+                this.setState({ usuarios: response.data })
+            });
+        } else {
+            getAlumnos().then((response) => {
+                console.log("alumnos");
+                console.log(response);
+                this.setState({ usuarios: response.data })
+            });
+        }
+
+
+
+        this.setState({ opcion: 5 })
+    }
+
+    cambiarCurso = async (e) => {
+        this.setState({ curso: e.target.value });
+        getCurso(e.target.value).then((response) => {
+            this.setState({ nombreCurso: response.data[0].nombre_curso })
+        });
+    }
+
+
+
+
+    cambiarMaestro = async (e) => {
+        this.setState({ maestro: e.target.value });
+        getCurso(e.target.value).then((response) => {
+            this.setState({ nombreMaestro: response.data[0].nombre })
+        });
+    }
+
 
     renderizarOpcion() {
         var opcion = this.state.opcion;
@@ -198,9 +332,13 @@ class Administrador extends React.Component {
         var direccion = this.state.direccion;
         var correo = this.state.correo;
         var nacimiento = this.state.nacimiento;
-        var dpi = this.state.dpi;
+        var dpi_carnet = this.state.dpi_carnet;
         var contrasenia = this.state.contrasenia;
         var curso = this.state.curso;
+        var cursos = this.state.cursos;
+        var nombreCurso = this.state.nombreCurso;
+        var nuevoCurso = this.state.nuevoCurso;
+        var usuarios = this.state.usuarios;
 
         var imagen = this.state.imagen;
         var estado = this.state.estado;
@@ -228,6 +366,7 @@ class Administrador extends React.Component {
             this.setState({ imagen: img })
         }
 
+
         if (opcion === 1) {
             return (
                 <>
@@ -245,7 +384,7 @@ class Administrador extends React.Component {
                                 </Card.Header>
                                 <Card.Body style={{ overflowY: 'auto' }}>
 
-                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi, contrasenia, false, tipo === 'Alumno')}
+                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi_carnet, contrasenia, false, tipo === 'Alumno')}
                                     <br />
                                     <p >Fotografía (Opcional)</p>
                                     <form onSubmit={handleSubmit}>
@@ -279,16 +418,25 @@ class Administrador extends React.Component {
                                 </Card.Header>
                                 <Card.Body style={{ overflowY: 'auto' }}>
                                     Seleccionar el id:
-                                    <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarTipo(e)} >
-                                        <option key={'Maestro'} value={'Maestro'}>Maestro</option>
-                                        <option key={'Alumno'} value={'Alumno'}>Alumno</option>
+                                    <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarUsuario(e)} >
+                                        {
+                                            usuarios.map((usuario) =>
+                                                <>
+                                                    {
+                                                        tipo === 'Maestro' ?
+                                                            <option key={usuarios.id_maestro} value={usuario.id_maestro}>{usuario.id_maestro}</option>
+                                                            :
+                                                            <option key={usuarios.id_alumno} value={usuario.id_alumno}>{usuario.id_alumno}</option>
+                                                    }
+                                                </>
+                                            )}
                                     </select>
                                     <br /><br />
-                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi, contrasenia, true, tipo === 'Alumno')}
+                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi_carnet, contrasenia, true, tipo === 'Alumno')}
 
                                 </Card.Body>
                                 <Card.Footer style={{ textAlign: 'right' }}>
-                                    <Button onClick={this.GetUsuarios} style={{ float: 'right' }}>Eliminar Usuario</Button>
+                                    <Button onClick={this.EliminarUsuario} style={{ float: 'right' }}>Eliminar Usuario</Button>
                                 </Card.Footer>
                             </Card>
                         </div>
@@ -347,16 +495,25 @@ class Administrador extends React.Component {
                                 </Card.Header>
                                 <Card.Body style={{ overflowY: 'auto' }}>
                                     Seleccionar el id:
-                                    <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarTipo(e)} >
-                                        <option key={'Maestro'} value={'Maestro'}>Maestro</option>
-                                        <option key={'Alumno'} value={'Alumno'}>Alumno</option>
+                                    <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarUsuario(e)}>
+                                        {
+                                            usuarios.map((usuario) =>
+                                                <>
+                                                    {
+                                                        tipo === 'Maestro' ?
+                                                            <option key={usuarios.id_maestro} value={usuario.id_maestro}>{usuario.id_maestro}</option>
+                                                            :
+                                                            <option key={usuarios.id_alumno} value={usuario.id_alumno}>{usuario.id_alumno}</option>
+                                                    }
+                                                </>
+                                            )}
                                     </select>
                                     <br /><br />
-                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi, contrasenia, false, tipo === 'Alumno')}
+                                    {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi_carnet, contrasenia, false, tipo === 'Alumno')}
 
                                 </Card.Body>
                                 <Card.Footer style={{ textAlign: 'right' }}>
-                                    <Button style={{ float: 'right' }}>Guardar Cambios</Button>
+                                    <Button onClick={() => this.EditarUsuario()} style={{ float: 'right' }}>Guardar Cambios</Button>
                                 </Card.Footer>
                             </Card>
                         </div>
@@ -368,7 +525,7 @@ class Administrador extends React.Component {
                 <>
                     <Container>
                         <div class="d-flex justify-content-center align-items-center container-publicacion">
-                            <Card style={{ width: '100%', height: '60%' }}>
+                            <Card style={{ width: '100%', height: '63%' }}>
                                 <Card.Header as="h5" >
                                     <button className='boton-regreso-publicacion'
                                         onClick={() => this.regresar()}> {"<"} </button>
@@ -384,14 +541,23 @@ class Administrador extends React.Component {
                                     <div class='row'>
                                         <div class='col' >
                                             Id de {tipo}:
-                                            <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarTipo(e)} >
-                                                <option key={'Maestro'} value={'Maestro'}>Maestro</option>
-                                                <option key={'Alumno'} value={'Alumno'}>Alumno</option>
+                                            <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarUsuario(e)} >
+                                                {
+                                                    usuarios.map((usuario) =>
+                                                        <>
+                                                            {
+                                                                tipo === 'Maestro' ?
+                                                                    <option key={usuarios.id_maestro} value={usuario.id_maestro}>{usuario.id_maestro}</option>
+                                                                    :
+                                                                    <option key={usuarios.id_alumno} value={usuario.id_alumno}>{usuario.id_alumno}</option>
+                                                            }
+                                                        </>
+                                                    )}
                                             </select>
                                             <br /><br />
                                             <label>{tipo === "Alumno" ? 'Carnet' : 'Registro'} </label><br />
-                                            <input style={{ marginBottom: "2%" }} value={nombre} readOnly={true}
-                                                onChange={(e) => this.setState({ nombre: e.target.value })}
+                                            <input style={{ marginBottom: "2%" }} value={dpi_carnet} readOnly={true}
+                                                onChange={(e) => this.setState({ dpi_carnet: e.target.value })}
                                                 type="text" />
                                             <br /><br />
                                             <label>Nombre: </label><br />
@@ -401,16 +567,23 @@ class Administrador extends React.Component {
 
                                         </div>
                                         <div class='col'>
-                                            Asignar a curso {curso}:
-                                            <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarTipo(e)} >
-                                                <option key={'Maestro'} value={'Maestro'}>Maestro</option>
-                                                <option key={'Alumno'} value={'Alumno'}>Alumno</option>
+                                            Asignar a curso:
+                                            <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarCurso(e)} >
+                                                {
+                                                    cursos.map((curso) =>
+                                                        <option key={curso.id_curso} value={curso.id_curso}>{curso.id_curso}</option>
+                                                    )}
                                             </select>
                                             <br /><br />
                                             <label>Curso: </label><br />
-                                            <input style={{ marginBottom: "2%" }} value={curso} readOnly={true}
+                                            <input style={{ marginBottom: "2%" }} value={nombreCurso} readOnly={true}
                                                 type="text" />
 
+                                            <br /><br />
+                                            <label>Nuevo Curso: </label><br />
+                                            <input style={{ marginBottom: "2%" }} value={nuevoCurso} placeholder='Nombre'
+                                                type="text" onChange={(e) => this.setState({ nuevoCurso: e.target.value })} />
+                                            <Button onClick={() => this.CrearCurso(nuevoCurso)} variant='success' style={{ marginLeft: '3%' }}>Crear</Button>
                                         </div>
                                     </div>
                                     <br />
@@ -479,7 +652,7 @@ class Administrador extends React.Component {
                             Crear Usuario
                         </Button><br />
                         <Button style={{ marginBottom: "8%" }}
-                            onClick={() => this.setState({ opcion: 2 })}>
+                            onClick={() => this.entrarEliminar()}>
                             Eliminar Usuario
                         </Button><br />
                         <Button variant='success' style={{ marginBottom: "8%" }}
@@ -487,15 +660,15 @@ class Administrador extends React.Component {
                             Cargar CSV
                         </Button><br />
                         <Button style={{ marginBottom: "8%" }}
-                            onClick={() => this.setState({ opcion: 4 })}>
+                            onClick={() => this.entrarEditar()}>
                             Editar Usuario
                         </Button><br />
                         <Button variant='success' style={{ marginBottom: "8%" }}
-                            onClick={() => this.setState({ opcion: 5 })}>
+                            onClick={() => this.EntrarAsignacion()}>
                             Asignar Cursos
                         </Button><br />
                         <Button style={{ marginBottom: "8%" }}
-                            onClick={() => this.setState({ opcion: 6 })}>
+                        >
                             Ingresar como Usuario
                         </Button><br />
                     </Form>

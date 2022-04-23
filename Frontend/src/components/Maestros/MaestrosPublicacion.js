@@ -4,11 +4,17 @@ import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 
+import {
+  crearPublicacion, getPublicacionesMaestro,
+  getCurso, getCursosMaestro
+} from '../../endpoints/endpoints';
+
 
 import NavBar from './MaestrosNavBar';
 import Container from './FondoMaestros';
 import './maestro.css';
 
+/*
 let publicaciones = [
   {
     id: 1,
@@ -78,11 +84,13 @@ let publicaciones = [
     fecha: 'hoy'
   },
 ]
+*/
 
 function MaestrosPublicacion() {
   const [maestro, setMaestro] = useState(useParams().identificacion)
   const [indice, setIndice] = useState(0);
   const [publicacion, setPub] = useState(0);
+  const [publicaciones, setPubs] = useState([]);
   const [redirect, setRedirect] = useState(false);
   //
   const [crear, setCrear] = useState("");
@@ -93,8 +101,48 @@ function MaestrosPublicacion() {
 
   useEffect(() => {
     // obtener los datos del maestro
+
     // obtener publicaciones para el maestro
+    getPublicacionesMaestro({ id_maestro: 449 }).then((response) => {
+      setPubs(response.data.datos);
+      //console.log(response.data.datos)
+    });
+
+    // obtener los cursos para el maestro
+    getCursosMaestro({ id_maestro: 449, id_curso: 4 }).then((response) => {
+      //setPubs(response.data.datos);
+      //console.log(response.data.datos)
+    });
   }, [])
+
+
+
+  const renderRedirect = () => {
+    if (redirect) {
+      return <Redirect to={'/maestros/publicaciones/' + maestro + '/' + publicacion} />
+    }
+  }
+
+
+
+  const CrearPublicacion = () => {
+    getCurso({ id_maestro: 449, id_curso: 4 }).then((response) => {
+      //setCurso(response.data.datos.datos[0].id_curso);
+      console.log("CLASEEEE");
+      console.log(response.data.datos[0].id_curso);
+      var curso = response.data.datos[0].id_curso;
+
+      // obtener los datos para la publicacion seleccionada
+      crearPublicacion({ descripcion: descripcion, id_curso: curso }).then((response) => {
+        console.log("CLASEEEE");
+        
+      });
+    });
+
+
+
+    setCrear(false);
+  }
 
   const verPublicacion = (row) => {
     alert(row);
@@ -105,24 +153,6 @@ function MaestrosPublicacion() {
     setPub(row);
   }
 
-  const salirDePublicacion = () => {
-    /*
-    setCurso("");
-    setDesc("");
-    setFecha("");
-    // obtener los datos para la publicacion seleccionada
-    setPub(0);
-    */
-
-  }
-
-
-  const renderRedirect = () => {
-    if (redirect) {
-      return <Redirect to={'/maestros/publicaciones/' + maestro + '/' + publicacion} />
-    }
-  }
-
   const editarPublicacion = (row) => {
     alert(row);
     // obtener los datos para la publicacion seleccionada
@@ -131,18 +161,11 @@ function MaestrosPublicacion() {
 
   }
 
-  const CrearPublicacion = () => {
-    // obtener los datos para la publicacion seleccionada
-    setCrear(false);
-  }
-
   const handleChange = (e) => {
     alert(e.target.value);
     //setTipo(e.target.value);
     //setTipo(e.target.value);
   }
-
-
 
   return (
     <>
@@ -163,7 +186,9 @@ function MaestrosPublicacion() {
                 <Card.Body style={{ overflowY: 'auto' }}>
                   <Card.Text>
                     <label>Descripcion: {fecha}</label><br />
-                    <textarea style={{ width: '100%' }} rows="6"></textarea><br /><br />
+                    <textarea style={{ width: '100%' }} rows="6"
+                      value={descripcion}
+                      onChange={(e) => setDesc(e.target.value)}></textarea><br /><br />
                     Curso: <select style={{ marginLeft: '2%' }} onChange={(e) => handleChange(e)} >
                       <option key={'Maestro'} value={'Maestro'}>Matematica</option>
                       <option key={'Alumno'} value={'Alumno'}>Alumno</option>
@@ -176,6 +201,7 @@ function MaestrosPublicacion() {
                 </Card.Footer>
               </Card>
             </div>
+
           </> :
           <>
             <br />
@@ -192,6 +218,7 @@ function MaestrosPublicacion() {
                 </div>
               </div>
               <div class="bg-light container-tabla-publicacion" >
+                {renderRedirect()}
                 <Table striped bordered hover >
                   <thead>
                     <tr>
@@ -211,7 +238,7 @@ function MaestrosPublicacion() {
                             </td>
 
                             <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                              {log['curso']}
+                              {log['nombre_curso']}
                             </td>
 
                             <td style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -222,12 +249,12 @@ function MaestrosPublicacion() {
                       )}
                   </tbody>
                 </Table>
-                <div >
-                  {renderRedirect()}
-                  <Button style={{ float: 'right' }} onClick={() => setCrear(true)}>Crear Publicación</Button>
-                </div>
-              </div>
 
+              </div>
+              <br />
+              <div >
+                <Button style={{ float: 'right', marginRight: '2%' }} onClick={() => setCrear(true)}>Crear Publicación</Button>
+              </div>
             </div>
 
           </>

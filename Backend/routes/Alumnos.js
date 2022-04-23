@@ -9,9 +9,9 @@ router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
 router.use(bodyParser.json({ limit: "50mb", extended: true }));
 router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-router.get("/getMaestros", async function (req, res) {
+router.get("/getAlumnos", async function (req, res) {
   let consulta = `
-    SELECT * FROM maestro;
+    SELECT * FROM alumno;
   `
   service.consultar(consulta, function (result) {
     res.status(200).json(result.datos);
