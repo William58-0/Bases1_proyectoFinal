@@ -16,7 +16,7 @@ import './maestro.css';
 
 function MaestrosPublicacion() {
   //const [id_maestro, setMaestro] = useState(useParams().identificacion)
-  const [id_maestro, setIdMaestro] = useState(449)
+  const [id_maestro, setMaestro] = useState(449)
   const [nombre_maestro, setNombreMaestro] = useState("")
   const [cursos, setCursos] = useState([]);
   const [curso, setCurso] = useState(0);
@@ -42,14 +42,14 @@ function MaestrosPublicacion() {
       //console.log(response.data[0].nombre + " " + response.data[0].apellido)
     });
     // obtener publicaciones para el maestro
-    getPublicacionesMaestro({ id_maestro: 449 }).then((response) => {
+    getPublicacionesMaestro(id_maestro).then((response) => {
       setPubs(response.data);
       //console.log(response.data.datos)
     });
 
 
     // obtener los cursos para el maestro
-    getCursosMaestro({ id_maestro: 449 }).then((response) => {
+    getCursosMaestro(id_maestro).then((response) => {
       //setPubs(response.data.datos);
       var resp = response;
 
@@ -83,7 +83,7 @@ function MaestrosPublicacion() {
 
       crearPublicacion(descripcion, response.data[0].id_clase).then((response) => {
 
-        getPublicacionesMaestro({ id_maestro: 449 }).then((response) => {
+        getPublicacionesMaestro(id_maestro).then((response) => {
           setPubs(response.data);
         });
 
@@ -103,7 +103,7 @@ function MaestrosPublicacion() {
     console.log(row);
 
     setPub(row.id_publicacion);
-    
+
     setRedirect(true);
 
   }

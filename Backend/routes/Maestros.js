@@ -21,7 +21,7 @@ router.post("/getMaestro", async function (req, res) {
   });
 });
 
-
+// ----------------------------------------------------------------------------- PUBLICACIONES
 router.post("/getPublicacionesMaestro", async function (req, res) {
   const { id_maestro } = req.body
 
@@ -116,6 +116,36 @@ router.post("/deletePublicacion", async function (req, res) {
   });
 });
 
+// ----------------------------------------------------------------------------- ACTIVIDADES
+router.post("/getActividadesMaestro", async function (req, res) {
+  const { id_maestro } = req.body
+  console.log("aquii es");
+  console.log(id_maestro);
+  let consulta = `
+  SELECT * FROM clase
+  INNER JOIN actividad USING (id_clase)
+  INNER JOIN curso USING (id_curso)
+  WHERE id_maestro = "${id_maestro}";`;
+  service.consultar(consulta, function (result) {
+    result.datos.forEach(dato => {
+      dato.fecha_publicacion = fecha.fechaVisible(dato.fecha_publicacion);
+    });
+    res.status(result.status).json(result.datos);
+  });
+});
+
+router.post("/crearActividad", async function (req, res) {
+  console.log("va a tratar de crear actividad");
+  const { titulo, descripcion, fecha_entrega, valor, id_clase } = req.body;
+  console.log(fecha_entrega);
+
+  let consulta = `
+  INSERT INTO actividad(titulo, descripcion, fecha_publicacion, fecha_entrega, valor, id_clase)
+  VALUES("${titulo}", "${descripcion}", CURDATE(), "${fecha_entrega}", "${valor}", "${id_clase}");`;
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
 
 
 module.exports = router;

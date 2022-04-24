@@ -4,99 +4,31 @@ import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 
+import {
+  getMaestro, getActividadesMaestro, getCursosMaestro,
+  getIdClase, crearActividad,
+  getActividades
+} from '../../endpoints/endpoints';
 
 import NavBar from './MaestrosNavBar';
 import Container from './FondoMaestros';
 import './maestro.css';
 
-let publicaciones = [
-  {
-    id: 1,
-    titulo: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
-    descripcion: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 2,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 3,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 4,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 5,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 6,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 7,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 8,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 9,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 10,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 11,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-]
 
 function MaestrosActividades() {
-  const [maestro, setMaestro] = useState(useParams().identificacion)
+  const [id_maestro, setIdMaestro] = useState(449);
+  const [nombre_maestro, setNombreMaestro] = useState("")
+  const [actividades, setActs] = useState([])
+
   const [indice, setIndice] = useState(0);
   const [actividad, setActi] = useState(0);
   const [destino, setDestino] = useState(0);
   const [redirect, setRedirect] = useState(false);
   //
   const [crear, setCrear] = useState(false);
+  const [cursos, setCursos] = useState([]);
+  const [curso, setCurso] = useState(0);
+  const [nombreCurso, setNombreCurso] = useState("");
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDesc] = useState("");
   const [valor, setValor] = useState(0);
@@ -104,8 +36,59 @@ function MaestrosActividades() {
 
   useEffect(() => {
     // obtener los datos del maestro
-    // obtener publicaciones para el maestro
+    getMaestro(id_maestro).then((response) => {
+      setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
+    });
+    // obtener actividades para el maestro
+    getActividadesMaestro(id_maestro).then((response) => {
+      console.log(response);
+      setActs(response.data);
+    });
+
+    getCursosMaestro(id_maestro).then((response) => {
+      //setPubs(response.data.datos);
+      var resp = response;
+
+      setCursos(resp.data);
+      console.log("VEER AQUIII VEEE");
+      console.log(resp.data[0].id_curso);
+      setCurso(resp.data[0].id_curso);
+      setNombreCurso(resp.data[0].nombre_curso);
+    });
+
   }, [])
+
+  const cambiarCurso = (e) => {
+    //alert(e.target.value);
+    setCurso(e.target.value);
+    //setTipo(e.target.value);
+  }
+
+  const CrearActividad = () => {
+    getIdClase(id_maestro, curso).then((response) => {
+      console.log("ESSSTA ES LA CLASE");
+      console.log(response.data[0].id_clase);
+
+      crearActividad({
+        titulo: titulo, descripcion: descripcion,
+        fecha_entrega: fecha_entrega, valor: valor,
+        id_clase: response.data[0].id_clase
+      }).then((response) => {
+        if (response.status == 200) {
+          alert("Actividad Creada");
+          //para actualizar las actividades otra vez
+          getActividadesMaestro(id_maestro).then((response) => {
+            console.log(response);
+            setActs(response.data);
+          });
+          setCrear(false);
+        } else {
+          alert("Ocurrió un error :(");
+        }
+      });
+
+    });
+  }
 
   const editarActividad = (row) => {
     alert(row);
@@ -117,15 +100,11 @@ function MaestrosActividades() {
 
   const renderRedirect = () => {
     if (redirect) {
-      return <Redirect to={'/maestros/actividades/' + maestro + '/' + actividad} />
+      return <Redirect to={'/maestros/actividades/' + id_maestro + '/' + actividad} />
     }
   }
 
-  const CrearActividad = () => {
-    // insertar la nueva actividad
-    setCrear(false)
 
-  }
 
   const handleChange = (e) => {
     alert(e.target.value);
@@ -136,7 +115,7 @@ function MaestrosActividades() {
   return (
     <>
       <Container>
-        <NavBar maestro={maestro} />
+        <NavBar maestro={nombre_maestro} />
         {crear ? <>
           <div class="d-flex justify-content-center align-items-center container-publicacion">
             <Card style={{ width: '100%', height: '80%' }}>
@@ -153,11 +132,15 @@ function MaestrosActividades() {
               <Card.Body style={{ overflowY: 'auto' }}>
                 <Card.Text>
 
-                  Curso: <select style={{ marginLeft: '2%' }} onChange={(e) => handleChange(e)} >
-                    <option key={'Maestro'} value={'Maestro'}>Matematica</option>
-                    <option key={'Alumno'} value={'Alumno'}>Alumno</option>
-                    <option key={'Administrador'} value={'Administrador'}>Administrador</option>
-                  </select><br /><br />
+                  id_curso: <select style={{ marginLeft: '2%', marginRight: '2%' }}
+                    onChange={(e) => cambiarCurso(e)} >
+                    {
+                      cursos.map((curso) =>
+                        <option key={curso.id_curso} value={curso.id_curso}>{curso.id_curso}</option>
+                      )}
+                  </select>
+                  Nombre del curso:
+                  <input style={{ marginLeft: '2%' }} type="text" value={nombreCurso} /><br /><br />
 
 
                   <label>Descripcion:</label><br />
@@ -210,12 +193,12 @@ function MaestrosActividades() {
                   </thead>
                   <tbody>
                     {
-                      publicaciones.slice(indice, indice + 8).map((log) =>
+                      actividades.slice(indice, indice + 8).map((log) =>
                         <>
-                          <tr key={log.id} onClick={() => editarActividad(log.id)}>
+                          <tr key={log.id} onClick={() => editarActividad(log)}>
 
                             <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                              {log['descripcion']}
+                              {log['nombre_curso']}
                             </td>
 
                             <td >
@@ -235,10 +218,11 @@ function MaestrosActividades() {
                   </tbody>
                   {renderRedirect()}
                 </Table>
-                <div>
-                  <Button variant='success' style={{ marginLeft: '76%', marginRight: '0' }}> Ver Entregas</Button>
-                  <Button onClick={() => setCrear(true)} style={{ float: 'right' }}> Crear Actividad</Button>
-                </div>
+
+              </div>
+              <div style={{ marginTop: '2%' }}>
+                <Button variant='success' style={{ marginLeft: '75%' }}> Ver Entregas</Button>
+                <Button onClick={() => setCrear(true)} style={{ float: 'right', marginRight: '1.5%' }}> Crear Actividad</Button>
               </div>
             </div>
           </>

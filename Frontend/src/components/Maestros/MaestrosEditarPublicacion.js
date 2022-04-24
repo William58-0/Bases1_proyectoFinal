@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 
 import {
   getMaestro, getPublicacion, updatePublicacion,
-  deletePublicacion, getCursosMaestro
+  deletePublicacion
 } from '../../endpoints/endpoints';
 
 import NavBar from './MaestrosNavBar';

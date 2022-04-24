@@ -13,6 +13,7 @@ function fechaVisible(date) {
   return newDate;
 }
 
+
 module.exports = {
   fechaLegible,
   fechaVisible,
