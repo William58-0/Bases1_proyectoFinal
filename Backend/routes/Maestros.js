@@ -95,8 +95,21 @@ router.post("/updatePublicacion", async function (req, res) {
   const { id_publicacion, descripcion } = req.body
 
   let consulta = `
-    UPDATE publicacion SET descripcion = "${descripcion}" 
+    UPDATE publicacion SET descripcion = "${descripcion}",
+    fecha = CURDATE()
     WHERE id_publicacion = "${id_publicacion}";
+  `;
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
+
+router.post("/deletePublicacion", async function (req, res) {
+  console.log("SII ENTRAA");
+  const { id_publicacion } = req.body
+
+  let consulta = `
+    DELETE FROM publicacion WHERE id_publicacion = "${id_publicacion}";
   `;
   service.consultar(consulta, function (result) {
     res.status(result.status).json(result.datos);

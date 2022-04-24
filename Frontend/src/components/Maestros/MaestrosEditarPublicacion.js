@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 
 import {
   getMaestro, getPublicacion, updatePublicacion,
-  getIdClase, getCursosMaestro
+  deletePublicacion, getCursosMaestro
 } from '../../endpoints/endpoints';
 
 import NavBar from './MaestrosNavBar';
@@ -63,11 +63,7 @@ function MaestrosVerPublicacion() {
     }
   }
 
-  const Eliminar = () => {
-    // accion de eliminar publicacion
-    setRedirect(true);
 
-  }
 
   const GuardarCambios = () => {
     // accion de actualizar publicacion
@@ -75,6 +71,17 @@ function MaestrosVerPublicacion() {
       console.log(response);
 
       setEditando(false);
+
+    });
+
+  }
+
+  const Eliminar = () => {
+    // accion de eliminar publicacion
+    deletePublicacion(publicacion).then((response) => {
+      console.log(response);
+
+      setRedirect(true);
       //setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
       //console.log(response.data[0].nombre + " " + response.data[0].apellido)
     });

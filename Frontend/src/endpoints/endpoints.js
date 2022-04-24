@@ -77,6 +77,11 @@ export function updatePublicacion(id_publicacion, descripcion) {
   })
 }
 
+export function deletePublicacion(id_publicacion) {
+  return axios.post(route + 'Maestros/deletePublicacion', {id_publicacion: id_publicacion})
+}
+
+
 // --------------------------------------------------------------------------------------- Alumno
 export function getPublicaciones(datos) {
   return axios.post(route + 'Usuarios/crearUsuario', datos)
