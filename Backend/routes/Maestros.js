@@ -159,9 +159,25 @@ router.post("/getActividadMaestro", async function (req, res) {
   `;
   service.consultar(consulta, function (result) {
     result.datos.forEach(dato => {
-      dato.fecha_entrega = fecha.fechaVisible(dato.fecha_entrega);
+      dato.fecha_entrega = fecha.fechaLegible(dato.fecha_entrega);
+      dato.fechaVentrega = fecha.fechaVisible(dato.fecha_entrega);
       dato.fecha_publicacion = fecha.fechaVisible(dato.fecha_publicacion);
     });
+    res.status(result.status).json(result.datos);
+  });
+});
+
+router.post("/updateActividadMaestro", async function (req, res) {
+  console.log("va a tratar de crear actividad");
+  const { titulo, descripcion, fecha_entrega, valor, id_actividad } = req.body;
+  console.log(fecha_entrega);
+
+  let consulta = `
+  UPDATE actividad SET titulo = "${titulo}", descripcion = "${descripcion}",
+  fecha_publicacion = CURDATE(), fecha_entrega = "${fecha_entrega}",
+  valor = "${valor}"
+  WHERE id_actividad = "${id_actividad}";`;
+  service.consultar(consulta, function (result) {
     res.status(result.status).json(result.datos);
   });
 });
