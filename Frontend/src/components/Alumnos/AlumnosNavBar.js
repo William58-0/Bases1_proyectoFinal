@@ -34,12 +34,12 @@ const NavBar = (props) => {
           src='https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg'
           width={27}
         />
-        <p style={{ margin: '0 10px', fontWeight: 'bold' }}>Alumno: {props.estudiante}</p>
-        <StyledLink to={"/alumnos/publicaciones/" + props.estudiante}>Publicacion</StyledLink>
-        <StyledLink to={"/alumnos/actividades/" + props.estudiante}>Actividades</StyledLink>
-        <StyledLink to={"/alumnos/notas/" + props.estudiante}>Mis Notas</StyledLink>
-        <StyledLink to={"/alumnos/examenes/" + props.estudiante}>Examenes</StyledLink>
-        <Link to={"/alumnos/notificaciones/" + props.estudiante} style={{ marginRight: '2%', marginLeft: 'auto' }}>
+        <p style={{ margin: '0 10px', fontWeight: 'bold' }}>Alumno: {props.alumno}</p>
+        <StyledLink to={"/alumnos/publicaciones/" + props.id_alumno}>Publicacion</StyledLink>
+        <StyledLink to={"/alumnos/actividades/" + props.id_alumno}>Actividades</StyledLink>
+        <StyledLink to={"/alumnos/notas/" + props.id_alumno}>Mis Notas</StyledLink>
+        <StyledLink to={"/alumnos/examenes/" + props.id_alumno}>Examenes</StyledLink>
+        <Link to={"/alumnos/notificaciones/" + props.id_alumno} style={{ marginRight: '2%', marginLeft: 'auto' }}>
           <FontAwesomeIcon icon={faBell} color='white' size='1x' />
         </Link>
         <Link to="/" style={{ marginRight: '2%' }}>

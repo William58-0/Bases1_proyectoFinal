@@ -45,12 +45,12 @@ export function getAlumnos() {
 
 
 
-// --------------------------------------------------------------------------------------- Maestro
+// --------------------------------------------------------------------------------------- MAESTRO
 export function getMaestro(id_maestro) {
   return axios.post(route + 'Maestros/getMaestro', { id_maestro: id_maestro })
 }
 
-// ---------------------------------------------------------------------- PUBLICACIONES
+// ---------------------------------------------------------------------- publicaciones
 
 export function getPublicacionesMaestro(id_maestro) {
   return axios.post(route + 'Maestros/getPublicacionesMaestro', { id_maestro: id_maestro })
@@ -83,7 +83,7 @@ export function deletePublicacion(id_publicacion) {
   return axios.post(route + 'Maestros/deletePublicacion', { id_publicacion: id_publicacion })
 }
 
-// ---------------------------------------------------------------------- ACTIVIDADES
+// ---------------------------------------------------------------------- actividades
 export function getActividadesMaestro(id_maestro) {
   return axios.post(route + 'Maestros/getActividadesMaestro', { id_maestro: id_maestro })
 }
@@ -112,6 +112,10 @@ export function getAlumnosCurso(id_maestro, id_curso) {
 // --------------------------------------------------------------------------------------- Alumno
 export function getAlumno(id_alumno) {
   return axios.post(route + 'Alumnos/getAlumno', { id_alumno: id_alumno })
+}
+
+export function getPublicacionesAlumno(id_alumno) {
+  return axios.post(route + 'Alumnos/getPublicacionesAlumno', { id_alumno: id_alumno })
 }
 
 export function getPublicaciones(datos) {

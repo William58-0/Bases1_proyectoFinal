@@ -22,15 +22,16 @@ router.post("/getAlumno", async function (req, res) {
 });
 
 // ----------------------------------------------------------------------------- PUBLICACIONES
-router.post("/getPublicacionesMaestro", async function (req, res) {
-  const { id_maestro } = req.body
+router.post("/getPublicacionesAlumno", async function (req, res) {
+  const { id_alumno } = req.body
 
   let consulta = `
     SELECT *
     FROM clase
     INNER JOIN publicacion USING (id_clase)
     INNER JOIN curso USING (id_curso)
-    WHERE id_maestro = ${id_maestro};
+    INNER JOIN asignacion_clase USING (id_clase)
+    WHERE id_alumno = ${id_alumno};
   `;
   service.consultar(consulta, function (result) {
     result.datos.forEach(dato => {

@@ -7,79 +7,15 @@ import NavBar from './AlumnosNavBar';
 import Container from './FondoAlumnos';
 import './alumno.css';
 
-let publicaciones = [
-  {
-    id: 1,
-    curso: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
-    descripcion: 'blablfdassssssssssssssssssssssssssblablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssa' +
-      'blablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
-    fecha: 'hoy'
-  },
-  {
-    id: 2,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 3,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 4,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 5,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 6,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 7,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 8,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 9,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 10,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 11,
-    curso: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-]
+import {
+  getAlumno, getPublicacionesAlumno
+} from '../../endpoints/endpoints';
 
 function AlumnosPublicacion() {
-  const [alumno, setAlumno] = useState(useParams().identificacion)
+  const [id_alumno, setIdAlumno] = useState(306)
+  const [nombre_alumno, setNombreAlumno] = useState("")
   const [indice, setIndice] = useState(0);
+  const [publicaciones, setPubs] = useState([]);
   const [publicacion, setPub] = useState(0);
   //
   const [curso, setCurso] = useState("");
@@ -88,17 +24,24 @@ function AlumnosPublicacion() {
   const [autor, setAutor] = useState("");
 
   useEffect(() => {
-    
     // obtener los datos del estudiante
+    getAlumno(id_alumno).then((response) => {
+      if (response.data.length > 0) {
+        if (response.data.length > 0) {
+          setNombreAlumno(response.data[0].nombre + " " + response.data[0].apellido)
+        }
+      }
+    });
     // obtener publicaciones para el estudiante
+    getPublicacionesAlumno(id_alumno).then((response) => {
+      setPubs(response.data);
+    });
   }, [])
 
   const verPublicacion = (row) => {
-    alert(row);
-    setCurso(row.curso);
+    setCurso(row.nombre_curso);
     setDesc(row.descripcion);
     setFecha(row.fecha);
-    // obtener los datos para la publicacion seleccionada
     setPub(row);
   }
 
@@ -106,7 +49,6 @@ function AlumnosPublicacion() {
     setCurso("");
     setDesc("");
     setFecha("");
-    // obtener los datos para la publicacion seleccionada
     setPub(0);
   }
 
@@ -114,7 +56,7 @@ function AlumnosPublicacion() {
     <>
       {publicacion === 0 ?
         <Container>
-          <NavBar estudiante={alumno} />
+          <NavBar alumno={nombre_alumno} id_alumno={id_alumno} />
           <br />
           <br />
           <div className='principal'>
@@ -132,7 +74,7 @@ function AlumnosPublicacion() {
               <Table striped bordered hover >
                 <thead>
                   <tr>
-                    <th >Fecha</th>
+                    <th >Publicación</th>
                     <th >Curso</th>
                     <th >Descripcion</th>
                   </tr>
@@ -147,7 +89,7 @@ function AlumnosPublicacion() {
                         </td>
 
                         <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                          {log['curso']}
+                          {log['nombre_curso']}
                         </td>
 
                         <td style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -162,7 +104,7 @@ function AlumnosPublicacion() {
         </Container>
         :
         <Container>
-          <NavBar estudiante={alumno} />
+          <NavBar alumno={nombre_alumno} id_alumno={id_alumno} />
           <div class="d-flex justify-content-center align-items-center container-publicacion">
             <Card style={{ width: '100%', height: '80%' }}>
               <Card.Header as="h5" >
@@ -177,7 +119,7 @@ function AlumnosPublicacion() {
                 </Card.Text>
               </Card.Body>
               <Card.Footer style={{ textAlign: 'right' }}>
-                <small className="text-muted">Fecha: {fecha}</small><br />
+                <small className="text-muted">Publicación: {fecha}</small><br />
               </Card.Footer>
             </Card>
           </div>

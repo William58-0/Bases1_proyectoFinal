@@ -54,8 +54,11 @@ function MaestrosPublicacion() {
       var resp = response;
 
       setCursos(response.data);
-      setCurso(resp.data[0].id_curso);
-      setNombreCurso(resp.data[0].nombre_curso);
+      if (response.data.length > 0) {
+        setCurso(resp.data[0].id_curso);
+        setNombreCurso(resp.data[0].nombre_curso);
+      }
+
     });
 
   }, [])
@@ -70,8 +73,6 @@ function MaestrosPublicacion() {
 
   const Regresar = () => {
     setCrear(false);
-    setCurso(0);
-    setNombreCurso("");
     setDesc("");
     setFecha("");
   }
@@ -80,21 +81,20 @@ function MaestrosPublicacion() {
 
   const CrearPublicacion = () => {
     getIdClase(id_maestro, curso).then((response) => {
-
-      crearPublicacion(descripcion, response.data[0].id_clase).then((response) => {
-
-        getPublicacionesMaestro(id_maestro).then((response) => {
-          setPubs(response.data);
-        });
+      crearPublicacion(descripcion, response.data[0].id_clase).then((response1) => {
+        if (response1.status === 200) {
+          alert("Publicacion creada");
+          getPublicacionesMaestro(id_maestro).then((response2) => {
+            setPubs(response2.data);
+          });
+          Regresar();
+        } else {
+          alert("Ocurrio un error")
+        }
 
       });
 
-
     });
-
-
-
-    Regresar();
   }
 
 
