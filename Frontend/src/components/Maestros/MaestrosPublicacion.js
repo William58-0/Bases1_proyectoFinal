@@ -117,7 +117,7 @@ function MaestrosPublicacion() {
   return (
     <>
       <Container>
-        <NavBar maestro={nombre_maestro} />
+        <NavBar maestro={nombre_maestro} id_maestro={id_maestro} />
         {crear ?
           <>
             <div class="d-flex justify-content-center align-items-center container-publicacion">

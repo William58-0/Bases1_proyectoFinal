@@ -101,11 +101,19 @@ export function updateActividadMaestro(datos) {
 }
 
 export function deleteActividad(id_actividad) {
-  return axios.post(route + 'Maestros/deleteActividad', {id_actividad: id_actividad})
+  return axios.post(route + 'Maestros/deleteActividad', { id_actividad: id_actividad })
+}
+
+export function getAlumnosCurso(id_maestro, id_curso) {
+  return axios.post(route + 'Maestros/getAlumnosCurso', { id_maestro: id_maestro, id_curso: id_curso })
 }
 
 
 // --------------------------------------------------------------------------------------- Alumno
+export function getAlumno(id_alumno) {
+  return axios.post(route + 'Alumnos/getAlumno', { id_alumno: id_alumno })
+}
+
 export function getPublicaciones(datos) {
   return axios.post(route + 'Usuarios/crearUsuario', datos)
 }

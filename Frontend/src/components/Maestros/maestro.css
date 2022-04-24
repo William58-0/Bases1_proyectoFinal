@@ -37,6 +37,12 @@
   margin-right: 1.5%;
 }
 
+.container-tabla-asignados {
+  height: 266px;
+  color: black;
+  display: block;
+  overflow-y: auto;
+}
 
 .boton-regreso-publicacion {
   font-size: larger;

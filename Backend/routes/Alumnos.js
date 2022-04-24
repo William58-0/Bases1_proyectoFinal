@@ -10,11 +10,11 @@ router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
 router.use(bodyParser.json({ limit: "50mb", extended: true }));
 router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-router.post("/getMaestro", async function (req, res) {
-  const { id_maestro } = req.body
-  console.log(req.body)
+router.post("/getAlumno", async function (req, res) {
+  const { id_alumno } = req.body
+  console.log("AQUIIII SI ENTRAAA")
   let consulta = `
-    SELECT * FROM maestro WHERE id_maestro = "${id_maestro}";
+    SELECT * FROM alumno WHERE id_alumno = "${id_alumno}";
   `
   service.consultar(consulta, function (result) {
     res.status(result.status).json(result.datos);
@@ -135,36 +135,16 @@ router.post("/getActividadesMaestro", async function (req, res) {
 });
 
 router.post("/crearActividad", async function (req, res) {
-  const { titulo, descripcion, fecha_entrega, valor, id_clase, alumnos } = req.body;
+  console.log("va a tratar de crear actividad");
+  const { titulo, descripcion, fecha_entrega, valor, id_clase } = req.body;
+  console.log(fecha_entrega);
 
   let consulta = `
   INSERT INTO actividad(titulo, descripcion, fecha_publicacion, fecha_entrega, valor, id_clase)
   VALUES("${titulo}", "${descripcion}", CURDATE(), "${fecha_entrega}", "${valor}", "${id_clase}");`;
   service.consultar(consulta, function (result) {
-    console.log("inserto actividad")
-    console.log(result);
-    
-
-    // USAR LOS ALUMNOS PARA QUE SE LES ASIGNE UNA ACTIVIDAD
-    if (result.status == 200) {
-      alumnos.forEach(alumno => {
-        let consulta1 = `
-        INSERT INTO asignacion_actividad  (fecha_hora, estado_actividad, id_actividad, id_alumno)
-        VALUES(SYSDATE(), "Pendiente", ${result.datos.insertId}, ${alumno.id_alumno});`;
-
-        service.consultar(consulta1, function (result1) {
-          console.log("actividad asignada");
-          console.log(result1);
-        });
-      });
-      
-    }
-
     res.status(result.status).json(result.datos);
-
   });
-
-
 });
 
 router.post("/getActividadMaestro", async function (req, res) {

@@ -85,7 +85,7 @@ function MaestrosVerPublicacion() {
   return (
     <>
       <Container>
-        <NavBar maestro={nombre_maestro} />
+      <NavBar maestro={nombre_maestro} id_maestro={id_maestro} />
         <div class="d-flex justify-content-center align-items-center container-publicacion">
           <Card style={{ width: '100%', height: '60%' }}>
             <Card.Header as="h5" >

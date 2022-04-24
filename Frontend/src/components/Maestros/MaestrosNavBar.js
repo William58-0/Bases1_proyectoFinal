@@ -36,9 +36,9 @@ const NavBar = (props) => {
           width={27}
         />
         <p style={{ color: 'white', margin: '0 10px', fontWeight: 'bold' }}>Maestro: {props.maestro}</p>
-        <StyledLink to={"/maestros/publicaciones/" + props.maestro}>Publicacion</StyledLink>
-        <StyledLink to={"/maestros/actividades/" + props.maestro}>Actividades</StyledLink>
-        <StyledLink to={"/maestros/examenes/" + props.maestro}>Examenes</StyledLink>
+        <StyledLink to={"/maestros/publicaciones/" + props.id_maestro}>Publicacion</StyledLink>
+        <StyledLink to={"/maestros/actividades/" + props.id_maestro}>Actividades</StyledLink>
+        <StyledLink to={"/maestros/examenes/" + props.id_maestro}>Examenes</StyledLink>
         <Link to="/" style={{ marginRight: '2%', marginLeft: 'auto' }}>
           <FontAwesomeIcon icon={faSignOut} color='white' size='1x' />
         </Link>

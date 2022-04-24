@@ -3,11 +3,14 @@ import { Link, Redirect, useParams } from 'react-router-dom';
 import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+
 
 import {
   getMaestro, getActividadesMaestro, getCursosMaestro,
-  getIdClase, crearActividad,
-  getActividades
+  getIdClase, crearActividad, getAlumnosCurso,
+  getAlumno
 } from '../../endpoints/endpoints';
 
 import NavBar from './MaestrosNavBar';
@@ -34,6 +37,9 @@ function MaestrosActividades() {
   const [valor, setValor] = useState(0);
   const [fecha_entrega, setFechaE] = useState("");
   const [fecha_publicacion, setFechaP] = useState("");
+  const [alumnos, setAlumnos] = useState([]);
+  const [alumno, setAlumno] = useState({});
+  const [alumnosA, setAlumnosA] = useState([]);
 
   useEffect(() => {
     // obtener los datos del maestro
@@ -45,18 +51,56 @@ function MaestrosActividades() {
       setActs(response.data);
     });
 
-    getCursosMaestro(id_maestro).then((response) => {
-      var resp = response;
+    getCursosMaestro(id_maestro).then((response1) => {
+      var resp = response1;
       setCursos(resp.data);
+      if (resp.data.length > 0) {
+        setCurso(resp.data[0].id_curso);
+        setNombreCurso(resp.data[0].nombre_curso);
 
-      setCurso(resp.data[0].id_curso);
-      setNombreCurso(resp.data[0].nombre_curso);
+        getAlumnosCurso(id_maestro, resp.data[0].id_curso).then((response2) => {
+          console.log("ALUMNOS POR CURSO");
+          console.log(response2);
+          setAlumnos(response2.data);
+          if (response2.data.length > 0) {
+            setAlumno(response2.data[0]);
+            console.log("ESTEEE ALUMNOOOO");
+            console.log(response2.data[0]);
+            console.log(alumno);
+          }
+        });
+      }
+
     });
 
   }, [])
 
+
   const cambiarCurso = (e) => {
     setCurso(e.target.value);
+
+    getAlumnosCurso(id_maestro, e.target.value).then((response) => {
+      console.log("ALUMNOS POR CURSO");
+      console.log(response);
+    });
+  }
+
+  const cambiarAlumno = (e) => {
+    getAlumno(e.target.value).then((response) => {
+      if (response.data.length > 0) {
+        setAlumno(response.data[0]);
+      }
+    });
+  }
+
+
+  const agregarAlumno = () => {
+    setAlumnosA([...alumnosA, alumno]);
+  }
+
+  const quitarAlumno = (row) => {
+    const del = alumnosA.filter(alumno => alumno.id_alumno !== row.id_alumno);
+    setAlumnosA(del);
   }
 
   const CrearActividad = () => {
@@ -64,7 +108,8 @@ function MaestrosActividades() {
       crearActividad({
         titulo: titulo, descripcion: descripcion,
         fecha_entrega: fecha_entrega, valor: valor,
-        id_clase: response.data[0].id_clase
+        id_clase: response.data[0].id_clase,
+        alumnos: alumnos
       }).then((response) => {
         if (response.status == 200) {
           alert("Actividad Creada");
@@ -103,55 +148,123 @@ function MaestrosActividades() {
   return (
     <>
       <Container>
-        <NavBar maestro={nombre_maestro} />
+        <NavBar maestro={nombre_maestro} id_maestro={id_maestro} />
         {crear ? <>
-          <div class="d-flex justify-content-center align-items-center container-publicacion">
-            <Card style={{ width: '100%', height: '80%' }}>
-              <Card.Header as="h5" >
-                {renderRedirect()}
+          <div style={{ position: 'absolute', marginLeft: '2%', marginTop: '2%' }}>
+            <button style={{ backgroundColor: 'transparent', border: 'none' }}
+              onClick={() => setCrear(false)}>
+              <FontAwesomeIcon icon={faArrowLeft} color='white' size='2x' />
+            </button>
+          </div>
+          <br /><br /><br />
+          <div className="d-flex justify-content-center align-items-center"
+            style={{ color: 'black' }} >
+            <div class='row' style={{ width: '90%', height: '80%', marginLeft: '2%' }}>
+              <div class='col' >
+                <Card style={{ width: '90%', height: '88%' }}>
+                  <Card.Header as="h5" >
+                    {renderRedirect()}
 
-                <button className='boton-regreso-publicacion'
-                  onClick={() => setCrear(false)}> {"<"} </button>
-                <label className='label-publicacion'>Titulo de la Actividad:</label>
-                <input type='text' style={{ marginLeft: '1%' }} value={titulo}
-                  onChange={(e) => setTitulo(e.target.value)}></input>
+                    <label className='label-publicacion'>Titulo de la Actividad:</label>
+                    <input type='text' style={{ marginLeft: '1%' }} value={titulo}
+                      onChange={(e) => setTitulo(e.target.value)}></input>
 
-              </Card.Header>
-              <Card.Body style={{ overflowY: 'auto' }}>
-                <Card.Text>
+                  </Card.Header>
+                  <Card.Body style={{ overflowY: 'auto' }}>
+                    <Card.Text>
 
-                  id_curso: <select style={{ marginLeft: '2%', marginRight: '2%' }}
-                    onChange={(e) => cambiarCurso(e)} >
-                    {
-                      cursos.map((curso) =>
-                        <option key={curso.id_curso} value={curso.id_curso}>{curso.id_curso}</option>
-                      )}
-                  </select>
-                  Nombre del curso:
-                  <input style={{ marginLeft: '2%' }} type="text" value={nombreCurso} /><br /><br />
+                      id_curso: <select style={{ marginLeft: '2%', marginRight: '2%' }}
+                        onChange={(e) => cambiarCurso(e)} >
+                        {
+                          cursos.map((curso) =>
+                            <option key={curso.id_curso} value={curso.id_curso}>{curso.id_curso}</option>
+                          )}
+                      </select>
+                      Nombre del curso:
+                      <input style={{ marginLeft: '2%' }} type="text" value={nombreCurso} /><br /><br />
 
-                  <label>Descripcion:</label><br />
-                  <textarea style={{ width: '100%' }} rows="4" value={descripcion}
-                    onChange={(e) => setDesc(e.target.value)}></textarea><br /><br />
+                      <label>Descripcion:</label><br />
+                      <textarea style={{ width: '100%' }} rows="4" value={descripcion}
+                        onChange={(e) => setDesc(e.target.value)}></textarea><br /><br />
 
-                  <label>Valor:</label>
-                  <input type='text' value={valor} onChange={(e) => setValor(e.target.value)}
-                    style={{ marginLeft: '2%', width: '5%', marginRight: '2%', textAlign: 'center' }}>
+                      <label>Valor:</label>
+                      <input type='text' value={valor} onChange={(e) => setValor(e.target.value)}
+                        style={{ marginLeft: '2%', width: '5%', marginRight: '2%', textAlign: 'center' }}>
 
-                  </input> puntos <br /><br />
+                      </input> puntos <br /><br />
 
-                  <label>Fecha Entrega: </label>
-                  <input type='date' value={fecha_entrega} onChange={(e) => setFechaE(e.target.value)}
-                    style={{ marginLeft: '2%', marginRight: '2%' }}>
+                      <label>Fecha Entrega: </label>
+                      <input type='date' value={fecha_entrega} onChange={(e) => setFechaE(e.target.value)}
+                        style={{ marginLeft: '2%', marginRight: '2%' }}>
 
-                  </input><br />
+                      </input><br />
 
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer style={{ textAlign: 'right' }}>
-                <Button onClick={() => CrearActividad()} style={{ float: 'right' }}>Aceptar</Button>
-              </Card.Footer>
-            </Card>
+                    </Card.Text>
+                  </Card.Body>
+
+                </Card>
+              </div>
+              <div class='col'>
+                <Card style={{ width: '90%' }}>
+                  <Card.Header as="h5" >
+                    {renderRedirect()}
+                    <label className='label-publicacion'>Asignar Alumnos</label>
+                  </Card.Header>
+                  <Card.Body style={{ overflowY: 'auto' }}>
+                    <Card.Text>
+                      id_clase: <label>{id_maestro}</label><br /><br />
+                      id_alumno: <select style={{ marginLeft: '2%', marginRight: '2%' }}
+                        onChange={(e) => cambiarAlumno(e)} >
+                        {
+                          alumnos.map((alumno) =>
+                            <option key={alumno.id_alumno} value={alumno.id_alumno}>{alumno.id_alumno}</option>
+                          )}
+                      </select>
+                      Nombre:
+                      <input style={{ marginLeft: '2%', width: '30%' }} type="text" value={alumno.carnet} />
+                      <Button style={{ float: 'right' }} onClick={agregarAlumno}>Agregar</Button><br /><br />
+                      <div class="bg-light container-tabla-asignados" >
+                        <Table striped bordered hover >
+                          <thead>
+                            <tr>
+                              <th>Carnet</th>
+                              <th>Nombre</th>
+                              <th>Correo</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {
+                              alumnosA.slice(indice, indice + 8).map((log) =>
+                                <>
+                                  <tr key={log.id_alumno} onClick={() => quitarAlumno(log)}>
+
+                                    <td >
+                                      {log['carnet']}
+                                    </td>
+
+                                    <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                      {log['nombre']}{" "}{log['nombre']}
+                                    </td>
+
+                                    <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                      {log['correo']}
+                                    </td>
+                                  </tr>
+                                </>
+                              )}
+                          </tbody>
+                          {renderRedirect()}
+                        </Table>
+                      </div>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+                <br />
+                <Button onClick={() => CrearActividad()}
+                  style={{ float: 'right', marginRight: '10%' }}>Aceptar</Button>
+              </div>
+            </div>
+
           </div>
         </> :
           <>
