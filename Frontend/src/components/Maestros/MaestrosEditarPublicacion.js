@@ -29,8 +29,6 @@ function MaestrosVerPublicacion() {
   // para los detalles de la entrega
   const [editando, setEditando] = useState(false);
 
-
-
   const [redirect, setRedirect] = useState(false);
 
   //
@@ -40,9 +38,7 @@ function MaestrosVerPublicacion() {
   useEffect(() => {
     // obtener los datos del maestro
     getMaestro(id_maestro).then((response) => {
-      //setPubs(response.data.datos);
       setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
-      //console.log(response.data[0].nombre + " " + response.data[0].apellido)
     });
     // obtener datos de publicacion para el maestro
     getPublicacion(publicacion).then((response) => {
@@ -51,8 +47,6 @@ function MaestrosVerPublicacion() {
       setDesc(pub.descripcion);
       setCurso(pub.nombre_curso);
       setFecha(pub.fecha);
-      //(response.data[0].nombre + " " + response.data[0].apellido)
-      //console.log(response.data[0].nombre + " " + response.data[0].apellido)
     });
   }, [])
 

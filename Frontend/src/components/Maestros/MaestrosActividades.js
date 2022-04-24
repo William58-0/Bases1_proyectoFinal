@@ -32,7 +32,8 @@ function MaestrosActividades() {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDesc] = useState("");
   const [valor, setValor] = useState(0);
-  const [fecha_entrega, setFecha] = useState("");
+  const [fecha_entrega, setFechaE] = useState("");
+  const [fecha_publicacion, setFechaP] = useState("");
 
   useEffect(() => {
     // obtener los datos del maestro
@@ -41,17 +42,13 @@ function MaestrosActividades() {
     });
     // obtener actividades para el maestro
     getActividadesMaestro(id_maestro).then((response) => {
-      console.log(response);
       setActs(response.data);
     });
 
     getCursosMaestro(id_maestro).then((response) => {
-      //setPubs(response.data.datos);
       var resp = response;
-
       setCursos(resp.data);
-      console.log("VEER AQUIII VEEE");
-      console.log(resp.data[0].id_curso);
+
       setCurso(resp.data[0].id_curso);
       setNombreCurso(resp.data[0].nombre_curso);
     });
@@ -59,16 +56,11 @@ function MaestrosActividades() {
   }, [])
 
   const cambiarCurso = (e) => {
-    //alert(e.target.value);
     setCurso(e.target.value);
-    //setTipo(e.target.value);
   }
 
   const CrearActividad = () => {
     getIdClase(id_maestro, curso).then((response) => {
-      console.log("ESSSTA ES LA CLASE");
-      console.log(response.data[0].id_clase);
-
       crearActividad({
         titulo: titulo, descripcion: descripcion,
         fecha_entrega: fecha_entrega, valor: valor,
@@ -78,7 +70,6 @@ function MaestrosActividades() {
           alert("Actividad Creada");
           //para actualizar las actividades otra vez
           getActividadesMaestro(id_maestro).then((response) => {
-            console.log(response);
             setActs(response.data);
           });
           setCrear(false);
@@ -92,8 +83,13 @@ function MaestrosActividades() {
 
   const editarActividad = (row) => {
     alert(row);
+    console.log(row);
     // obtener los datos para la publicacion seleccionada
-    setActi(row);
+    setActi(row.id_actividad);
+    setTitulo(row.titulo);
+    setDesc(row.descripcion);
+    setValor(row.valor);
+    setFechaE()
     setRedirect(true);
 
   }
@@ -102,14 +98,6 @@ function MaestrosActividades() {
     if (redirect) {
       return <Redirect to={'/maestros/actividades/' + id_maestro + '/' + actividad} />
     }
-  }
-
-
-
-  const handleChange = (e) => {
-    alert(e.target.value);
-    //setTipo(e.target.value);
-    //setTipo(e.target.value);
   }
 
   return (
@@ -142,7 +130,6 @@ function MaestrosActividades() {
                   Nombre del curso:
                   <input style={{ marginLeft: '2%' }} type="text" value={nombreCurso} /><br /><br />
 
-
                   <label>Descripcion:</label><br />
                   <textarea style={{ width: '100%' }} rows="4" value={descripcion}
                     onChange={(e) => setDesc(e.target.value)}></textarea><br /><br />
@@ -154,7 +141,7 @@ function MaestrosActividades() {
                   </input> puntos <br /><br />
 
                   <label>Fecha Entrega: </label>
-                  <input type='date' value={fecha_entrega} onChange={(e) => setFecha(e.target.value)}
+                  <input type='date' value={fecha_entrega} onChange={(e) => setFechaE(e.target.value)}
                     style={{ marginLeft: '2%', marginRight: '2%' }}>
 
                   </input><br />

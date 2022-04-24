@@ -58,6 +58,15 @@
   margin-top: 0.5%;
 }
 
+.labelactividad {
+  margin-left: 10%;
+  max-width: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 0.5%;
+}
+
 .probarcolores {
   color: rgba(63, 163, 24, 0.945);
 }

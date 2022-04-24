@@ -72,7 +72,7 @@ router.post("/createPublicacion", async function (req, res) {
   });
 });
 
-router.post("/getPublicacion", async function (req, res) {
+router.post("/getPublicacionMaestro", async function (req, res) {
   const { id_publicacion } = req.body
 
   let consulta = `
@@ -143,6 +143,25 @@ router.post("/crearActividad", async function (req, res) {
   INSERT INTO actividad(titulo, descripcion, fecha_publicacion, fecha_entrega, valor, id_clase)
   VALUES("${titulo}", "${descripcion}", CURDATE(), "${fecha_entrega}", "${valor}", "${id_clase}");`;
   service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
+
+router.post("/getActividadMaestro", async function (req, res) {
+  const { id_actividad } = req.body
+
+  let consulta = `
+    SELECT *
+    FROM clase
+    INNER JOIN actividad USING (id_clase)
+    INNER JOIN curso USING (id_curso)
+    WHERE id_actividad = ${id_actividad};
+  `;
+  service.consultar(consulta, function (result) {
+    result.datos.forEach(dato => {
+      dato.fecha_entrega = fecha.fechaVisible(dato.fecha_entrega);
+      dato.fecha_publicacion = fecha.fechaVisible(dato.fecha_publicacion);
+    });
     res.status(result.status).json(result.datos);
   });
 });
