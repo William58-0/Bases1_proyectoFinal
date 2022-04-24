@@ -14,10 +14,9 @@ import NavBar from './MaestrosNavBar';
 import Container from './FondoMaestros';
 import './maestro.css';
 
-
 function MaestrosPublicacion() {
   //const [id_maestro, setMaestro] = useState(useParams().identificacion)
-  const [id_maestro, setMaestro] = useState(449)
+  const [id_maestro, setIdMaestro] = useState(449)
   const [nombre_maestro, setNombreMaestro] = useState("")
   const [cursos, setCursos] = useState([]);
   const [curso, setCurso] = useState(0);
@@ -53,7 +52,7 @@ function MaestrosPublicacion() {
     getCursosMaestro({ id_maestro: 449 }).then((response) => {
       //setPubs(response.data.datos);
       var resp = response;
-     
+
       setCursos(response.data);
       setCurso(resp.data[0].id_curso);
       setNombreCurso(resp.data[0].nombre_curso);
@@ -69,13 +68,21 @@ function MaestrosPublicacion() {
     }
   }
 
+  const Regresar = () => {
+    setCrear(false);
+    setCurso(0);
+    setNombreCurso("");
+    setDesc("");
+    setFecha("");
+  }
+
 
 
   const CrearPublicacion = () => {
     getIdClase(id_maestro, curso).then((response) => {
 
-      crearPublicacion(descripcion, response.data[0].id_clase ).then((response) => {
-        
+      crearPublicacion(descripcion, response.data[0].id_clase).then((response) => {
+
         getPublicacionesMaestro({ id_maestro: 449 }).then((response) => {
           setPubs(response.data);
         });
@@ -87,22 +94,16 @@ function MaestrosPublicacion() {
 
 
 
-    setCrear(false);
+    Regresar();
   }
 
-  const verPublicacion = (row) => {
-    alert(row);
-    setCurso(row.curso);
-    setDesc(row.descripcion);
-    setFecha(row.fecha);
-    // obtener los datos para la publicacion seleccionada
-    setPub(row);
-  }
 
   const editarPublicacion = (row) => {
-    alert(row);
-    // obtener los datos para la publicacion seleccionada
-    setPub(row);
+    console.log("FILLAAAA");
+    console.log(row);
+
+    setPub(row.id_publicacion);
+    
     setRedirect(true);
 
   }
@@ -162,9 +163,9 @@ function MaestrosPublicacion() {
                 <div className="card-body d-flex justify-content-between align-items-center"
                   style={{ marginLeft: '60%' }}>
                   Grupo:
-                  <Button onClick={() => verPublicacion({})}>{'<'}</Button>
+                  <Button onClick={() => editarPublicacion({})}>{'<'}</Button>
                   {(indice / 8) + 1}
-                  <Button onClick={() => verPublicacion({})}>{'>'}</Button>
+                  <Button onClick={() => editarPublicacion({})}>{'>'}</Button>
                 </div>
               </div>
               <div class="bg-light container-tabla-publicacion" >
@@ -181,7 +182,7 @@ function MaestrosPublicacion() {
                     {
                       publicaciones.slice(indice, indice + 8).map((log) =>
                         <>
-                          <tr key={log.id} onClick={() => editarPublicacion(log.id)}>
+                          <tr key={log.id} onClick={() => editarPublicacion(log)}>
 
                             <td >
                               {log['fecha']}

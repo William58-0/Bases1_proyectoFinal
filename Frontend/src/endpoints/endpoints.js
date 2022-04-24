@@ -66,10 +66,16 @@ export function crearPublicacion(descripcion, id_clase) {
   return axios.post(route + 'Maestros/createPublicacion', { descripcion: descripcion, id_clase: id_clase })
 }
 
+export function getPublicacion(id_publicacion) {
+  return axios.post(route + 'Maestros/getPublicacion', { id_publicacion: id_publicacion })
+}
 
-
-
-
+export function updatePublicacion(id_publicacion, descripcion) {
+  return axios.post(route + 'Maestros/updatePublicacion', {
+    id_publicacion: id_publicacion,
+    descripcion: descripcion
+  })
+}
 
 // --------------------------------------------------------------------------------------- Alumno
 export function getPublicaciones(datos) {

@@ -4,6 +4,10 @@ import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 
+import {
+  getMaestro, getPublicacion, updatePublicacion,
+  getIdClase, getCursosMaestro
+} from '../../endpoints/endpoints';
 
 import NavBar from './MaestrosNavBar';
 import Container from './FondoMaestros';
@@ -11,16 +15,21 @@ import './maestro.css';
 
 
 function MaestrosVerPublicacion() {
-  const [maestro, setMaestro] = useState(useParams().identificacion)
-  const [publicacion, setPublicacion] = useState(useParams().publicacion);
+  const [id_maestro, setIdMaestro] = useState(449);
+  const [nombre_maestro, setNombreMaestro] = useState("")
+  const [publicacion, setPub] = useState(useParams().publicacion);
+
+
+  const [descripcion, setDesc] = useState("");
+  const [curso, setCurso] = useState("");
+  const [fecha, setFecha] = useState("");
 
   const [valor, setValor] = useState(0);
 
   // para los detalles de la entrega
   const [editando, setEditando] = useState(false);
 
-  const [fecha, setFecha] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+
 
   const [redirect, setRedirect] = useState(false);
 
@@ -30,13 +39,27 @@ function MaestrosVerPublicacion() {
 
   useEffect(() => {
     // obtener los datos del maestro
+    getMaestro(id_maestro).then((response) => {
+      //setPubs(response.data.datos);
+      setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
+      //console.log(response.data[0].nombre + " " + response.data[0].apellido)
+    });
     // obtener datos de publicacion para el maestro
+    getPublicacion(publicacion).then((response) => {
+      //setPubs(response.data.datos);
+      var pub = response.data[0];
+      setDesc(pub.descripcion);
+      setCurso(pub.nombre_curso);
+      setFecha(pub.fecha);
+      //(response.data[0].nombre + " " + response.data[0].apellido)
+      //console.log(response.data[0].nombre + " " + response.data[0].apellido)
+    });
   }, [])
 
   const renderRedirect = () => {
 
     if (redirect) {
-      return <Redirect to={'/maestros/publicaciones/' + maestro} />
+      return <Redirect to={'/maestros/publicaciones/' + id_maestro} />
     }
   }
 
@@ -48,14 +71,20 @@ function MaestrosVerPublicacion() {
 
   const GuardarCambios = () => {
     // accion de actualizar publicacion
-    setEditando(false);
+    updatePublicacion(publicacion, descripcion).then((response) => {
+      console.log(response);
+
+      setEditando(false);
+      //setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
+      //console.log(response.data[0].nombre + " " + response.data[0].apellido)
+    });
 
   }
 
   return (
     <>
       <Container>
-        <NavBar maestro={maestro} />
+        <NavBar maestro={nombre_maestro} />
         <div class="d-flex justify-content-center align-items-center container-publicacion">
           <Card style={{ width: '100%', height: '60%' }}>
             <Card.Header as="h5" >
@@ -77,14 +106,14 @@ function MaestrosVerPublicacion() {
               <Card.Text>
                 {!editando ?
                   <>
-                    descripcion {descripcion}
+                    {descripcion}
                   </>
                   :
                   <>
-                    <label>Descripcion: {fecha}</label><br />
-                    <textarea style={{ width: '100%' }} rows="6"></textarea><br /><br />
-
-                    
+                    <label>Descripcion:</label><br />
+                    <textarea style={{ width: '100%' }} rows="6"
+                      value={descripcion} onChange={(e) => setDesc(e.target.value)}>
+                    </textarea><br /><br />
                   </>
                 }
               </Card.Text>
@@ -96,7 +125,7 @@ function MaestrosVerPublicacion() {
                 </>
                 :
                 <>
-                  <small className="text-muted">Curso: {fecha}</small><br />
+                  <small className="text-muted">Curso: {curso}</small><br />
                   <small className="text-muted">Fecha Edición: {fecha}</small><br />
 
                 </>

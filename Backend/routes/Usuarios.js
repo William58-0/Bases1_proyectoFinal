@@ -72,7 +72,7 @@ router.post('/cargaMasiva', upload.single('file'), async function (req, res) {
 
     if (tipo == 'Maestro') {
       json.forEach(reg => {
-        reg.FechaNacimiento = fecha.corregirFecha(reg.FechaNacimiento);
+        reg.FechaNacimiento = fecha.fechaLegible(reg.FechaNacimiento);
         var query = `INSERT INTO maestro(nombre, apellido, telefono, direccion, correo, fecha_nacimiento, dpi, contrasenia ) 
         VALUES( "${reg.Nombre}", "${reg.Apellido}", "${reg.Telefono}", "${reg.Direccion}", 
               "${reg.Correo}", "${reg.FechaNacimiento}", "${reg.DPI}", "${reg.Contrasena}" );`
@@ -133,7 +133,7 @@ router.post("/getUsuario", async function (req, res) {
   service.consultar(query, function (result) {
     if (tipo == 'Maestro') {
 
-      result.datos[0].fecha_nacimiento = fecha.enviarFecha(result.datos[0].fecha_nacimiento);
+      result.datos[0].fecha_nacimiento = fecha.fechaLegible(result.datos[0].fecha_nacimiento);
 
       res.status(result.status).json(result.datos);
     } else {

@@ -1,6 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var router = express.Router();
+const fecha = require("./CorregirFecha");
 
 const service = require("./connection.js");
 const cors = require("cors");
@@ -22,7 +23,7 @@ router.post("/getMaestro", async function (req, res) {
 
 
 router.post("/getPublicacionesMaestro", async function (req, res) {
-  const {id_maestro} = req.body 
+  const { id_maestro } = req.body
 
   let consulta = `
     SELECT *
@@ -32,6 +33,9 @@ router.post("/getPublicacionesMaestro", async function (req, res) {
     WHERE id_maestro = ${id_maestro};
   `;
   service.consultar(consulta, function (result) {
+    result.datos.forEach(dato => {
+      dato.fecha = fecha.fechaVisible(dato.fecha);
+    });
     res.status(result.status).json(result.datos);
   });
 });
@@ -61,8 +65,39 @@ router.post("/getIdClase", async function (req, res) {
 });
 
 router.post("/createPublicacion", async function (req, res) {
-  const {descripcion, id_clase} = req.body 
+  const { descripcion, id_clase } = req.body
   let consulta = `CALL create_publicacion('${descripcion}', ${id_clase});`;
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
+
+router.post("/getPublicacion", async function (req, res) {
+  const { id_publicacion } = req.body
+
+  let consulta = `
+    SELECT *
+    FROM clase
+    INNER JOIN publicacion USING (id_clase)
+    INNER JOIN curso USING (id_curso)
+    WHERE id_publicacion = ${id_publicacion};
+  `;
+  service.consultar(consulta, function (result) {
+    result.datos.forEach(dato => {
+      dato.fecha = fecha.fechaVisible(dato.fecha);
+    });
+    res.status(result.status).json(result.datos);
+  });
+});
+
+router.post("/updatePublicacion", async function (req, res) {
+  console.log("SII ENTRAA");
+  const { id_publicacion, descripcion } = req.body
+
+  let consulta = `
+    UPDATE publicacion SET descripcion = "${descripcion}" 
+    WHERE id_publicacion = "${id_publicacion}";
+  `;
   service.consultar(consulta, function (result) {
     res.status(result.status).json(result.datos);
   });
