@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 
 import {
-  getMaestro, getActividadMaestro, updatePublicacion,
+  getMaestro, getActividadMaestro, updateActividadMaestro,
   deletePublicacion
 } from '../../endpoints/endpoints';
 
@@ -24,9 +24,10 @@ function MaestrosVerActividad() {
   // para los detalles de la entrega
   const [editando, setEditando] = useState(false);
 
-  
-  const [descripcion, setDescripcion] = useState("");
+
+  const [descripcion, setDesc] = useState("");
   const [fechaP, setFechaP] = useState("");
+  const [fechaVE, setFechaVE] = useState("");
   const [fechaE, setFechaE] = useState("");
   const [titulo, setTitulo] = useState("");
 
@@ -46,26 +47,12 @@ function MaestrosVerActividad() {
       console.log("ESTA ES LA ACTIVIDAD")
       console.log(response);
       var resp = response.data[0];
-      setDescripcion(resp.descripcion);
+      setDesc(resp.descripcion);
       setFechaP(resp.fecha_publicacion);
+      setFechaVE(resp.fechaVentrega);
       setFechaE(resp.fecha_entrega);
       setTitulo(resp.titulo);
       setValor(resp.valor);
-
-      /*
-      descripcion: "Maecenas ut massa quis augue luctus tincidunt."
-      fecha_entrega: "14-01-2022"
-      fecha_publicacion: "21-04-2021"
-      id_actividad: 11
-      id_clase: 43
-      id_curso: 4
-      id_maestro: 449
-      nombre_curso: "lenguaje\r"
-      titulo: "Andean goose"
-      valor: 11
-      */
-
-      //setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
     });
   }, [])
 
@@ -84,7 +71,30 @@ function MaestrosVerActividad() {
 
   const GuardarCambios = () => {
     // accion de actualizar actividad
-    setEditando(false);
+    updateActividadMaestro({
+      titulo: titulo, descripcion: descripcion,
+      fecha_entrega: fechaE, valor: valor,
+      id_actividad: actividad
+    }).then((response) => {
+      if (response.status == 200) {
+        alert("Actividad Actualizada");
+        //para actualizar la actividad otra vez
+        getActividadMaestro(actividad).then((response) => {
+          console.log("ESTA ES LA ACTIVIDAD")
+          console.log(response);
+          var resp = response.data[0];
+          setDesc(resp.descripcion);
+          setFechaP(resp.fecha_publicacion);
+          setFechaVE(resp.fechaVentrega);
+          setFechaE(resp.fecha_entrega);
+          setTitulo(resp.titulo);
+          setValor(resp.valor);
+        });
+        setEditando(false);
+      } else {
+        alert("Ocurrió un error :(");
+      }
+    });
 
   }
 
@@ -97,28 +107,36 @@ function MaestrosVerActividad() {
             <Card.Header as="h5" >
               {renderRedirect()}
 
-              <button className='boton-regreso-publicacion'
-                onClick={() => setRedirect(true)}> {"<"} </button>
-              <label className='labelactividad'>Actividad: </label>
-              {editando ? <>
-              </> : <>
-                <Button variant='success' onClick={() => setEditando(true)} style={{ marginLeft: '55%', marginRight: '0' }}>Editar</Button>
+              {/* ENCABEZADO */}
+              {!editando ? <>
+                <button className='boton-regreso-publicacion'
+                  onClick={() => setRedirect(true)}> {"<"} </button>
+                <label className='label-actividad'>Actividad: {titulo} </label>
                 <Button variant='danger' onClick={() => Eliminar()} style={{ float: 'right' }}>Eliminar</Button>
+                <Button variant='success' onClick={() => setEditando(true)} style={{ float: 'right', marginRight: '2%' }}>Editar</Button>
+
+              </> : <>
+                <button className='boton-regreso-publicacion'
+                  onClick={() => setRedirect(true)}> {"<"} </button>
+                <label className='label-publicacion'>Actividad: </label>
+                <input type='text' style={{ marginLeft: '1%' }} value={titulo}
+                  onChange={(e) => setTitulo(e.target.value)}></input>
               </>
               }
 
-
             </Card.Header>
+            {/* CUERPO */}
             <Card.Body style={{ overflowY: 'auto' }}>
               <Card.Text>
                 {!editando ?
                   <>
-                    {descripcion}
+                    {descripcion} <br /><br /><br />
                   </>
                   :
                   <>
                     <label>Descripcion: </label><br />
-                    <textarea style={{ width: '100%' }} rows="4"></textarea><br /><br />
+                    <textarea style={{ width: '100%' }} rows="4" value={descripcion}
+                      onChange={(e) => setDesc(e.target.value)}></textarea><br /><br />
 
                     <label>Valor:</label>
                     <input type='text' value={valor}
@@ -131,6 +149,7 @@ function MaestrosVerActividad() {
                       style={{ marginLeft: '2%', marginRight: '2%' }}>
 
                     </input><br />
+                    <Button onClick={() => console.log(fechaE)}>probar</Button>
                   </>
                 }
               </Card.Text>
@@ -143,8 +162,8 @@ function MaestrosVerActividad() {
                 :
                 <>
                   <small className="text-muted">Valor: {valor}</small><br />
-                  <small className="text-muted">Fecha Edición: {fechaE}</small><br />
-
+                  <small className="text-muted">Fecha Edición: {fechaP}</small><br />
+                  <small className="text-muted">Fecha Entrega: {fechaVE}</small><br />
                 </>
               }
 

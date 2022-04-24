@@ -96,6 +96,10 @@ export function getActividadMaestro(id_actividad) {
   return axios.post(route + 'Maestros/getActividadMaestro', { id_actividad: id_actividad })
 }
 
+export function updateActividadMaestro(datos) {
+  return axios.post(route + 'Maestros/updateActividadMaestro', datos)
+}
+
 
 // --------------------------------------------------------------------------------------- Alumno
 export function getPublicaciones(datos) {
