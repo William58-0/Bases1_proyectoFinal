@@ -182,5 +182,16 @@ router.post("/updateActividadMaestro", async function (req, res) {
   });
 });
 
+router.post("/deleteActividad", async function (req, res) {
+  const { id_actividad } = req.body
+
+  let consulta = `
+    DELETE FROM actividad WHERE id_actividad = "${id_actividad}";
+  `;
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
+
 
 module.exports = router;

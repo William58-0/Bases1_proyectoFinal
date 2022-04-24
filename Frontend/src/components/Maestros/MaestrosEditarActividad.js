@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 
 import {
   getMaestro, getActividadMaestro, updateActividadMaestro,
-  deletePublicacion
+  deleteActividad
 } from '../../endpoints/endpoints';
 
 import NavBar from './MaestrosNavBar';
@@ -63,12 +63,6 @@ function MaestrosVerActividad() {
     }
   }
 
-  const Eliminar = () => {
-    // accion de eliminar actividad
-    setRedirect(true);
-
-  }
-
   const GuardarCambios = () => {
     // accion de actualizar actividad
     updateActividadMaestro({
@@ -98,6 +92,19 @@ function MaestrosVerActividad() {
 
   }
 
+  const EliminarActividad = () => {
+    // accion de actualizar actividad
+    deleteActividad(actividad).then((response) => {
+      if (response.status == 200) {
+        alert("Actividad Eliminada");
+        setRedirect(true);
+      } else {
+        alert("Ocurrió un error :(");
+      }
+    });
+
+  }
+
   return (
     <>
       <Container>
@@ -112,7 +119,7 @@ function MaestrosVerActividad() {
                 <button className='boton-regreso-publicacion'
                   onClick={() => setRedirect(true)}> {"<"} </button>
                 <label className='label-actividad'>Actividad: {titulo} </label>
-                <Button variant='danger' onClick={() => Eliminar()} style={{ float: 'right' }}>Eliminar</Button>
+                <Button variant='danger' onClick={() => EliminarActividad()} style={{ float: 'right' }}>Eliminar</Button>
                 <Button variant='success' onClick={() => setEditando(true)} style={{ float: 'right', marginRight: '2%' }}>Editar</Button>
 
               </> : <>
