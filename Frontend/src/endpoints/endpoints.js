@@ -122,3 +122,8 @@ export function getActividadesAlumno(id_alumno) {
   return axios.post(route + 'Alumnos/getActividadesAlumno', { id_alumno: id_alumno })
 }
 
+export function getActividadAlumno(id_asignacion_actividad) {
+  return axios.post(route + 'Alumnos/getActividadAlumno', { id_asignacion_actividad: id_asignacion_actividad })
+}
+
+

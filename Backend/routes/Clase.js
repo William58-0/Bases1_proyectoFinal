@@ -1,7 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 const cors = require("cors");
-const service = require("./connection.js");
+const service = require("./Herramientas/connection.js");
 
 var router = express.Router();
 router.use(cors({ origin: true, optionsSuccessStatus: 200 }));

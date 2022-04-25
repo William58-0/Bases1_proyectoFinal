@@ -1,9 +1,9 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var router = express.Router();
-const fecha = require("./CorregirFecha");
+const fecha = require("./Herramientas/CorregirFecha");
 
-const service = require("./connection.js");
+const service = require("./Herramientas/connection.js");
 const cors = require("cors");
 
 router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
@@ -141,16 +141,13 @@ router.post("/crearActividad", async function (req, res) {
   INSERT INTO actividad(titulo, descripcion, fecha_publicacion, fecha_entrega, valor, id_clase)
   VALUES("${titulo}", "${descripcion}", CURDATE(), "${fecha_entrega}", "${valor}", "${id_clase}");`;
   service.consultar(consulta, function (result) {
-    console.log("inserto actividad")
-    console.log(result);
-    
 
     // USAR LOS ALUMNOS PARA QUE SE LES ASIGNE UNA ACTIVIDAD
     if (result.status == 200) {
       alumnos.forEach(alumno => {
         let consulta1 = `
-        INSERT INTO asignacion_actividad  (fecha_hora, estado_actividad, id_actividad, id_alumno)
-        VALUES(SYSDATE(), "Pendiente", ${result.datos.insertId}, ${alumno.id_alumno});`;
+        INSERT INTO asignacion_actividad  (estado_actividad, id_actividad, id_alumno)
+        VALUES("Pendiente", ${result.datos.insertId}, ${alumno.id_alumno});`;
 
         service.consultar(consulta1, function (result1) {
           console.log("actividad asignada");

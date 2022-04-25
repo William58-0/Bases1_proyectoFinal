@@ -3,10 +3,10 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 const cors = require("cors");
-const service = require("./connection.js");
+const service = require("./Herramientas/connection");
 const multer = require('multer');
 let csvToJson = require('convert-csv-to-json');
-const fecha = require("./CorregirFecha");
+const fecha = require("./Herramientas/CorregirFecha");
 
 var router = express.Router();
 router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
@@ -16,7 +16,7 @@ router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 // sirve para guardar los archivos enviados desde el frontend
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'csv/')
+    cb(null, 'temp/')
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname)
@@ -66,8 +66,13 @@ router.post('/cargaMasiva', upload.single('file'), async function (req, res) {
     res.status(400).json("ERROR: No hay archivo");
   }
 
+  if (!fs.existsSync('./temp/')) {
+    fs.mkdirSync('./temp/', { recursive: true });
+    console.log("se creo carpeta temp");
+  }
+
   try {
-    let path = './csv/' + req.file.originalname;
+    let path = './temp/' + req.file.originalname;
     let json = csvToJson.fieldDelimiter(',').getJsonFromCsv(path);
 
     if (tipo == 'Maestro') {

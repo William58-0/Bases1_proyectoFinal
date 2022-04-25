@@ -16,7 +16,7 @@ function AlumnosPublicacion() {
   const [id_alumno, setIdAlumno] = useState(306)
   const [nombre_alumno, setNombreAlumno] = useState("")
   const [indice, setIndice] = useState(0);
-  const [actividad, setAct] = useState(0);
+  const [asig_act, setAsigAct] = useState(useParams().asig_act)
   const [actividades, setActs] = useState([]);
   const [redirect, setRedirect] = useState(false);
   //
@@ -29,9 +29,7 @@ function AlumnosPublicacion() {
     // obtener los datos del alumno
     getAlumno(id_alumno).then((response) => {
       if (response.data.length > 0) {
-        if (response.data.length > 0) {
-          setNombreAlumno(response.data[0].nombre + " " + response.data[0].apellido)
-        }
+        setNombreAlumno(response.data[0].nombre + " " + response.data[0].apellido)
       }
     });
     // obtener actividades para el alumno
@@ -44,15 +42,17 @@ function AlumnosPublicacion() {
 
   const VerActividad = (row) => {
     alert(row);
+    console.log("EN VEER")
+    console.log(row);
     // obtener los datos para la publicacion seleccionada
-    setAct(row.id_actividad);
+    setAsigAct(row.id_asignacion_actividad);
     setRedirect(true);
 
   }
 
   const renderRedirect = () => {
     if (redirect) {
-      return <Redirect to={'/alumnos/actividades/' + id_alumno + '/' + actividad} />
+      return <Redirect to={'/alumnos/actividades/' + id_alumno + '/' + asig_act} />
     }
   }
 

@@ -27,9 +27,7 @@ function AlumnosPublicacion() {
     // obtener los datos del alumno
     getAlumno(id_alumno).then((response) => {
       if (response.data.length > 0) {
-        if (response.data.length > 0) {
           setNombreAlumno(response.data[0].nombre + " " + response.data[0].apellido)
-        }
       }
     });
     // obtener publicaciones para el alumno

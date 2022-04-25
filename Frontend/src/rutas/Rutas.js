@@ -12,7 +12,7 @@ import MaestrosEditarActividad from '../components/Maestros/MaestrosEditarActivi
 // ------------------------------------------------------------------------------ ALUMNOS
 import AlumnosPublicacion from '../components/Alumnos/AlumnosPublicacion';
 import AlumnosActividades from '../components/Alumnos/AlumnosActividades';
-import AlumnosEntregarActividad from '../components/Alumnos/AlumnosEntregarActividad';
+import AlumnosVerActividad from '../components/Alumnos/AlumnosVerActividad';
 import AlumnosNotas from '../components/Alumnos/AlumnosNotas';
 import AlumnosExamenes from '../components/Alumnos/AlumnosExamenes';
 import AlumnosHacerExamen from '../components/Alumnos/AlumnosHacerExamen';
@@ -34,10 +34,10 @@ const Alumnos = () => {
         component={AlumnosActividades}
       />
       <Route
-        path="/alumnos/actividades/:identificacion/:actividad"
+        path="/alumnos/actividades/:identificacion/:asig_act"
         exact
         strict
-        component={AlumnosEntregarActividad}
+        component={AlumnosVerActividad}
       />
       <Route
         path="/alumnos/notas/:identificacion"
