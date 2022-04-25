@@ -41,95 +41,18 @@ router.post("/getPublicacionesAlumno", async function (req, res) {
   });
 });
 
-router.post("/getCursosMaestro", async function (req, res) {
-  const { id_maestro } = req.body
-  let consulta = `
-    SELECT * FROM clase
-    INNER JOIN curso USING (id_curso) 
-    WHERE id_maestro = ${id_maestro};
-  `
-  service.consultar(consulta, function (result) {
-    res.status(result.status).json(result.datos);
-  });
-});
-
-router.post("/getIdClase", async function (req, res) {
-  const { id_maestro, id_curso } = req.body
-  let consulta = `
-    SELECT id_clase FROM clase
-    INNER JOIN curso USING (id_curso) 
-    WHERE id_maestro = ${id_maestro} AND id_curso = "${id_curso}";
-  `
-  service.consultar(consulta, function (result) {
-    res.status(result.status).json(result.datos);
-  });
-});
-
-router.post("/createPublicacion", async function (req, res) {
-  const { descripcion, id_clase } = req.body
-  let consulta = `CALL create_publicacion('${descripcion}', ${id_clase});`;
-  service.consultar(consulta, function (result) {
-    res.status(result.status).json(result.datos);
-  });
-});
-
-router.post("/getPublicacionMaestro", async function (req, res) {
-  const { id_publicacion } = req.body
-
-  let consulta = `
-    SELECT *
-    FROM clase
-    INNER JOIN publicacion USING (id_clase)
-    INNER JOIN curso USING (id_curso)
-    WHERE id_publicacion = ${id_publicacion};
-  `;
-  service.consultar(consulta, function (result) {
-    result.datos.forEach(dato => {
-      dato.fecha = fecha.fechaVisible(dato.fecha);
-    });
-    res.status(result.status).json(result.datos);
-  });
-});
-
-router.post("/updatePublicacion", async function (req, res) {
-  console.log("SII ENTRAA");
-  const { id_publicacion, descripcion } = req.body
-
-  let consulta = `
-    UPDATE publicacion SET descripcion = "${descripcion}",
-    fecha = CURDATE()
-    WHERE id_publicacion = "${id_publicacion}";
-  `;
-  service.consultar(consulta, function (result) {
-    res.status(result.status).json(result.datos);
-  });
-});
-
-router.post("/deletePublicacion", async function (req, res) {
-  console.log("SII ENTRAA");
-  const { id_publicacion } = req.body
-
-  let consulta = `
-    DELETE FROM publicacion WHERE id_publicacion = "${id_publicacion}";
-  `;
-  service.consultar(consulta, function (result) {
-    res.status(result.status).json(result.datos);
-  });
-});
-
 // ----------------------------------------------------------------------------- ACTIVIDADES
-router.post("/getActividadesMaestro", async function (req, res) {
-  const { id_maestro } = req.body
-  console.log("aquii es");
-  console.log(id_maestro);
+router.post("/getActividadesAlumno", async function (req, res) {
+  const { id_alumno } = req.body
   let consulta = `
-  SELECT * FROM clase
-  INNER JOIN actividad USING (id_clase)
-  INNER JOIN curso USING (id_curso)
-  WHERE id_maestro = "${id_maestro}";`;
+  SELECT * FROM asignacion_actividad
+  INNER JOIN actividad USING (id_actividad)
+  WHERE id_alumno = "${id_alumno}";`;
   service.consultar(consulta, function (result) {
     result.datos.forEach(dato => {
       dato.fecha_publicacion = fecha.fechaVisible(dato.fecha_publicacion);
+      dato.fecha_entrega = fecha.fechaVisible(dato.fecha_entrega);
+      dato.fecha_hora = fecha.fechaTiempo(dato.fecha_hora);
     });
     res.status(result.status).json(result.datos);
   });

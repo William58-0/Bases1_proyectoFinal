@@ -118,7 +118,7 @@ export function getPublicacionesAlumno(id_alumno) {
   return axios.post(route + 'Alumnos/getPublicacionesAlumno', { id_alumno: id_alumno })
 }
 
-export function getPublicaciones(datos) {
-  return axios.post(route + 'Usuarios/crearUsuario', datos)
+export function getActividadesAlumno(id_alumno) {
+  return axios.post(route + 'Alumnos/getActividadesAlumno', { id_alumno: id_alumno })
 }
 

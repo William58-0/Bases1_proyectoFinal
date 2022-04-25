@@ -13,8 +13,15 @@ function fechaVisible(date) {
   return newDate;
 }
 
+function fechaTiempo(date) {
+  let newDate = moment.utc(date).format('DD-MM-YYYY hh:mm');
+
+  return newDate;
+}
+
 
 module.exports = {
   fechaLegible,
   fechaVisible,
+  fechaTiempo,
 };

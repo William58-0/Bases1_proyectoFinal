@@ -4,95 +4,20 @@ import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 
+import {
+  getAlumno, getActividadesAlumno
+} from '../../endpoints/endpoints';
 
 import NavBar from './AlumnosNavBar';
 import Container from './FondoAlumnos';
 import './alumno.css';
 
-let publicaciones = [
-  {
-    id: 1,
-    titulo: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
-    descripcion: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 2,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 3,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 4,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 5,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 6,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 7,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 8,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 9,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 10,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-  {
-    id: 11,
-    titulo: 'tarea 1',
-    descripcion: 'blabla',
-    fecha_publicacion: 'hoy',
-    estado: 'No Entregado'
-  },
-]
-
 function AlumnosPublicacion() {
-  const [alumno, setAlumno] = useState(useParams().identificacion)
+  const [id_alumno, setIdAlumno] = useState(306)
+  const [nombre_alumno, setNombreAlumno] = useState("")
   const [indice, setIndice] = useState(0);
-  const [actividad, setActi] = useState(0);
+  const [actividad, setAct] = useState(0);
+  const [actividades, setActs] = useState([]);
   const [redirect, setRedirect] = useState(false);
   //
   const [asunto, setAsunto] = useState("");
@@ -101,21 +26,33 @@ function AlumnosPublicacion() {
   const [autor, setAutor] = useState("");
 
   useEffect(() => {
-    // obtener los datos del estudiante
-    // obtener publicaciones para el estudiante
+    // obtener los datos del alumno
+    getAlumno(id_alumno).then((response) => {
+      if (response.data.length > 0) {
+        if (response.data.length > 0) {
+          setNombreAlumno(response.data[0].nombre + " " + response.data[0].apellido)
+        }
+      }
+    });
+    // obtener actividades para el alumno
+    getActividadesAlumno(id_alumno).then((response) => {
+      console.log("ESTAS ACTIVIDADES GUETEO");
+      console.log(response);
+      setActs(response.data);
+    });
   }, [])
 
-  const handleRowClick = (row) => {
+  const VerActividad = (row) => {
     alert(row);
     // obtener los datos para la publicacion seleccionada
-    setActi(row);
+    setAct(row.id_actividad);
     setRedirect(true);
 
   }
 
   const renderRedirect = () => {
     if (redirect) {
-      return <Redirect to={'/alumnos/actividades/' + alumno + '/' + actividad} />
+      return <Redirect to={'/alumnos/actividades/' + id_alumno + '/' + actividad} />
     }
   }
 
@@ -123,7 +60,7 @@ function AlumnosPublicacion() {
     <>
 
       <Container>
-        <NavBar estudiante={alumno} />
+        <NavBar alumno={nombre_alumno} id_alumno={id_alumno} />
         <br />
         <br />
         <div className='principal'>
@@ -132,9 +69,9 @@ function AlumnosPublicacion() {
             <div className="card-body d-flex justify-content-between align-items-center"
               style={{ marginLeft: '62.5%' }}>
               Grupo:
-              <Button onClick={() => handleRowClick(0)}>{'<'}</Button>
+              <Button onClick={() => VerActividad(0)}>{'<'}</Button>
               {(indice / 10) + 1}
-              <Button onClick={() => handleRowClick(0)}>{'>'}</Button>
+              <Button onClick={() => VerActividad(0)}>{'>'}</Button>
             </div>
           </div>
           <div class="bg-light container-tabla" >
@@ -149,9 +86,9 @@ function AlumnosPublicacion() {
               </thead>
               <tbody>
                 {
-                  publicaciones.slice(indice, indice + 10).map((log) =>
+                  actividades.slice(indice, indice + 10).map((log) =>
                     <>
-                      <tr key={log.id} onClick={() => handleRowClick(log.id)}>
+                      <tr key={log.id} onClick={() => VerActividad(log)}>
 
                         <td style={{ maxWidth: '100px' }}>
                           {log['fecha_publicacion']}
@@ -166,7 +103,7 @@ function AlumnosPublicacion() {
                         </td>
 
                         <td >
-                          {log['estado']}
+                          {log['estado_actividad']}
                         </td>
                       </tr>
                     </>

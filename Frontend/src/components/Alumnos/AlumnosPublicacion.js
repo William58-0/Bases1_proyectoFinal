@@ -24,7 +24,7 @@ function AlumnosPublicacion() {
   const [autor, setAutor] = useState("");
 
   useEffect(() => {
-    // obtener los datos del estudiante
+    // obtener los datos del alumno
     getAlumno(id_alumno).then((response) => {
       if (response.data.length > 0) {
         if (response.data.length > 0) {
@@ -32,7 +32,7 @@ function AlumnosPublicacion() {
         }
       }
     });
-    // obtener publicaciones para el estudiante
+    // obtener publicaciones para el alumno
     getPublicacionesAlumno(id_alumno).then((response) => {
       setPubs(response.data);
     });
