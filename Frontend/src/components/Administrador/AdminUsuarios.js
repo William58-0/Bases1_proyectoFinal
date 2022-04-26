@@ -60,6 +60,8 @@ const estadoInicial = {
 
 
 
+
+
 class Administrador extends React.Component {
     constructor(props) {
         super(props);
@@ -138,35 +140,53 @@ class Administrador extends React.Component {
         });
         this.setState({ tipo: e.target.value });
         //setTipo(e.target.value);
-        
+
     }
 
     regresar() {
         this.setState(estadoInicial);
     }
 
+    prepararDatosUsuario(formData) {
+        formData.append('tipo', this.state.tipo);
+        formData.append('nombre', this.state.nombre);
+        formData.append('apellido', this.state.apellido);
+        formData.append('telefono', this.state.telefono);
+        formData.append('direccion', this.state.direccion);
+        formData.append('correo', this.state.correo);
+        formData.append('nacimiento', this.state.nacimiento);
+        formData.append('dpi_carnet', this.state.dpi_carnet);
+        formData.append('contrasenia', this.state.contrasenia);
+        formData.append('imagen', this.state.imagen);
+    }
+
     //// ------------------------------------------------------------------------ Crear un usuario
     CrearUsuario = async () => {
-        console.log(this.state);
         var imagen = this.state.imagen;
-        //crearUsuario(this.state);
         if (imagen.data != "") {
-            //alert("pasa por aqui")
-            //e.preventDefault()
             let formData = new FormData()
             formData.append('file', imagen.data);
-            formData.append('state', this.state);
+            this.prepararDatosUsuario(formData);
             const response = await fetch('http://localhost:9000/Usuarios/crearUsuario', {
                 method: 'POST',
                 body: formData,
             })
-            const json = await response.json()
-            console.log(json);
+            if (response.status == 200) {
+                alert("Usuario Creado");
+                this.regresar();
+            } else {
+                alert("Rayos :(");
+            }
 
         }
         else {
             crearUsuario(this.state).then((response) => {
-                console.log(response)
+                if (response.status == 200) {
+                    alert("Usuario Creado");
+                    this.regresar();
+                }
+            }).catch(err =>{
+                alert("Raaayos :(");
             });
         }
 

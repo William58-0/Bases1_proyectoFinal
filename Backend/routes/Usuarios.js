@@ -26,7 +26,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 router.post('/crearUsuario', upload.single('file'), async function (req, res) {
-
+  console.log(req.body);
+  console.log(req.file);
   const { tipo, nombre, apellido, telefono, direccion,
     correo, nacimiento, dpi_carnet, contrasenia, imagen } = req.body
 
