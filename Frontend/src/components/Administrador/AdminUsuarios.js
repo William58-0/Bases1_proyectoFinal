@@ -133,14 +133,37 @@ class Administrador extends React.Component {
         );
     }
 
+    getOtroUsuario(idUsuario) {
+        this.setState({ usuario: idUsuario })
+        getUsuario(idUsuario, this.state.tipo).then((response) => {
+            if (!(response.data.length > 0)) {
+                console.log("error al tomar datos");
+                return;
+            }
+            var user = response.data[0];
+
+            if (this.state.tipo === 'Maestro') {
+                this.setState({
+                    nombre: user.nombre, apellido: user.apellido,
+                    telefono: user.telefono, direccion: user.direccion, contrasenia: user.contrasenia,
+                    correo: user.correo, nacimiento: user.fecha_nacimiento, dpi_carnet: user.dpi
+                })
+            } else {
+                this.setState({
+                    nombre: user.nombre, apellido: user.apellido, dpi_carnet: user.carnet,
+                    telefono: user.telefono, direccion: user.direccion, contrasenia: user.contrasenia,
+                    correo: user.correo
+                })
+            }
+        });
+    }
+
     cambiarTipo = (e) => {
-        //alert(e.target.value);
         getUsuarios(e.target.value).then((response) => {
             this.setState({ usuarios: response.data })
         });
         this.setState({ tipo: e.target.value });
-        //setTipo(e.target.value);
-
+        this.getOtroUsuario(1);
     }
 
     regresar() {
@@ -160,14 +183,14 @@ class Administrador extends React.Component {
         formData.append('imagen', this.state.imagen);
     }
 
-    //// ------------------------------------------------------------------------ Crear un usuario
+    // -------------------------------------------------------------------------- Crear un usuario
     CrearUsuario = async () => {
         var imagen = this.state.imagen;
         if (imagen.data != "") {
             let formData = new FormData()
             formData.append('file', imagen.data);
             this.prepararDatosUsuario(formData);
-            const response = await fetch('http://localhost:9000/Usuarios/crearUsuario', {
+            const response = await fetch('http://localhost:9000/Administrador/crearUsuario', {
                 method: 'POST',
                 body: formData,
             })
@@ -177,16 +200,13 @@ class Administrador extends React.Component {
             } else {
                 alert("Rayos :(");
             }
-
         }
         else {
             crearUsuario(this.state).then((response) => {
-                if (response.status == 200) {
-                    alert("Usuario Creado");
-                    this.regresar();
-                }
-            }).catch(err =>{
-                alert("Raaayos :(");
+                alert("Usuario Creado");
+                this.regresar();
+            }).catch(err => {
+                alert("Error :(");
             });
         }
 
@@ -195,7 +215,6 @@ class Administrador extends React.Component {
     // -------------------------------------------------------------------------- Eliminar un usuario
 
     entrarEliminar = async () => {
-        console.log("entrarEliminar")
         getUsuarios(this.state.tipo).then((response) => {
             this.setState({ usuarios: response.data })
         });
@@ -203,59 +222,36 @@ class Administrador extends React.Component {
     }
 
     cambiarUsuario = async (e) => {
-        this.setState({ usuario: e.target.value })
-        getUsuario(e.target.value, this.state.tipo).then((response) => {
-
-            var user = response.data[0];
-
-            if (this.state.tipo === 'Maestro') {
-                this.setState({
-                    nombre: user.nombre, apellido: user.apellido,
-                    telefono: user.telefono, direccion: user.direccion, contrasenia: user.contrasenia,
-                    correo: user.correo, nacimiento: user.fecha_nacimiento, dpi_carnet: user.dpi
-                })
-            } else {
-                this.setState({
-                    nombre: user.nombre, apellido: user.apellido, dpi_carnet: user.carnet,
-                    telefono: user.telefono, direccion: user.direccion, contrasenia: user.contrasenia,
-                    correo: user.correo
-                })
-            }
-        });
+        this.getOtroUsuario(e.target.value);
     }
 
     EliminarUsuario = async (e) => {
-        //this.setState({ usuario: e.target.value })
         eliminarUsuario(this.state.usuario, this.state.tipo).then((response) => {
-
-            if (response.status == 200) {
-                alert("Usuario Eliminado");
-                this.setState(estadoInicial);
-            } else {
-                alert("rayos :(");
-            }
-
+            alert("Usuario Eliminado");
+            this.setState(estadoInicial);
+        }).catch(err => {
+            alert("Error :(");
         });
     }
 
     // -------------------------------------------------------------------------- Carga Masiva
     CargaMasiva = async () => {
-        console.log(this.state);
+
         var imagen = this.state.imagen;
-        //crearUsuario(this.state);
+
         if (imagen.data != "") {
-            //alert("pasa por aqui")
-            //e.preventDefault()
             let formData = new FormData()
             formData.append('file', imagen.data);
             formData.append('tipo', this.state.tipo);
-            const response = await fetch('http://localhost:9000/Usuarios/cargaMasiva', {
+            const response = await fetch('http://localhost:9000/Administrador/cargaMasiva', {
                 method: 'POST',
                 body: formData,
             })
-            const json = await response.json()
-            if (json == 'OK') {
+
+            if (response.status === 200) {
                 alert("Datos cargados");
+            } else {
+                alert("Error :(");
             }
 
         }
@@ -268,7 +264,6 @@ class Administrador extends React.Component {
     // -------------------------------------------------------------------------- Editar un usuario
 
     entrarEditar = async () => {
-        console.log("entrarEditar")
         getUsuarios(this.state.tipo).then((response) => {
             this.setState({ usuarios: response.data })
         });
@@ -276,59 +271,66 @@ class Administrador extends React.Component {
     }
 
     EditarUsuario = async (e) => {
-        //this.setState({ usuario: e.target.value })
         editarUsuario(this.state).then((response) => {
-
-            if (response.status == 200) {
-                alert("Usuario Actualizado");
-                //this.setState(estadoInicial);
-            } else {
-                alert("rayos :(");
-            }
-
+            alert("Usuario Actualizado");
+            this.regresar();
+        }).catch(err => {
+            alert("Error :(");
         });
     }
 
     // -------------------------------------------------------------------------- Asignacion de Cursos
     CrearCurso = (nuevoCurso) => {
-        alert(nuevoCurso);
         if (nuevoCurso != "") {
             crearCurso(nuevoCurso).then((response) => {
-                console.log(response)
+                getCursos().then((response) => {
+                    this.setState({ cursos: response.data })
+                });
+                alert("curso creado!");
             });
         }
-        //this.setState({ imagen: img })
     }
 
     EntrarAsignacion = () => {
         getCursos().then((response) => {
             this.setState({ cursos: response.data })
+            if (response.data.length > 0) {
+                this.setState({
+                    nombreCurso: response.data[0].nombre_curso,
+                    curso: response.data[0].id_curso,
+                })
+            }
         });
 
         if (this.state.tipo === 'Maestro') {
             getMaestros().then((response) => {
-                console.log("maestros");
-                console.log(response);
                 this.setState({ usuarios: response.data })
+                if (response.data.length > 0) {
+                    this.getOtroUsuario(response.data[0].id_maestro)
+                }
             });
         } else {
             getAlumnos().then((response) => {
-                console.log("alumnos");
-                console.log(response);
                 this.setState({ usuarios: response.data })
+                if (response.data.length > 0) {
+                    this.getOtroUsuario(response.data[0].id_alumno)
+                }
             });
         }
-
-
-
         this.setState({ opcion: 5 })
     }
 
     cambiarCurso = async (e) => {
         this.setState({ curso: e.target.value });
         getCurso(e.target.value).then((response) => {
-            this.setState({ nombreCurso: response.data[0].nombre_curso })
+            if (response.data.length > 0) {
+                this.setState({ nombreCurso: response.data[0].nombre_curso })
+            }
         });
+    }
+
+    asignarCurso = async (e) => {
+        // hay que asignar el curso
     }
 
 
@@ -352,21 +354,6 @@ class Administrador extends React.Component {
 
         var imagen = this.state.imagen;
         var estado = this.state.estado;
-
-        const handleSubmit = async (e) => {
-            alert("pasa por aqui")
-            //e.preventDefault()
-            let formData = new FormData()
-            formData.append('file', imagen.data);
-            formData.append('state', this.state);
-            const response = await fetch('http://localhost:9000/image', {
-                method: 'POST',
-                body: formData,
-            })
-            //if (response) setStatus(response.statusText)
-
-            //setEntregado(true);
-        }
 
         const handleFileChange = (e) => {
             const img = {
@@ -397,7 +384,7 @@ class Administrador extends React.Component {
                                     {this.formulario(nombre, apellido, telefono, direccion, correo, nacimiento, dpi_carnet, contrasenia, false, tipo === 'Alumno')}
                                     <br />
                                     <p >Fotografía (Opcional)</p>
-                                    <form onSubmit={handleSubmit}>
+                                    <form >
                                         <input type='file' name='file' onChange={handleFileChange}></input>
 
                                     </form>
@@ -473,9 +460,8 @@ class Administrador extends React.Component {
                                     </select>
 
                                     <br /><br /><br /><br /><br />
-                                    <form onSubmit={handleSubmit}>
+                                    <form>
                                         <input type='file' name='file' onChange={handleFileChange}></input>
-
                                     </form>
 
                                 </Card.Body>
@@ -601,7 +587,7 @@ class Administrador extends React.Component {
 
                                 </Card.Body>
                                 <Card.Footer style={{ textAlign: 'right' }}>
-                                    <Button style={{ float: 'right' }}>Iniciar Sesión</Button>
+                                    <Button style={{ float: 'right' }}>Asignar a Curso</Button>
                                 </Card.Footer>
                             </Card>
                         </div>
@@ -686,7 +672,6 @@ class Administrador extends React.Component {
             );
         }
     }
-
 
     render() {
         return (

@@ -4,43 +4,43 @@ const route = 'http://localhost:9000/'
 
 // --------------------------------------------------------------------------------------- Administrador
 export function crearUsuario(datos) {
-  return axios.post(route + 'Usuarios/crearUsuario', datos)
+  return axios.post(route + 'Administrador/crearUsuario', datos)
 }
 
 export function crearCurso(nombre) {
-  return axios.post(route + 'Usuarios/crearCurso', { nombre: nombre })
+  return axios.post(route + 'Administrador/crearCurso', { nombre: nombre })
 }
 
 export function getUsuarios(tipo) {
-  return axios.post(route + 'Usuarios/getUsuarios', { tipo: tipo })
+  return axios.post(route + 'Administrador/getUsuarios', { tipo: tipo })
 }
 
 export function getUsuario(usuario, tipo) {
-  return axios.post(route + 'Usuarios/getUsuario', { usuario: usuario, tipo: tipo })
+  return axios.post(route + 'Administrador/getUsuario', { usuario: usuario, tipo: tipo })
 }
 
 export function eliminarUsuario(usuario, tipo) {
-  return axios.post(route + 'Usuarios/eliminarUsuario', { usuario: usuario, tipo: tipo })
+  return axios.post(route + 'Administrador/eliminarUsuario', { usuario: usuario, tipo: tipo })
 }
 
 export function editarUsuario(datos) {
-  return axios.post(route + 'Usuarios/editarUsuario', datos)
+  return axios.post(route + 'Administrador/editarUsuario', datos)
 }
 
 export function getCursos() {
-  return axios.get(route + 'Usuarios/getCursos')
+  return axios.get(route + 'Administrador/getCursos')
 }
 
 export function getCurso(id_curso) {
-  return axios.post(route + 'Usuarios/getCurso', { id_curso: id_curso })
+  return axios.post(route + 'Administrador/getCurso', { id_curso: id_curso })
 }
 
 export function getMaestros() {
-  return axios.get(route + 'Usuarios/getMaestros')
+  return axios.get(route + 'Administrador/getMaestros')
 }
 
 export function getAlumnos() {
-  return axios.get(route + 'Usuarios/getAlumnos')
+  return axios.get(route + 'Administrador/getAlumnos')
 }
 
 

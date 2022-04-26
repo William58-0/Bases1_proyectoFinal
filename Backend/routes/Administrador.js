@@ -1,5 +1,5 @@
-//import dateFormat, { masks } from "dateformat";
 
+const fs = require('fs');
 var express = require("express");
 var bodyParser = require("body-parser");
 const cors = require("cors");
@@ -156,7 +156,7 @@ router.post("/eliminarUsuario", async function (req, res) {
   if (tipo == 'Maestro') {
     query = `DELETE FROM maestro WHERE id_maestro = "${usuario}";`
   } else {
-    query = `DELETE FROM maestro WHERE id_alumno = "${usuario}";`
+    query = `DELETE FROM alumno WHERE id_alumno = "${usuario}";`
   }
 
   service.consultar(query, function (result) {
