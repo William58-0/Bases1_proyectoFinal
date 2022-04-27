@@ -735,10 +735,12 @@ class Administrador extends React.Component {
                 <Container>
                     <h1 style={{ width: '20%' }}>{'Administración de Usuarios'}</h1>
                     <Form>
-                        <Button variant='success' style={{ marginBottom: "8%" }}
-                            onClick={() => this.setState({ opcion: 1 })}>
+                        <Link to="/admin/crearusuario">
+                        <Button variant='success' style={{ marginBottom: "8%" }}>
                             Crear Usuario
-                        </Button><br />
+                        </Button>
+                        </Link><br />
+                        
                         <Button style={{ marginBottom: "8%" }}
                             onClick={() => this.entrarEliminar()}>
                             Eliminar Usuario

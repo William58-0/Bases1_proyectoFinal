@@ -116,16 +116,6 @@ CREATE TABLE IF NOT EXISTS pregunta (
 );
 
 
-CREATE TABLE IF NOT EXISTS asignacion_clase (
-	id_asignacion_clase INT NOT NULL AUTO_INCREMENT,	
-	id_clase INT,
-	id_alumno INT,
-	PRIMARY KEY (id_asignacion_clase),
-	FOREIGN KEY (id_clase) REFERENCES clase (id_clase) ON DELETE CASCADE,
-	FOREIGN KEY (id_alumno) REFERENCES alumno (id_alumno) ON DELETE CASCADE
-);
-
-
 CREATE TABLE IF NOT EXISTS asignacion_actividad (
 	id_asignacion_actividad INT NOT NULL AUTO_INCREMENT,
 	fecha_hora DATETIME,
@@ -195,8 +185,6 @@ DELETE FROM opcion;
 DELETE FROM pregunta;
 DELETE FROM publicacion;
 DELETE FROM respuesta_alumno;
-
-
 
 
 
