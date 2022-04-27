@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Home from './components/Home';
 
-import {Maestros, Alumnos} from './rutas/Rutas';
+import Maestros from './rutas/Maestros';
+import Alumnos from './rutas/Alumnos';
 
 
 // ------------------------------------------------------------------------------ ADMINISTRADOR
