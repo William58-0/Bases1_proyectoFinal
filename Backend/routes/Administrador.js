@@ -4,7 +4,6 @@ var express = require("express");
 var bodyParser = require("body-parser");
 const cors = require("cors");
 const service = require("./Herramientas/connection");
-const multer = require('multer');
 let csvToJson = require('convert-csv-to-json');
 const fecha = require("./Herramientas/CorregirFecha");
 const archivos = require("./Herramientas/Archivos");
@@ -14,19 +13,7 @@ router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
 router.use(bodyParser.json({ limit: "50mb", extended: true }));
 router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-// sirve para guardar los archivos enviados desde el frontend
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'temp/')
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname)
-  },
-})
-
-const upload = multer({ storage: storage })
-
-router.post('/crearUsuario', upload.single('file'), async function (req, res) {
+router.post('/crearUsuario', archivos.upload.single('file'), async function (req, res) {
   const { tipo, nombre, apellido, telefono, direccion,
     correo, nacimiento, dpi_carnet, contrasenia, imagen } = req.body
 
@@ -56,7 +43,7 @@ router.post("/crearCurso", async function (req, res) {
   });
 });
 
-router.post('/cargaMasiva', upload.single('file'), async function (req, res) {
+router.post('/cargaMasiva', archivos.upload.single('file'), async function (req, res) {
 
   const { tipo } = req.body
 
