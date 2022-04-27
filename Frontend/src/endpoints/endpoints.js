@@ -43,6 +43,16 @@ export function getAlumnos() {
   return axios.get(route + 'Administrador/getAlumnos')
 }
 
+export function asignarCurso(tipo, usuario, curso) {
+  return axios.post(route + 'Administrador/asignarCurso', { tipo: tipo, usuario: usuario, curso: curso })
+}
+
+export function getClases() {
+  return axios.get(route + 'Administrador/getClases')
+}
+
+
+
 
 
 // --------------------------------------------------------------------------------------- MAESTRO

@@ -42,7 +42,6 @@ function MaestrosVerPublicacion() {
     });
     // obtener datos de publicacion para el maestro
     getPublicacion(publicacion).then((response) => {
-      //setPubs(response.data.datos);
       var pub = response.data[0];
       setDesc(pub.descripcion);
       setCurso(pub.nombre_curso);

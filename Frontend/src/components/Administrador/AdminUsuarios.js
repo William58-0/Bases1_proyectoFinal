@@ -9,7 +9,8 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import {
     crearUsuario, getUsuarios, getUsuario,
     eliminarUsuario, editarUsuario, crearCurso,
-    getCursos, getCurso, getMaestros, getAlumnos
+    getCursos, getCurso, getMaestros, getAlumnos,
+    asignarCurso, getClases
 } from '../../endpoints/endpoints';
 
 import fondo from '../../images/admin.jpg';
@@ -53,13 +54,13 @@ const estadoInicial = {
     usuario: 0,
     cursos: [],
     curso: 0,
+    clases: [],
+    clase: 0,
+    maestro: "",
 
     imagen: { preview: '', data: '' },
     estado: ""
 }
-
-
-
 
 
 class Administrador extends React.Component {
@@ -127,7 +128,6 @@ class Administrador extends React.Component {
                         </> : <></>
                     }
 
-
                 </div>
             </div>
         );
@@ -164,6 +164,13 @@ class Administrador extends React.Component {
         });
         this.setState({ tipo: e.target.value });
         this.getOtroUsuario(1);
+        if (this.state.opcion === 5) {
+            getClases().then((response) => {
+                console.log("CLASESE");
+                console.log(response);
+                this.setState({ clases: response.data })
+            });
+        }
     }
 
     regresar() {
@@ -172,6 +179,7 @@ class Administrador extends React.Component {
 
     prepararDatosUsuario(formData) {
         formData.append('tipo', this.state.tipo);
+        formData.append('usuario', this.state.usuario);
         formData.append('nombre', this.state.nombre);
         formData.append('apellido', this.state.apellido);
         formData.append('telefono', this.state.telefono);
@@ -183,10 +191,27 @@ class Administrador extends React.Component {
         formData.append('imagen', this.state.imagen);
     }
 
+    prepararUsuario() {
+        var user = {}
+        user.tipo = this.state.tipo
+        user.usuario = this.state.usuario
+        user.nombre = this.state.nombre
+        user.apellido = this.state.apellido
+        user.telefono = this.state.telefono
+        user.direccion = this.state.direccion
+        user.correo = this.state.correo
+        user.nacimiento = this.state.nacimiento
+        user.dpi_carnet = this.state.dpi_carnet
+        user.contrasenia = this.state.contrasenia
+        user.imagen = this.state.imagen
+
+        return user;
+    }
+
     // -------------------------------------------------------------------------- Crear un usuario
     CrearUsuario = async () => {
         var imagen = this.state.imagen;
-        if (imagen.data != "") {
+        if (imagen.data !== "") {
             let formData = new FormData()
             formData.append('file', imagen.data);
             this.prepararDatosUsuario(formData);
@@ -194,7 +219,7 @@ class Administrador extends React.Component {
                 method: 'POST',
                 body: formData,
             })
-            if (response.status == 200) {
+            if (response.status === 200) {
                 alert("Usuario Creado");
                 this.regresar();
             } else {
@@ -239,7 +264,7 @@ class Administrador extends React.Component {
 
         var imagen = this.state.imagen;
 
-        if (imagen.data != "") {
+        if (imagen.data !== "") {
             let formData = new FormData()
             formData.append('file', imagen.data);
             formData.append('tipo', this.state.tipo);
@@ -271,7 +296,8 @@ class Administrador extends React.Component {
     }
 
     EditarUsuario = async (e) => {
-        editarUsuario(this.state).then((response) => {
+        var nuevosDatos = this.prepararUsuario();
+        editarUsuario(nuevosDatos).then((response) => {
             alert("Usuario Actualizado");
             this.regresar();
         }).catch(err => {
@@ -281,7 +307,7 @@ class Administrador extends React.Component {
 
     // -------------------------------------------------------------------------- Asignacion de Cursos
     CrearCurso = (nuevoCurso) => {
-        if (nuevoCurso != "") {
+        if (nuevoCurso !== "") {
             crearCurso(nuevoCurso).then((response) => {
                 getCursos().then((response) => {
                     this.setState({ cursos: response.data })
@@ -298,6 +324,17 @@ class Administrador extends React.Component {
                 this.setState({
                     nombreCurso: response.data[0].nombre_curso,
                     curso: response.data[0].id_curso,
+                })
+            }
+        });
+
+        getClases().then((response) => {
+            this.setState({ clases: response.data })
+            if (response.data.length > 0) {
+                this.setState({
+                    nombreCurso: response.data[0].nombre_curso,
+                    clase: response.data[0].id_clase,
+                    maestro: response.data[0].nombre + " " + response.data[0].apellido,
                 })
             }
         });
@@ -329,10 +366,39 @@ class Administrador extends React.Component {
         });
     }
 
-    asignarCurso = async (e) => {
-        // hay que asignar el curso
+    cambiarClase = async (e) => {
+        this.setState({ clase: e.target.value });
+        console.log(e.target.value);
+        this.state.clases.forEach(clase => {
+            console.log(clase.id_clase);
+            if (clase.id_clase.toString() === e.target.value.toString()) {
+                this.setState({
+                    maestro: clase.nombre + " " + clase.apellido,
+                    nombreCurso: clase.nombre_curso
+                })
+                return undefined;
+            }
+        });
     }
 
+    asignarCurso = async (e) => {
+        // hay que asignar el curso o la clase
+        if (this.state.tipo === 'Maestro') {
+            asignarCurso(this.state.tipo, this.state.usuario,
+                this.state.curso).then((response) => {
+                    alert("Curso asignado");
+                }).catch(err => {
+                    alert("Error :(");
+                });
+        } else {
+            asignarCurso(this.state.tipo, this.state.usuario,
+                this.state.clase).then((response) => {
+                    alert("Clase asignada");
+                }).catch(err => {
+                    alert("Error :(");
+                });
+        }
+    }
 
     renderizarOpcion() {
         var opcion = this.state.opcion;
@@ -351,6 +417,8 @@ class Administrador extends React.Component {
         var nombreCurso = this.state.nombreCurso;
         var nuevoCurso = this.state.nuevoCurso;
         var usuarios = this.state.usuarios;
+        var clases = this.state.clases;
+        var maestro = this.state.maestro;
 
         var imagen = this.state.imagen;
         var estado = this.state.estado;
@@ -563,23 +631,46 @@ class Administrador extends React.Component {
 
                                         </div>
                                         <div class='col'>
-                                            Asignar a curso:
-                                            <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarCurso(e)} >
-                                                {
-                                                    cursos.map((curso) =>
-                                                        <option key={curso.id_curso} value={curso.id_curso}>{curso.id_curso}</option>
-                                                    )}
-                                            </select>
-                                            <br /><br />
-                                            <label>Curso: </label><br />
-                                            <input style={{ marginBottom: "2%" }} value={nombreCurso} readOnly={true}
-                                                type="text" />
+                                            {
+                                                tipo === 'Maestro' ?
+                                                    <>
+                                                        Asignar a curso:
+                                                        <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarCurso(e)} >
+                                                            {
+                                                                cursos.map((curso) =>
+                                                                    <option key={curso.id_curso} value={curso.id_curso}>{curso.id_curso}</option>
+                                                                )}
+                                                        </select>
+                                                        <br /><br />
+                                                        <label>Curso: </label><br />
+                                                        <input style={{ marginBottom: "2%" }} value={nombreCurso} readOnly={true}
+                                                            type="text" />
 
-                                            <br /><br />
-                                            <label>Nuevo Curso: </label><br />
-                                            <input style={{ marginBottom: "2%" }} value={nuevoCurso} placeholder='Nombre'
-                                                type="text" onChange={(e) => this.setState({ nuevoCurso: e.target.value })} />
-                                            <Button onClick={() => this.CrearCurso(nuevoCurso)} variant='success' style={{ marginLeft: '3%' }}>Crear</Button>
+                                                        <br /><br />
+                                                        <label>Nuevo Curso: </label><br />
+                                                        <input style={{ marginBottom: "2%" }} value={nuevoCurso} placeholder='Nombre'
+                                                            type="text" onChange={(e) => this.setState({ nuevoCurso: e.target.value })} />
+                                                        <Button onClick={() => this.CrearCurso(nuevoCurso)} variant='success' style={{ marginLeft: '3%' }}>Crear</Button>
+                                                    </> :
+                                                    <>
+                                                        Asignar a clase:
+                                                        <select style={{ marginLeft: '2%' }} onChange={(e) => this.cambiarClase(e)} >
+                                                            {
+                                                                clases.map((clase) =>
+                                                                    <option key={clase.id_clase} value={clase.id_clase}>{clase.id_clase}</option>
+                                                                )}
+                                                        </select>
+                                                        <br /><br />
+                                                        <label>Curso: </label><br />
+                                                        <input style={{ marginBottom: "2%" }} value={nombreCurso} readOnly={true}
+                                                            type="text" /><br /><br />
+                                                        <label>Maestro: </label><br />
+                                                        <input style={{ marginBottom: "2%" }} value={maestro} readOnly={true}
+                                                            type="text" />
+
+                                                        <br />
+                                                    </>
+                                            }
                                         </div>
                                     </div>
                                     <br />
@@ -587,7 +678,8 @@ class Administrador extends React.Component {
 
                                 </Card.Body>
                                 <Card.Footer style={{ textAlign: 'right' }}>
-                                    <Button style={{ float: 'right' }}>Asignar a Curso</Button>
+                                    <Button style={{ float: 'right' }}
+                                        onClick={() => this.asignarCurso()}>Asignar</Button>
                                 </Card.Footer>
                             </Card>
                         </div>

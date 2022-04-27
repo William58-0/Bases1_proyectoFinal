@@ -7,6 +7,7 @@ const service = require("./Herramientas/connection");
 const multer = require('multer');
 let csvToJson = require('convert-csv-to-json');
 const fecha = require("./Herramientas/CorregirFecha");
+const archivos = require("./Herramientas/Archivos");
 
 var router = express.Router();
 router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
@@ -26,8 +27,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 router.post('/crearUsuario', upload.single('file'), async function (req, res) {
-  console.log(req.body);
-  console.log(req.file);
   const { tipo, nombre, apellido, telefono, direccion,
     correo, nacimiento, dpi_carnet, contrasenia, imagen } = req.body
 
@@ -56,7 +55,6 @@ router.post("/crearCurso", async function (req, res) {
     res.status(result.status).json(result.datos);
   });
 });
-
 
 router.post('/cargaMasiva', upload.single('file'), async function (req, res) {
 
@@ -228,6 +226,36 @@ router.get("/getAlumnos", async function (req, res) {
   });
 });
 
+router.post("/asignarCurso", async function (req, res) {
+  const { tipo, usuario, curso } = req.body;
 
+  var consulta = "";
+
+  if (tipo == 'Maestro') {
+    consulta = `INSERT INTO clase(id_maestro, id_curso) VALUES(${usuario}, ${curso}); `
+  } else {
+    consulta = `INSERT INTO asignacion_clase(id_clase, id_alumno) VALUES(${curso}, ${usuario}); `
+  }
+
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+
+});
+
+router.get("/getClases", async function (req, res) {
+
+  console.log("AQUIII VAA ESTOOO");
+
+  let consulta = `
+  SELECT * FROM clase 
+  INNER JOIN curso USING (id_curso)
+  INNER JOIN maestro USING (id_maestro)`;
+
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+
+});
 
 module.exports = router;

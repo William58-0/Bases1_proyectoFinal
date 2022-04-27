@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Redirect, useParams } from 'react-router-dom';
 import { Button } from "react-bootstrap";
-import Table from 'react-bootstrap/Table';
-import Card from 'react-bootstrap/Card';
+import { Table, Card } from 'react-bootstrap';
 
 
 import NavBar from './AlumnosNavBar';

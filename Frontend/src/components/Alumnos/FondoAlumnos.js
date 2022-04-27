@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import fondo from '../../images/alumno.jpg';
 

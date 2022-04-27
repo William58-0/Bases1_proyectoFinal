@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import React from 'react'
 
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 // ------------------------------------------------------------------------------ PROFESORES
 import MaestrosPublicacion from '../components/Maestros/MaestrosPublicacion';

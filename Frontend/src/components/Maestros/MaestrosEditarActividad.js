@@ -44,8 +44,6 @@ function MaestrosVerActividad() {
     });
     // obtener datos de actividad para el maestro
     getActividadMaestro(actividad).then((response) => {
-      console.log("ESTA ES LA ACTIVIDAD")
-      console.log(response);
       var resp = response.data[0];
       setDesc(resp.descripcion);
       setFechaP(resp.fecha_publicacion);
@@ -74,8 +72,6 @@ function MaestrosVerActividad() {
         alert("Actividad Actualizada");
         //para actualizar la actividad otra vez
         getActividadMaestro(actividad).then((response) => {
-          console.log("ESTA ES LA ACTIVIDAD")
-          console.log(response);
           var resp = response.data[0];
           setDesc(resp.descripcion);
           setFechaP(resp.fecha_publicacion);
