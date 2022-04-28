@@ -51,6 +51,12 @@
   margin-top: 0.5%;
 }
 
+.container-tabla-observaciones {
+  height: 215px;
+  display: block;
+  overflow: auto;
+}
+
 .probarcolores {
   color: rgba(63, 163, 24, 0.945);
 }

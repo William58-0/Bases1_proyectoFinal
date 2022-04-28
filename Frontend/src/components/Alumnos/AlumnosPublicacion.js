@@ -11,8 +11,8 @@ import {
 } from '../../endpoints/endpoints';
 
 function AlumnosPublicacion() {
-  const [id_alumno, setIdAlumno] = useState(2)
-  const [nombre_alumno, setNombreAlumno] = useState("")
+  const [id_alumno, setIdAlumno] = useState(1);
+  const [nombre_alumno, setNombreAlumno] = useState("");
   const [indice, setIndice] = useState(0);
   const [publicaciones, setPubs] = useState([]);
   const [publicacion, setPub] = useState(0);

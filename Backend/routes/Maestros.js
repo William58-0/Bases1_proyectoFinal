@@ -149,7 +149,7 @@ router.post("/crearActividad", async function (req, res) {
           console.log(result1.datos);
         });
       });
-      
+
     }
 
     res.status(result.status).json(result.datos);
@@ -217,6 +217,72 @@ router.post("/getAlumnosCurso", async function (req, res) {
     res.status(result.status).json(result.datos);
   });
 });
+
+router.post("/getEntregas", async function (req, res) {
+  const { id_maestro } = req.body
+
+  let consulta = `
+    SELECT * FROM clase
+    INNER JOIN curso USING (id_curso)
+    INNER JOIN actividad USING (id_clase)
+    INNER JOIN asignacion_actividad USING (id_actividad)
+    INNER JOIN alumno USING (id_alumno)
+    WHERE (id_maestro = ${id_maestro})
+    AND (estado_actividad = "Entregado"); 
+  `;
+
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
+
+router.post("/getEntrega", async function (req, res) {
+  const { id_asignacion_actividad } = req.body
+
+  let consulta = `
+    SELECT * FROM clase
+    INNER JOIN curso USING (id_curso)
+    INNER JOIN actividad USING (id_clase)
+    INNER JOIN asignacion_actividad USING (id_actividad)
+    INNER JOIN alumno USING (id_alumno)
+    WHERE (id_asignacion_actividad = ${id_asignacion_actividad}); 
+  `;
+
+  service.consultar(consulta, function (result) {
+    result.datos.forEach(dato => {
+      dato.fecha_hora = fecha.fechaTiempo(dato.fecha_hora);
+    });
+    res.status(result.status).json(result.datos);
+  });
+});
+
+router.post("/calificarEntrega", async function (req, res) {
+  const { punteo, observaciones, id_asignacion_actividad } = req.body
+
+  let consulta = `
+    UPDATE asignacion_actividad SET
+    puntuacion = "${punteo}"
+    WHERE id_asignacion_actividad = ${id_asignacion_actividad};
+    `;
+
+  service.consultar(consulta, function (result) {
+    //insertar las observaciones
+    observaciones.forEach(observacion => {
+      let consulta1 = `
+      INSERT INTO observacion(texto, id_asignacion_actividad)
+      VALUES("${observacion.texto}", ${id_asignacion_actividad});
+      `;
+
+      service.consultar(consulta1, function (result1) {
+        console.log("agregar observacion: ");
+        console.log(result1.datos);
+      });
+    });
+
+    res.status(result.status).json(result.datos);
+  });
+});
+
 
 
 
