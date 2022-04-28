@@ -12,7 +12,6 @@ router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 router.post("/getMaestro", async function (req, res) {
   const { id_maestro } = req.body
-  console.log(req.body)
   let consulta = `
     SELECT * FROM maestro WHERE id_maestro = "${id_maestro}";
   `
@@ -91,7 +90,6 @@ router.post("/getPublicacionMaestro", async function (req, res) {
 });
 
 router.post("/updatePublicacion", async function (req, res) {
-  console.log("SII ENTRAA");
   const { id_publicacion, descripcion } = req.body
 
   let consulta = `
@@ -105,7 +103,6 @@ router.post("/updatePublicacion", async function (req, res) {
 });
 
 router.post("/deletePublicacion", async function (req, res) {
-  console.log("SII ENTRAA");
   const { id_publicacion } = req.body
 
   let consulta = `
@@ -119,8 +116,6 @@ router.post("/deletePublicacion", async function (req, res) {
 // ----------------------------------------------------------------------------- ACTIVIDADES
 router.post("/getActividadesMaestro", async function (req, res) {
   const { id_maestro } = req.body
-  console.log("aquii es");
-  console.log(id_maestro);
   let consulta = `
   SELECT * FROM clase
   INNER JOIN actividad USING (id_clase)
@@ -151,7 +146,7 @@ router.post("/crearActividad", async function (req, res) {
 
         service.consultar(consulta1, function (result1) {
           console.log("actividad asignada");
-          console.log(result1);
+          console.log(result1.datos);
         });
       });
       
@@ -185,9 +180,7 @@ router.post("/getActividadMaestro", async function (req, res) {
 });
 
 router.post("/updateActividadMaestro", async function (req, res) {
-  console.log("va a tratar de crear actividad");
   const { titulo, descripcion, fecha_entrega, valor, id_actividad } = req.body;
-  console.log(fecha_entrega);
 
   let consulta = `
   UPDATE actividad SET titulo = "${titulo}", descripcion = "${descripcion}",

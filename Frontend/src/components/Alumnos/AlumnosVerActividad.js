@@ -49,8 +49,6 @@ function AlumnosEntregarActividad() {
       method: 'POST',
       body: formData,
     })
-    console.log("entrego actividad");
-    console.log(response.json());
     //if (response) setStatus(response.statusText)
 
     setEntregado(true);
@@ -73,8 +71,6 @@ function AlumnosEntregarActividad() {
     });
     // obtener datos de actividad para el alumno
     getActividadAlumno(asig_act).then((response) => {
-      console.log("ESTAA ES LA ACTIVIDAD")
-      console.log(response);
 
       if (response.data.length > 0) {
         var resp = response.data[0]

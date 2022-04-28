@@ -62,7 +62,6 @@ function AlumnosEntregarActividad() {
   const probar = () => {
 
     alert(checked);
-    console.log(checked);
   }
 
   const handleCheck = (event) => {

@@ -13,13 +13,8 @@ router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
 router.use(bodyParser.json({ limit: "50mb", extended: true }));
 router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-
-
-
-
 router.post("/getAlumno", async function (req, res) {
   const { id_alumno } = req.body
-  console.log("AQUIIII SI ENTRAAA")
   let consulta = `
     SELECT * FROM alumno WHERE id_alumno = "${id_alumno}";
   `
@@ -131,14 +126,8 @@ router.post('/entregarActividad', archivos.upload.single('file'), async function
 
 
 
-
-
-
-
 router.post("/crearActividad", async function (req, res) {
-  console.log("va a tratar de crear actividad");
   const { titulo, descripcion, fecha_entrega, valor, id_clase } = req.body;
-  console.log(fecha_entrega);
 
   let consulta = `
   INSERT INTO actividad(titulo, descripcion, fecha_publicacion, fecha_entrega, valor, id_clase)
@@ -169,9 +158,7 @@ router.post("/getActividadMaestro", async function (req, res) {
 });
 
 router.post("/updateActividadMaestro", async function (req, res) {
-  console.log("va a tratar de crear actividad");
   const { titulo, descripcion, fecha_entrega, valor, id_actividad } = req.body;
-  console.log(fecha_entrega);
 
   let consulta = `
   UPDATE actividad SET titulo = "${titulo}", descripcion = "${descripcion}",

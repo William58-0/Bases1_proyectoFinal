@@ -142,7 +142,6 @@ router.post("/getUsuario", async function (req, res) {
 
 router.post("/eliminarUsuario", async function (req, res) {
   const { usuario, tipo } = req.body
-  console.log("sii entra quii");
   var query = "";
   if (tipo == 'Maestro') {
     query = `DELETE FROM maestro WHERE id_maestro = "${usuario}";`
@@ -151,8 +150,6 @@ router.post("/eliminarUsuario", async function (req, res) {
   }
 
   service.consultar(query, function (result) {
-    console.log(result.datos);
-    console.log(query);
     res.status(result.status).json(result.datos);
   });
 
@@ -193,8 +190,6 @@ router.get("/getCursos", async function (req, res) {
 
 router.post("/getCurso", async function (req, res) {
   const { id_curso } = req.body
-  console.log("aquiii");
-  console.log(id_curso);
   let consulta = `
     SELECT * FROM curso WHERE id_curso = "${id_curso}";
   `
@@ -245,8 +240,6 @@ router.post("/asignarCurso", async function (req, res) {
 });
 
 router.get("/getClases", async function (req, res) {
-
-  console.log("AQUIII VAA ESTOOO");
 
   let consulta = `
   SELECT * FROM clase 

@@ -177,9 +177,7 @@ class Administrador extends React.Component {
 
     cambiarClase = async (e) => {
         this.setState({ clase: e.target.value });
-        console.log(e.target.value);
         this.state.clases.forEach(clase => {
-            console.log(clase.id_clase);
             if (clase.id_clase.toString() === e.target.value.toString()) {
                 this.setState({
                     maestro: clase.nombre + " " + clase.apellido,

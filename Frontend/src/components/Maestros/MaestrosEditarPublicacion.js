@@ -15,7 +15,7 @@ import './maestro.css';
 
 
 function MaestrosVerPublicacion() {
-  const [id_maestro, setIdMaestro] = useState(449);
+  const [id_maestro, setIdMaestro] = useState(1);
   const [nombre_maestro, setNombreMaestro] = useState("")
   const [publicacion, setPub] = useState(useParams().publicacion);
 
@@ -24,21 +24,18 @@ function MaestrosVerPublicacion() {
   const [curso, setCurso] = useState("");
   const [fecha, setFecha] = useState("");
 
-  const [valor, setValor] = useState(0);
-
   // para los detalles de la entrega
   const [editando, setEditando] = useState(false);
 
   const [redirect, setRedirect] = useState(false);
 
-  //
-  const [image, setImage] = useState({ preview: '', data: '' })
-  const [status, setStatus] = useState('')
 
   useEffect(() => {
     // obtener los datos del maestro
     getMaestro(id_maestro).then((response) => {
-      setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
+      if (response.data.length > 0) {
+        setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
+      }
     });
     // obtener datos de publicacion para el maestro
     getPublicacion(publicacion).then((response) => {
@@ -61,22 +58,20 @@ function MaestrosVerPublicacion() {
   const GuardarCambios = () => {
     // accion de actualizar publicacion
     updatePublicacion(publicacion, descripcion).then((response) => {
-      console.log(response);
-
+      alert("Publicacion actualizada");
       setEditando(false);
-
+    }).catch(err => {
+      alert("Error :(");
     });
-
   }
 
   const Eliminar = () => {
     // accion de eliminar publicacion
     deletePublicacion(publicacion).then((response) => {
-      console.log(response);
-
+      alert("Publicacion eliminada");
       setRedirect(true);
-      //setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
-      //console.log(response.data[0].nombre + " " + response.data[0].apellido)
+    }).catch(err => {
+      alert("Error :(");
     });
 
   }
@@ -84,7 +79,7 @@ function MaestrosVerPublicacion() {
   return (
     <>
       <Container>
-      <NavBar maestro={nombre_maestro} id_maestro={id_maestro} />
+        <NavBar maestro={nombre_maestro} id_maestro={id_maestro} />
         <div class="d-flex justify-content-center align-items-center container-publicacion">
           <Card style={{ width: '100%', height: '60%' }}>
             <Card.Header as="h5" >

@@ -15,7 +15,7 @@ import './maestro.css';
 
 
 function MaestrosVerActividad() {
-  const [id_maestro, setIdMaestro] = useState(449);
+  const [id_maestro, setIdMaestro] = useState(1);
   const [nombre_maestro, setNombreMaestro] = useState("")
   const [actividad, setActividad] = useState(useParams().actividad);
 
@@ -33,14 +33,12 @@ function MaestrosVerActividad() {
 
   const [redirect, setRedirect] = useState(false);
 
-  //
-  const [image, setImage] = useState({ preview: '', data: '' })
-  const [status, setStatus] = useState('')
-
   useEffect(() => {
     // obtener los datos del maestro
     getMaestro(id_maestro).then((response) => {
-      setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
+      if (response.data.length > 0) {
+        setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
+      }
     });
     // obtener datos de actividad para el maestro
     getActividadMaestro(actividad).then((response) => {
@@ -68,37 +66,24 @@ function MaestrosVerActividad() {
       fecha_entrega: fechaE, valor: valor,
       id_actividad: actividad
     }).then((response) => {
-      if (response.status == 200) {
-        alert("Actividad Actualizada");
-        //para actualizar la actividad otra vez
-        getActividadMaestro(actividad).then((response) => {
-          var resp = response.data[0];
-          setDesc(resp.descripcion);
-          setFechaP(resp.fecha_publicacion);
-          setFechaVE(resp.fechaVentrega);
-          setFechaE(resp.fecha_entrega);
-          setTitulo(resp.titulo);
-          setValor(resp.valor);
-        });
-        setEditando(false);
-      } else {
-        alert("Ocurrió un error :(");
-      }
+      alert("Actividad Actualizada");
+      setEditando(false);
+
+    }).catch(err => {
+      alert("Error :(");
     });
+
 
   }
 
   const EliminarActividad = () => {
     // accion de actualizar actividad
     deleteActividad(actividad).then((response) => {
-      if (response.status == 200) {
-        alert("Actividad Eliminada");
-        setRedirect(true);
-      } else {
-        alert("Ocurrió un error :(");
-      }
+      alert("Actividad Eliminada");
+      setRedirect(true);
+    }).catch(err => {
+      alert("Error :(");
     });
-
   }
 
   return (

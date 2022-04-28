@@ -16,7 +16,7 @@ import './maestro.css';
 
 function MaestrosPublicacion() {
   //const [id_maestro, setMaestro] = useState(useParams().identificacion)
-  const [id_maestro, setMaestro] = useState(449)
+  const [id_maestro, setMaestro] = useState(1)
   const [nombre_maestro, setNombreMaestro] = useState("")
   const [cursos, setCursos] = useState([]);
   const [curso, setCurso] = useState(0);
@@ -37,20 +37,18 @@ function MaestrosPublicacion() {
   useEffect(() => {
     // obtener los datos del maestro
     getMaestro(id_maestro).then((response) => {
-      //setPubs(response.data.datos);
-      setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
-      //console.log(response.data[0].nombre + " " + response.data[0].apellido)
+      if (response.data.length > 0) {
+        setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
+      }
     });
     // obtener publicaciones para el maestro
     getPublicacionesMaestro(id_maestro).then((response) => {
       setPubs(response.data);
-      //console.log(response.data.datos)
     });
 
 
     // obtener los cursos para el maestro
     getCursosMaestro(id_maestro).then((response) => {
-      //setPubs(response.data.datos);
       var resp = response;
 
       setCursos(response.data);
@@ -77,21 +75,17 @@ function MaestrosPublicacion() {
     setFecha("");
   }
 
-
-
   const CrearPublicacion = () => {
     getIdClase(id_maestro, curso).then((response) => {
       crearPublicacion(descripcion, response.data[0].id_clase).then((response1) => {
-        if (response1.status === 200) {
-          alert("Publicacion creada");
-          getPublicacionesMaestro(id_maestro).then((response2) => {
-            setPubs(response2.data);
-          });
-          Regresar();
-        } else {
-          alert("Ocurrio un error")
-        }
+        alert("Publicacion creada");
+        getPublicacionesMaestro(id_maestro).then((response2) => {
+          setPubs(response2.data);
+        });
+        Regresar();
 
+      }).catch(err => {
+        alert("Error :(");
       });
 
     });
@@ -99,19 +93,17 @@ function MaestrosPublicacion() {
 
 
   const editarPublicacion = (row) => {
-    console.log("FILLAAAA");
-    console.log(row);
-
     setPub(row.id_publicacion);
-
     setRedirect(true);
-
   }
 
   const cambiarCurso = (e) => {
-    //alert(e.target.value);
     setCurso(e.target.value);
-    //setTipo(e.target.value);
+    cursos.forEach(curso => {
+      if (curso.id_curso.toString() == e.target.value.toString()) {
+        setNombreCurso(curso.nombre_curso);
+      }
+    });
   }
 
   return (

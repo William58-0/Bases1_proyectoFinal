@@ -19,7 +19,7 @@ import './maestro.css';
 
 
 function MaestrosActividades() {
-  const [id_maestro, setIdMaestro] = useState(449);
+  const [id_maestro, setIdMaestro] = useState(1);
   const [nombre_maestro, setNombreMaestro] = useState("")
   const [actividades, setActs] = useState([])
 
@@ -59,14 +59,9 @@ function MaestrosActividades() {
         setNombreCurso(resp.data[0].nombre_curso);
 
         getAlumnosCurso(id_maestro, resp.data[0].id_curso).then((response2) => {
-          console.log("ALUMNOS POR CURSO");
-          console.log(response2);
           setAlumnos(response2.data);
           if (response2.data.length > 0) {
             setAlumno(response2.data[0]);
-            console.log("ESTEEE ALUMNOOOO");
-            console.log(response2.data[0]);
-            console.log(alumno);
           }
         });
       }
@@ -80,9 +75,18 @@ function MaestrosActividades() {
     setCurso(e.target.value);
 
     getAlumnosCurso(id_maestro, e.target.value).then((response) => {
-      console.log("ALUMNOS POR CURSO");
-      console.log(response);
+      setAlumnos(response.data);
+      if (response.data.length > 0) {
+        setAlumno(response.data[0]);
+      }
     });
+
+    cursos.forEach(curso => {
+      if(curso.id_curso.toString() === e.target.value.toString()){
+        setNombreCurso(curso.nombre_curso);     
+      }
+    });
+
   }
 
   const cambiarAlumno = (e) => {
@@ -111,32 +115,32 @@ function MaestrosActividades() {
         id_clase: response.data[0].id_clase,
         alumnos: alumnos
       }).then((response) => {
-        if (response.status == 200) {
-          alert("Actividad Creada");
-          //para actualizar las actividades otra vez
-          getActividadesMaestro(id_maestro).then((response) => {
-            setActs(response.data);
-          });
-          setCrear(false);
-        } else {
-          alert("Ocurrió un error :(");
-        }
+        alert("Actividad Creada");
+        //para actualizar las actividades otra vez
+        getActividadesMaestro(id_maestro).then((response1) => {
+          setActs(response1.data);
+        });
+        regresar();
+
+      }).catch(err => {
+        alert("Error :(");
       });
 
     });
   }
 
   const editarActividad = (row) => {
-    alert(row);
-    console.log(row);
-    // obtener los datos para la publicacion seleccionada
-    setActi(row.id_actividad);
-    setTitulo(row.titulo);
-    setDesc(row.descripcion);
-    setValor(row.valor);
-    setFechaE()
+    // obtener los datos para la actividad seleccionada
     setRedirect(true);
 
+  }
+
+  const regresar = ()=>{
+    setTitulo("");
+    setDesc("");
+    setValor(0);
+    setFechaE("");
+    setCrear(false);
   }
 
   const renderRedirect = () => {
@@ -243,7 +247,7 @@ function MaestrosActividades() {
                                     </td>
 
                                     <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                      {log['nombre']}{" "}{log['nombre']}
+                                      {log['nombre']}{" "}{log['apellido']}
                                     </td>
 
                                     <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

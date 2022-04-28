@@ -33,16 +33,12 @@ function AlumnosPublicacion() {
     });
     // obtener actividades para el alumno
     getActividadesAlumno(id_alumno).then((response) => {
-      console.log("ESTAS ACTIVIDADES GUETEO");
-      console.log(response);
       setActs(response.data);
     });
   }, [])
 
   const VerActividad = (row) => {
     alert(row);
-    console.log("EN VEER")
-    console.log(row);
     // obtener los datos para la publicacion seleccionada
     setAsigAct(row.id_asignacion_actividad);
     setRedirect(true);
