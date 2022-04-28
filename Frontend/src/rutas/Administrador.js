@@ -5,6 +5,9 @@ import { Switch, Route } from 'react-router-dom';
 // ------------------------------------------------------------------------------ ADMINISTRADOR
 import AdminUsuarios from '../components/Administrador/AdminUsuarios';
 import CrearUsuario from '../components/Administrador/CrearUsuario';
+import EliminarUsuario from '../components/Administrador/EliminarUsuario';
+import CargaMasiva from '../components/Administrador/CargaMasiva';
+import EditarUsuario from '../components/Administrador/EditarUsuario';
 
 const Administrador = () => {
   return (
@@ -20,6 +23,24 @@ const Administrador = () => {
         exact
         strict
         component={CrearUsuario}
+      />
+      <Route
+        path="/admin/eliminarusuario"
+        exact
+        strict
+        component={EliminarUsuario}
+      />
+      <Route
+        path="/admin/cargamasiva"
+        exact
+        strict
+        component={CargaMasiva}
+      />
+      <Route
+        path="/admin/editarusuario"
+        exact
+        strict
+        component={EditarUsuario}
       />
     </Switch>
   );

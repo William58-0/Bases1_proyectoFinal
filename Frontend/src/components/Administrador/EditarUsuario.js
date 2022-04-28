@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components';
 
 import { Redirect } from 'react-router-dom';
 import { Button, Card } from "react-bootstrap";
 import { Container } from './AdminContainer'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 import {
-    crearUsuario
+    editarUsuario, getUsuarios, getUsuario
 } from '../../endpoints/endpoints';
 
 
-function CrearUsuario() {
+function EditarUsuario() {
     const [tipo, setTipo] = useState("Maestro");
     const [usuario, setUsuario] = useState(0);
     const [nombre, setNombre] = useState("fdsafa");
@@ -22,9 +20,39 @@ function CrearUsuario() {
     const [nacimiento, setNacimiento] = useState("2021-08-14");
     const [dpi_carnet, setDPICarnet] = useState("45646856");
     const [contrasenia, setContrasenia] = useState("hgdhghgf");
-    const [imagen, setImagen] = useState({ preview: '', data: '' });
 
     const [redirect, setRedirect] = useState(false);
+
+    const [usuarios, setUsuarios] = useState([]);
+
+    useEffect(() => {
+        getUsuarios(tipo).then((response) => {
+            setUsuarios(response.data);
+            if (response.data.length > 0) {
+                var user = response.data[0];
+                setNombre(user.nombre);
+                setApellido(user.apellido);
+                setTelefono(user.telefono);
+                setDireccion(user.direccion);
+                setContrasenia(user.contrasenia);
+                setCorreo(user.correo);
+                setNacimiento(user.fecha_nacimiento);
+
+                if (tipo === 'Maestro') {
+                    setDPICarnet(user.dpi);
+                } else {
+                    setDPICarnet(user.carnet);
+                }
+            }
+        });
+
+    }, [])
+
+    const renderRedirect = () => {
+        if (redirect) {
+            return <Redirect to='/admin' />
+        }
+    }
 
     const formulario = (modo, alumno_profesor) => {
         return (
@@ -88,40 +116,10 @@ function CrearUsuario() {
         );
     }
 
-    const renderRedirect = () => {
-        if (redirect) {
-            return <Redirect to='/admin' />
-        }
-    }
-
-    const handleFileChange = (e) => {
-        const img = {
-            preview: URL.createObjectURL(e.target.files[0]),
-            data: e.target.files[0],
-        }
-        setImagen(img);
-    }
-
-    const cambiarTipo = (e) => {
-        setTipo(e.target.value);
-    }
-
-    const prepararDatosUsuario = (formData) => {
-        formData.append('tipo', tipo);
-        formData.append('nombre', nombre);
-        formData.append('apellido', apellido);
-        formData.append('telefono', telefono);
-        formData.append('direccion', direccion);
-        formData.append('correo', correo);
-        formData.append('nacimiento', nacimiento);
-        formData.append('dpi_carnet', dpi_carnet);
-        formData.append('contrasenia', contrasenia);
-        formData.append('imagen', imagen);
-    }
-
     const prepararUsuario = () => {
         var user = {}
         user.tipo = tipo
+        user.usuario = usuario;
         user.nombre = nombre
         user.apellido = apellido
         user.telefono = telefono
@@ -130,66 +128,96 @@ function CrearUsuario() {
         user.nacimiento = nacimiento
         user.dpi_carnet = dpi_carnet
         user.contrasenia = contrasenia
-        user.imagen = imagen
 
         return user;
     }
 
-    // -------------------------------------------------------------------------- Crear un usuario
-    const CrearUsuario = async () => {
-        if (imagen.data !== "") {
-            let formData = new FormData()
-            formData.append('file', imagen.data);
-            prepararDatosUsuario(formData);
-            const response = await fetch('http://localhost:9000/Administrador/crearUsuario', {
-                method: 'POST',
-                body: formData,
-            })
-            if (response.status === 200) {
-                alert("Usuario Creado");
-            } else {
-                alert("Rayos :(");
-            }
-        }
-        else {
-            var nuevo = prepararUsuario();
-            crearUsuario(nuevo).then((response) => {
-                alert("Usuario Creado");
-            }).catch(err => {
-                alert("Error :(");
-            });
-        }
+    const EditarUsuario = async (e) => {
+        var nuevosDatos = prepararUsuario();
+        editarUsuario(nuevosDatos).then((response) => {
+            alert("Usuario Actualizado");
+        }).catch(err => {
+            alert("Error :(");
+        });
+    }
 
+    // -------------------------------------------------------------------------- Editar un usuario
+
+    const getOtroUsuario = (idUsuario, tipo) => {
+
+        setUsuario(idUsuario);
+        getUsuario(idUsuario, tipo).then((response) => {
+            if (!(response.data.length > 0)) {
+                console.log("error al tomar datos");
+                return;
+            }
+            var user = response.data[0];
+
+            setNombre(user.nombre);
+            setApellido(user.apellido);
+            setTelefono(user.telefono);
+            setDireccion(user.direccion);
+            setContrasenia(user.contrasenia);
+            setCorreo(user.correo);
+            setNacimiento(user.fecha_nacimiento);
+
+            if (tipo === 'Maestro') {
+                setDPICarnet(user.dpi);
+            } else {
+                setDPICarnet(user.carnet);
+            }
+        });
+    }
+
+    const cambiarUsuario = async (e) => {
+        getOtroUsuario(e.target.value, tipo);
+    }
+
+    const cambiarTipo = (e) => {
+        setTipo(e.target.value);
+        var type = e.target.value;
+        getUsuarios(e.target.value).then((response) => {
+            setUsuarios(response.data);
+        });
+        getOtroUsuario(1, type);
     }
 
     return (
         <>
             <Container>
                 <div class="d-flex justify-content-center align-items-center container-publicacion">
-                    <Card style={{ width: '100%', height: '95%' }}>
+                    <Card style={{ width: '100%', height: '90%' }}>
                         <Card.Header as="h5" >
                             {renderRedirect()}
                             <button className='boton-regreso-publicacion'
                                 onClick={() => setRedirect(true)}> {"<"} </button>
-                            <label className='label-publicacion'>Crear un usuario </label>
+                            <label className='label-publicacion'>Editar un usuario </label>
                             <select style={{ float: 'right' }} onChange={(e) => cambiarTipo(e)} >
                                 <option key={'Maestro'} value={'Maestro'}>Maestro</option>
                                 <option key={'Alumno'} value={'Alumno'}>Alumno</option>
                             </select>
                         </Card.Header>
                         <Card.Body style={{ overflowY: 'auto' }}>
-
+                            Seleccionar el id:
+                            <select style={{ marginLeft: '2%' }} onChange={(e) => cambiarUsuario(e)}>
+                                {
+                                    usuarios.map((usuario) =>
+                                        <>
+                                            {
+                                                tipo === 'Maestro' ?
+                                                    <option key={usuarios.id_maestro} value={usuario.id_maestro}>{usuario.id_maestro}</option>
+                                                    :
+                                                    <option key={usuarios.id_alumno} value={usuario.id_alumno}>{usuario.id_alumno}</option>
+                                            }
+                                        </>
+                                    )}
+                            </select>
+                            <br /><br />
                             {formulario(false, tipo === 'Alumno')}
-                            <br />
-                            <p >Fotografía (Opcional)</p>
-                            <form >
-                                <input type='file' name='file' onChange={handleFileChange}></input>
-
-                            </form>
 
                         </Card.Body>
                         <Card.Footer style={{ textAlign: 'right' }}>
-                            <Button onClick={() => CrearUsuario()} style={{ float: 'right' }}>Crear Usuario</Button>
+                            <Button onClick={() => EditarUsuario()} style={{ float: 'right' }}>Guardar Cambios</Button>
                         </Card.Footer>
                     </Card>
                 </div>
@@ -198,4 +226,4 @@ function CrearUsuario() {
     );
 }
 
-export default CrearUsuario;
+export default EditarUsuario;

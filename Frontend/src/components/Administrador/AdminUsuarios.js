@@ -736,23 +736,29 @@ class Administrador extends React.Component {
                     <h1 style={{ width: '20%' }}>{'Administración de Usuarios'}</h1>
                     <Form>
                         <Link to="/admin/crearusuario">
-                        <Button variant='success' style={{ marginBottom: "8%" }}>
-                            Crear Usuario
-                        </Button>
+                            <Button variant='success' style={{ marginBottom: "8%" }}>
+                                Crear Usuario
+                            </Button>
                         </Link><br />
-                        
-                        <Button style={{ marginBottom: "8%" }}
-                            onClick={() => this.entrarEliminar()}>
-                            Eliminar Usuario
-                        </Button><br />
-                        <Button variant='success' style={{ marginBottom: "8%" }}
-                            onClick={() => this.setState({ opcion: 3 })}>
-                            Cargar CSV
-                        </Button><br />
-                        <Button style={{ marginBottom: "8%" }}
-                            onClick={() => this.entrarEditar()}>
-                            Editar Usuario
-                        </Button><br />
+
+                        <Link to="/admin/eliminarusuario">
+                            <Button style={{ marginBottom: "8%" }}>
+                                Eliminar Usuario
+                            </Button>
+                        </Link><br />
+
+                        <Link to="/admin/cargamasiva">
+                            <Button variant='success' style={{ marginBottom: "8%" }}>
+                                Cargar CSV
+                            </Button>
+                        </Link><br />
+
+                        <Link to="/admin/editarusuario">
+                            <Button style={{ marginBottom: "8%" }}>
+                                Editar Usuario
+                            </Button>
+                        </Link><br />
+
                         <Button variant='success' style={{ marginBottom: "8%" }}
                             onClick={() => this.EntrarAsignacion()}>
                             Asignar Cursos
