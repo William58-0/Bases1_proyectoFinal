@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 
 import {
-  getMaestro, getEntrega, calificarEntrega
+  getMaestro, getEntrega, calificarEntrega, getObservaciones
 } from '../../endpoints/endpoints';
 
 import NavBar from './MaestrosNavBar';
@@ -19,6 +19,7 @@ function MaestrosCalificar() {
   const [entrega, setEntrega] = useState(useParams().entrega);
   const [nuevaOb, setNuevaOb] = useState("");
   const [observaciones, setObs] = useState([]);
+  const [nuevasObs, setNuevasObs] = useState([]);
 
   const [actividad, setActividad] = useState(useParams().actividad);
 
@@ -60,6 +61,12 @@ function MaestrosCalificar() {
         setCarnet(resp.carnet);
       }
     });
+    //get observaciones
+    getObservaciones(entrega).then((response) => {
+      console.log("OBSERVACIONES");
+      console.log(response.data);
+      setObs(response.data); 
+    });
   }, [])
 
   const renderRedirect = () => {
@@ -70,7 +77,7 @@ function MaestrosCalificar() {
 
   const CalificarEntrega = () => {
     // accion de calificar actividad
-    calificarEntrega(punteo, observaciones, entrega).then((response) => {
+    calificarEntrega(punteo, nuevasObs, entrega).then((response) => {
       alert("Entrega Actualizada");
       setEditando(false);
     }).catch(err => {
@@ -82,6 +89,7 @@ function MaestrosCalificar() {
   const nuevaObservacion = () => {
     var nuevaa = { id_observacion: observaciones.length, texto: nuevaOb }
     setObs([...observaciones, nuevaa])
+    setNuevasObs([...nuevasObs, nuevaa]);
   }
 
   const quitarObservacion = (row) => {

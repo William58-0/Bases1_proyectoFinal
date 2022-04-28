@@ -284,6 +284,18 @@ router.post("/calificarEntrega", async function (req, res) {
 });
 
 
+router.post("/getObservaciones", async function (req, res) {
+  const { id_asignacion_actividad } = req.body
+
+  let consulta = `
+    SELECT * FROM observacion WHERE id_asignacion_actividad = ${id_asignacion_actividad};
+    `;
+
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
+
 
 
 module.exports = router;

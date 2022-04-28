@@ -131,6 +131,12 @@ export function calificarEntrega(punteo, observaciones, id_asignacion_actividad)
     { punteo: punteo, observaciones: observaciones, id_asignacion_actividad: id_asignacion_actividad })
 }
 
+export function getObservaciones(id_asignacion_actividad) {                   // sirve tambien para alumno
+  return axios.post(route + 'Maestros/getObservaciones',
+    { id_asignacion_actividad: id_asignacion_actividad })
+}
+
+
 // --------------------------------------------------------------------------------------- ALUMNO
 export function getAlumno(id_alumno) {
   return axios.post(route + 'Alumnos/getAlumno', { id_alumno: id_alumno })

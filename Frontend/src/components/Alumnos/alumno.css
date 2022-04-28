@@ -52,7 +52,7 @@
 }
 
 .container-tabla-observaciones {
-  height: 215px;
+  height: 255px;
   display: block;
   overflow: auto;
 }

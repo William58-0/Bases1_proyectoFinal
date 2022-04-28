@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { Table, Card } from 'react-bootstrap';
 
 import {
-  getAlumno, getActividadAlumno
+  getAlumno, getActividadAlumno, getObservaciones
 } from '../../endpoints/endpoints';
 
 import NavBar from './AlumnosNavBar';
@@ -30,7 +30,44 @@ function AlumnosEntregarActividad() {
   const [fecha_hora, setFechaHora] = useState("");
   const [punteo, setPunteo] = useState("");
   const [valor, setValor] = useState("");
-  const [observaciones, setObs] = useState([]);
+  const [observaciones, setObs] = useState([
+    {
+      id_observacion: 1,
+      texto: "holaa"
+    },
+    {
+      id_observacion: 1,
+      texto: "holaa"
+    },
+    {
+      id_observacion: 1,
+      texto: "holaa"
+    },
+    {
+      id_observacion: 1,
+      texto: "holaa"
+    },
+    {
+      id_observacion: 1,
+      texto: "holaa"
+    },
+    {
+      id_observacion: 1,
+      texto: "holaa"
+    },
+    {
+      id_observacion: 1,
+      texto: "holaa"
+    },
+    {
+      id_observacion: 1,
+      texto: "holaa"
+    },
+    {
+      id_observacion: 1,
+      texto: "holaa"
+    },
+  ]);
 
   const [redirect, setRedirect] = useState(false);
 
@@ -86,9 +123,13 @@ function AlumnosEntregarActividad() {
         } else {
           setEntregado(true);
         }
-
       }
-
+    });
+    //get observaciones
+    getObservaciones(asig_act).then((response) => {
+      console.log("OBSERVACIONES");
+      console.log(response.data);
+      //setObs(response.data);
     });
   }, [])
 
@@ -155,9 +196,6 @@ function AlumnosEntregarActividad() {
                             </tbody>
                           </Table>
                         </div>
-                        <p>
-                          {observaciones}
-                        </p>
                         {/**aquiii deberia haber una tabla tal vez */}
                       </>
                     }
