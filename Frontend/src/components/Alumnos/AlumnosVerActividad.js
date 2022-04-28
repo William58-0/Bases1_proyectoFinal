@@ -30,44 +30,7 @@ function AlumnosEntregarActividad() {
   const [fecha_hora, setFechaHora] = useState("");
   const [punteo, setPunteo] = useState("");
   const [valor, setValor] = useState("");
-  const [observaciones, setObs] = useState([
-    {
-      id_observacion: 1,
-      texto: "holaa"
-    },
-    {
-      id_observacion: 1,
-      texto: "holaa"
-    },
-    {
-      id_observacion: 1,
-      texto: "holaa"
-    },
-    {
-      id_observacion: 1,
-      texto: "holaa"
-    },
-    {
-      id_observacion: 1,
-      texto: "holaa"
-    },
-    {
-      id_observacion: 1,
-      texto: "holaa"
-    },
-    {
-      id_observacion: 1,
-      texto: "holaa"
-    },
-    {
-      id_observacion: 1,
-      texto: "holaa"
-    },
-    {
-      id_observacion: 1,
-      texto: "holaa"
-    },
-  ]);
+  const [observaciones, setObs] = useState([]);
 
   const [redirect, setRedirect] = useState(false);
 
@@ -129,7 +92,7 @@ function AlumnosEntregarActividad() {
     getObservaciones(asig_act).then((response) => {
       console.log("OBSERVACIONES");
       console.log(response.data);
-      //setObs(response.data);
+      setObs(response.data);
     });
   }, [])
 
