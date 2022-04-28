@@ -148,4 +148,17 @@ export function getActividadAlumno(id_asignacion_actividad) {
   return axios.post(route + 'Alumnos/getActividadAlumno', { id_asignacion_actividad: id_asignacion_actividad })
 }
 
+export function getClasesAlumno(id_alumno) {
+  return axios.post(route + 'Alumnos/getClasesAlumno', { id_alumno: id_alumno })
+}
+
+export function getNotasAlumno(id_alumno, id_clase) {
+  return axios.post(route + 'Alumnos/getNotasAlumno', { id_alumno: id_alumno, id_clase: id_clase })
+}
+
+export function getTotalAlumno(id_alumno, id_clase) {
+  return axios.post(route + 'Alumnos/getTotalAlumno', { id_alumno: id_alumno, id_clase: id_clase })
+}
+
+
 

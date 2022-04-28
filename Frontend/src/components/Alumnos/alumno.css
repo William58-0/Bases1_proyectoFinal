@@ -14,7 +14,7 @@
 
 .container-tabla-notas {
   height: 350px;
-  background-color: transparent;
+  background-color: white;
   display: block;
   overflow-y: auto;
   margin-left: 2%;

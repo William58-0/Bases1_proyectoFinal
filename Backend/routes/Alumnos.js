@@ -124,4 +124,43 @@ router.post('/entregarActividad', archivos.upload.single('file'), async function
 
 })
 
+// ----------------------------------------------------------------------------- NOTAS
+router.post("/getClasesAlumno", async function (req, res) {
+  const { id_alumno } = req.body
+  let consulta = `
+  SELECT * FROM clase
+  INNER JOIN curso USING (id_curso)
+  INNER JOIN asignacion_clase USING (id_clase)
+  WHERE id_alumno = ${id_alumno};`;
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
+
+router.post("/getNotasAlumno", async function (req, res) {
+  const { id_alumno, id_clase } = req.body
+  let consulta = `
+  SELECT * FROM clase
+  INNER JOIN actividad USING (id_clase)
+  INNER JOIN asignacion_actividad USING (id_actividad)
+  WHERE (id_alumno = ${id_alumno}) AND (id_clase = ${id_clase});`;
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
+
+router.post("/getTotalAlumno", async function (req, res) {
+  const { id_alumno, id_clase } = req.body
+  let consulta = `
+  SELECT SUM(puntuacion) as total FROM asignacion_actividad
+  INNER JOIN actividad USING (id_actividad)
+  INNER JOIN alumno USING (id_alumno)
+  WHERE (id_alumno = ${id_alumno}) AND (id_clase = ${id_clase})
+  GROUP BY id_alumno ;`;
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+});
+
+
 module.exports = router;
