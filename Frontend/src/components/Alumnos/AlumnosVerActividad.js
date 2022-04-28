@@ -13,7 +13,7 @@ import './alumno.css';
 
 
 function AlumnosEntregarActividad() {
-  const [id_alumno, setIdAlumno] = useState(306)
+  const [id_alumno, setIdAlumno] = useState(2)
   const [nombre_alumno, setNombreAlumno] = useState("")
   const [asig_act, setAsigAct] = useState(useParams().asig_act)
 

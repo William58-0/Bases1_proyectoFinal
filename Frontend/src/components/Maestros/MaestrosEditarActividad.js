@@ -128,8 +128,8 @@ function MaestrosVerActividad() {
 
                     <label>Valor:</label>
                     <input type='text' value={valor}
-                      style={{ marginLeft: '2%', width: '5%', marginRight: '2%', textAlign: 'center' }}>
-
+                      style={{ marginLeft: '2%', width: '5%', marginRight: '2%', textAlign: 'center' }}
+                      onChange={(e) => setValor(e.target.value)}>
                     </input>
                     puntos<br /><br />
                     <label>Fecha Entrega: </label>
@@ -137,7 +137,6 @@ function MaestrosVerActividad() {
                       style={{ marginLeft: '2%', marginRight: '2%' }}>
 
                     </input><br />
-                    <Button onClick={() => console.log(fechaE)}>probar</Button>
                   </>
                 }
               </Card.Text>

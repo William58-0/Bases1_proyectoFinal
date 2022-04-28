@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react'
 
 import { Redirect } from 'react-router-dom';
 import { Button, Card } from "react-bootstrap";
-import { Container } from './AdminContainer'
+import { Container, Form } from '../AdminContainer'
 
 import {
     editarUsuario, getUsuarios, getUsuario
-} from '../../endpoints/endpoints';
+} from '../../../endpoints/endpoints';
 
 
-function EditarUsuario() {
-    const [tipo, setTipo] = useState("Maestro");
+function EditarAlumnos() {
+    const [tipo, setTipo] = useState("Alumno");
     const [usuario, setUsuario] = useState(0);
     const [nombre, setNombre] = useState("fdsafa");
     const [apellido, setApellido] = useState("fdassd");
@@ -29,11 +29,7 @@ function EditarUsuario() {
         getUsuarios(tipo).then((response) => {
             setUsuarios(response.data);
             if (response.data.length > 0) {
-                if (tipo === 'Maestro') {
-                    getOtroUsuario(response.data[0].id_maestro, tipo);
-                } else {
-                    getOtroUsuario(response.data[0].id_alumno, tipo);
-                }
+                getOtroUsuario(response.data[0].id_alumno, tipo);
             }
         });
 
@@ -41,7 +37,7 @@ function EditarUsuario() {
 
     const renderRedirect = () => {
         if (redirect) {
-            return <Redirect to='/admin' />
+            return <Redirect to='/admin/editarusuario' />
         }
     }
 
@@ -93,15 +89,6 @@ function EditarUsuario() {
                         type="text" />
                     <br /><br />
 
-                    {tipo === 'Maestro' ?
-                        <><label>Fecha de Nacimiento: </label><br />
-                            <input style={{ marginBottom: "2%" }} value={nacimiento} readOnly={modo}
-                                onChange={(e) => setNacimiento(e.target.value)}
-                                type="date" />
-                            <br />
-                        </> : <></>
-                    }
-
                 </div>
             </div>
         );
@@ -134,7 +121,7 @@ function EditarUsuario() {
 
     // -------------------------------------------------------------------------- Editar un usuario
 
-    const getOtroUsuario = (idUsuario, tipo) => {
+    const getOtroUsuario = (idUsuario) => {
 
         setUsuario(idUsuario);
         getUsuario(idUsuario, tipo).then((response) => {
@@ -159,12 +146,8 @@ function EditarUsuario() {
             setContrasenia(user.contrasenia);
             setCorreo(user.correo);
             setNacimiento(user.fecha_nacimiento);
+            setDPICarnet(user.carnet);
 
-            if (tipo === 'Maestro') {
-                setDPICarnet(user.dpi);
-            } else {
-                setDPICarnet(user.carnet);
-            }
         }).catch(err => {
             console.log("error al tomar datos");
             setNombre("");
@@ -180,16 +163,7 @@ function EditarUsuario() {
     }
 
     const cambiarUsuario = async (e) => {
-        getOtroUsuario(e.target.value, tipo);
-    }
-
-    const cambiarTipo = (e) => {
-        setTipo(e.target.value);
-        var type = e.target.value;
-        getUsuarios(e.target.value).then((response) => {
-            setUsuarios(response.data);
-            getOtroUsuario(usuario, type);
-        });
+        getOtroUsuario(e.target.value);
     }
 
     return (
@@ -201,25 +175,14 @@ function EditarUsuario() {
                             {renderRedirect()}
                             <button className='boton-regreso-publicacion'
                                 onClick={() => setRedirect(true)}> {"<"} </button>
-                            <label className='label-publicacion'>Editar un usuario </label>
-                            <select style={{ float: 'right' }} onChange={(e) => cambiarTipo(e)} >
-                                <option key={'Maestro'} value={'Maestro'}>Maestro</option>
-                                <option key={'Alumno'} value={'Alumno'}>Alumno</option>
-                            </select>
+                            <label className='label-publicacion'>Editar un alumno </label>
                         </Card.Header>
                         <Card.Body style={{ overflowY: 'auto' }}>
                             Seleccionar el id:
                             <select style={{ marginLeft: '2%' }} onChange={(e) => cambiarUsuario(e)}>
                                 {
                                     usuarios.map((usuario) =>
-                                        <>
-                                            {
-                                                tipo === 'Maestro' ?
-                                                    <option key={usuarios.id_maestro} value={usuario.id_maestro}>{usuario.id_maestro}</option>
-                                                    :
-                                                    <option key={usuarios.id_alumno} value={usuario.id_alumno}>{usuario.id_alumno}</option>
-                                            }
-                                        </>
+                                        <option key={usuarios.id_alumno} value={usuario.id_alumno}>{usuario.id_alumno}</option>
                                     )}
                             </select>
                             <br /><br />
@@ -236,4 +199,4 @@ function EditarUsuario() {
     );
 }
 
-export default EditarUsuario;
+export default EditarAlumnos;

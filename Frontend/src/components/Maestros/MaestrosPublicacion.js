@@ -16,7 +16,7 @@ import './maestro.css';
 
 function MaestrosPublicacion() {
   //const [id_maestro, setMaestro] = useState(useParams().identificacion)
-  const [id_maestro, setMaestro] = useState(1)
+  const [id_maestro, setMaestro] = useState(1);
   const [nombre_maestro, setNombreMaestro] = useState("")
   const [cursos, setCursos] = useState([]);
   const [curso, setCurso] = useState(0);

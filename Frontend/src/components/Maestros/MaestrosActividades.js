@@ -131,6 +131,7 @@ function MaestrosActividades() {
 
   const editarActividad = (row) => {
     // obtener los datos para la actividad seleccionada
+    setActi(row.id_actividad);
     setRedirect(true);
 
   }
@@ -140,6 +141,7 @@ function MaestrosActividades() {
     setDesc("");
     setValor(0);
     setFechaE("");
+    setAlumnosA([]);
     setCrear(false);
   }
 

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react'
 
 import { Redirect } from 'react-router-dom';
 import { Button, Card } from "react-bootstrap";
-import { Container } from './AdminContainer'
+import { Container } from '../AdminContainer'
 
 import {
     eliminarUsuario, getUsuarios, getUsuario
-} from '../../endpoints/endpoints';
+} from '../../../endpoints/endpoints';
 
 
-function EEliminarUsuario() {
+function EliminarMaestros() {
     const [tipo, setTipo] = useState("Maestro");
     const [usuario, setUsuario] = useState(0);
     const [nombre, setNombre] = useState("fdsafa");
@@ -20,7 +20,6 @@ function EEliminarUsuario() {
     const [nacimiento, setNacimiento] = useState("2021-08-14");
     const [dpi_carnet, setDPICarnet] = useState("45646856");
     const [contrasenia, setContrasenia] = useState("hgdhghgf");
-    const [imagen, setImagen] = useState({ preview: '', data: '' });
 
     const [redirect, setRedirect] = useState(false);
 
@@ -30,13 +29,8 @@ function EEliminarUsuario() {
         // obtener los usuarios
         getUsuarios(tipo).then((response) => {
             setUsuarios(response.data);
-
             if (response.data.length > 0) {
-                if (tipo === 'Maestro') {
-                    getOtroUsuario(response.data[0].id_maestro, tipo);
-                } else {
-                    getOtroUsuario(response.data[0].id_alumno, tipo);
-                }
+                getOtroUsuario(response.data[0].id_maestro);
             }
         });
 
@@ -91,14 +85,11 @@ function EEliminarUsuario() {
                         type="text" />
                     <br /><br />
 
-                    {tipo === 'Maestro' ?
-                        <><label>Fecha de Nacimiento: </label><br />
-                            <input style={{ marginBottom: "2%" }} value={nacimiento} readOnly={modo}
-                                onChange={(e) => setNacimiento(e.target.value)}
-                                type="date" />
-                            <br />
-                        </> : <></>
-                    }
+                    <label>Fecha de Nacimiento: </label><br />
+                    <input style={{ marginBottom: "2%" }} value={nacimiento} readOnly={modo}
+                        onChange={(e) => setNacimiento(e.target.value)}
+                        type="date" />
+                    <br />
 
                 </div>
             </div>
@@ -107,21 +98,12 @@ function EEliminarUsuario() {
 
     const renderRedirect = () => {
         if (redirect) {
-            return <Redirect to='/admin' />
+            return <Redirect to='/admin/eliminarusuario' />
         }
     }
 
-    const cambiarTipo = (e) => {
-        setTipo(e.target.value);
-        var type = e.target.value;
-        getUsuarios(e.target.value).then((response) => {
-            setUsuarios(response.data);
-            getOtroUsuario(usuario, type);
-        });
-    }
-
     // -------------------------------------------------------------------------- Eliminar un usuario
-    const getOtroUsuario = (idUsuario, tipo) => {
+    const getOtroUsuario = (idUsuario) => {
         setUsuario(idUsuario);
         getUsuario(idUsuario, tipo).then((response) => {
             if (!(response.data.length > 0)) {
@@ -144,13 +126,9 @@ function EEliminarUsuario() {
             setDireccion(user.direccion);
             setContrasenia(user.contrasenia);
             setCorreo(user.correo);
+            setNacimiento(user.fecha_nacimiento);
+            setDPICarnet(user.dpi);
 
-            if (tipo === 'Maestro') {
-                setNacimiento(user.fecha_nacimiento);
-                setDPICarnet(user.dpi);
-            } else {
-                setDPICarnet(user.carnet);
-            }
         }).catch(err => {
             console.log("error al tomar datos");
             setNombre("");
@@ -166,7 +144,7 @@ function EEliminarUsuario() {
     }
 
     const cambiarUsuario = async (e) => {
-        getOtroUsuario(e.target.value, tipo);
+        getOtroUsuario(e.target.value);
     }
 
     const EliminarUsuario = async (e) => {
@@ -187,25 +165,15 @@ function EEliminarUsuario() {
                             {renderRedirect()}
                             <button className='boton-regreso-publicacion'
                                 onClick={() => setRedirect(true)}> {"<"} </button>
-                            <label className='label-publicacion'>Eliminar un usuario </label>
-                            <select style={{ float: 'right' }} onChange={(e) => cambiarTipo(e)} >
-                                <option key={'Maestro'} value={'Maestro'}>Maestro</option>
-                                <option key={'Alumno'} value={'Alumno'}>Alumno</option>
-                            </select>
+                            <label className='label-publicacion'>Eliminar un maestro </label>
+
                         </Card.Header>
                         <Card.Body style={{ overflowY: 'auto' }}>
                             Seleccionar el id:
                             <select style={{ marginLeft: '2%' }} onChange={(e) => cambiarUsuario(e)} >
                                 {
                                     usuarios.map((usuario) =>
-                                        <>
-                                            {
-                                                tipo === 'Maestro' ?
-                                                    <option key={usuarios.id_maestro} value={usuario.id_maestro}>{usuario.id_maestro}</option>
-                                                    :
-                                                    <option key={usuarios.id_alumno} value={usuario.id_alumno}>{usuario.id_alumno}</option>
-                                            }
-                                        </>
+                                        <option key={usuarios.id_maestro} value={usuario.id_maestro}>{usuario.id_maestro}</option>
                                     )}
                             </select>
                             <br /><br />
@@ -213,7 +181,8 @@ function EEliminarUsuario() {
 
                         </Card.Body>
                         <Card.Footer style={{ textAlign: 'right' }}>
-                            <Button onClick={() => EliminarUsuario()} style={{ float: 'right' }}>Eliminar Usuario</Button>
+                            <Button variant='danger'
+                                onClick={() => EliminarUsuario()} style={{ float: 'right' }}>Eliminar Usuario</Button>
                         </Card.Footer>
                     </Card>
                 </div>
@@ -222,4 +191,4 @@ function EEliminarUsuario() {
     );
 }
 
-export default EEliminarUsuario;
+export default EliminarMaestros;
