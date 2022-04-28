@@ -8,6 +8,7 @@ import CrearUsuario from '../components/Administrador/CrearUsuario';
 import EliminarUsuario from '../components/Administrador/EliminarUsuario';
 import CargaMasiva from '../components/Administrador/CargaMasiva';
 import EditarUsuario from '../components/Administrador/EditarUsuario';
+import AsignarCursos from '../components/Administrador/AsignarCursos';
 
 const Administrador = () => {
   return (
@@ -41,6 +42,12 @@ const Administrador = () => {
         exact
         strict
         component={EditarUsuario}
+      />
+      <Route
+        path="/admin/asignarcursos"
+        exact
+        strict
+        component={AsignarCursos}
       />
     </Switch>
   );

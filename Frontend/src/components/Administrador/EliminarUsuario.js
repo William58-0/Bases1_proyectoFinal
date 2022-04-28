@@ -9,7 +9,7 @@ import {
 } from '../../endpoints/endpoints';
 
 
-function EliminarUsuario() {
+function EEliminarUsuario() {
     const [tipo, setTipo] = useState("Maestro");
     const [usuario, setUsuario] = useState(0);
     const [nombre, setNombre] = useState("fdsafa");
@@ -32,19 +32,10 @@ function EliminarUsuario() {
             setUsuarios(response.data);
 
             if (response.data.length > 0) {
-                var user = response.data[0];
-                setNombre(user.nombre);
-                setApellido(user.apellido);
-                setTelefono(user.telefono);
-                setDireccion(user.direccion);
-                setContrasenia(user.contrasenia);
-                setCorreo(user.correo);
-                setNacimiento(user.fecha_nacimiento);
-
                 if (tipo === 'Maestro') {
-                    setDPICarnet(user.dpi);
+                    getOtroUsuario(response.data[0].id_maestro, tipo);
                 } else {
-                    setDPICarnet(user.carnet);
+                    getOtroUsuario(response.data[0].id_alumno, tipo);
                 }
             }
         });
@@ -125,8 +116,8 @@ function EliminarUsuario() {
         var type = e.target.value;
         getUsuarios(e.target.value).then((response) => {
             setUsuarios(response.data);
+            getOtroUsuario(usuario, type);
         });
-        getOtroUsuario(1, type);
     }
 
     // -------------------------------------------------------------------------- Eliminar un usuario
@@ -135,6 +126,14 @@ function EliminarUsuario() {
         getUsuario(idUsuario, tipo).then((response) => {
             if (!(response.data.length > 0)) {
                 console.log("error al tomar datos");
+                setNombre("");
+                setApellido("");
+                setTelefono("");
+                setDireccion("");
+                setContrasenia("");
+                setCorreo("");
+                setNacimiento("");
+                setDPICarnet("");
                 return;
             }
             var user = response.data[0];
@@ -152,6 +151,17 @@ function EliminarUsuario() {
             } else {
                 setDPICarnet(user.carnet);
             }
+        }).catch(err => {
+            console.log("error al tomar datos");
+            setNombre("");
+            setApellido("");
+            setTelefono("");
+            setDireccion("");
+            setContrasenia("");
+            setCorreo("");
+            setNacimiento("");
+            setDPICarnet("");
+            return;
         });
     }
 
@@ -212,4 +222,4 @@ function EliminarUsuario() {
     );
 }
 
-export default EliminarUsuario;
+export default EEliminarUsuario;

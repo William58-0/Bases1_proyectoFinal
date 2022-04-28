@@ -106,6 +106,12 @@ router.post("/getUsuarios", async function (req, res) {
   }
 
   service.consultar(query, function (result) {
+
+    if (tipo == "Maestro") {
+      result.datos.forEach(dato => {
+        dato.fecha_nacimiento = fecha.fechaLegible(dato.fecha_nacimiento);
+      });
+    }
     res.status(result.status).json(result.datos);
   });
 
@@ -122,7 +128,7 @@ router.post("/getUsuario", async function (req, res) {
   }
 
   service.consultar(query, function (result) {
-    if (tipo == 'Maestro') {
+    if (tipo == 'Maestro' && result.datos.length > 0) {
 
       result.datos[0].fecha_nacimiento = fecha.fechaLegible(result.datos[0].fecha_nacimiento);
 
@@ -136,7 +142,7 @@ router.post("/getUsuario", async function (req, res) {
 
 router.post("/eliminarUsuario", async function (req, res) {
   const { usuario, tipo } = req.body
-
+  console.log("sii entra quii");
   var query = "";
   if (tipo == 'Maestro') {
     query = `DELETE FROM maestro WHERE id_maestro = "${usuario}";`
@@ -145,6 +151,8 @@ router.post("/eliminarUsuario", async function (req, res) {
   }
 
   service.consultar(query, function (result) {
+    console.log(result.datos);
+    console.log(query);
     res.status(result.status).json(result.datos);
   });
 
@@ -200,7 +208,13 @@ router.get("/getMaestros", async function (req, res) {
     SELECT * FROM maestro;
   `
   service.consultar(consulta, function (result) {
-    res.status(200).json(result.datos);
+
+    result.datos.forEach(dato => {
+      dato.fecha_nacimiento = fecha.fechaLegible(dato.fecha_nacimiento);
+    });
+
+    res.status(result.status).json(result.datos);
+
   });
 });
 

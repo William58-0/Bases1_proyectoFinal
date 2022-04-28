@@ -29,19 +29,10 @@ function EditarUsuario() {
         getUsuarios(tipo).then((response) => {
             setUsuarios(response.data);
             if (response.data.length > 0) {
-                var user = response.data[0];
-                setNombre(user.nombre);
-                setApellido(user.apellido);
-                setTelefono(user.telefono);
-                setDireccion(user.direccion);
-                setContrasenia(user.contrasenia);
-                setCorreo(user.correo);
-                setNacimiento(user.fecha_nacimiento);
-
                 if (tipo === 'Maestro') {
-                    setDPICarnet(user.dpi);
+                    getOtroUsuario(response.data[0].id_maestro, tipo);
                 } else {
-                    setDPICarnet(user.carnet);
+                    getOtroUsuario(response.data[0].id_alumno, tipo);
                 }
             }
         });
@@ -149,6 +140,14 @@ function EditarUsuario() {
         getUsuario(idUsuario, tipo).then((response) => {
             if (!(response.data.length > 0)) {
                 console.log("error al tomar datos");
+                setNombre("");
+                setApellido("");
+                setTelefono("");
+                setDireccion("");
+                setContrasenia("");
+                setCorreo("");
+                setNacimiento("");
+                setDPICarnet("");
                 return;
             }
             var user = response.data[0];
@@ -166,6 +165,17 @@ function EditarUsuario() {
             } else {
                 setDPICarnet(user.carnet);
             }
+        }).catch(err => {
+            console.log("error al tomar datos");
+            setNombre("");
+            setApellido("");
+            setTelefono("");
+            setDireccion("");
+            setContrasenia("");
+            setCorreo("");
+            setNacimiento("");
+            setDPICarnet("");
+            return;
         });
     }
 
@@ -178,8 +188,8 @@ function EditarUsuario() {
         var type = e.target.value;
         getUsuarios(e.target.value).then((response) => {
             setUsuarios(response.data);
+            getOtroUsuario(usuario, type);
         });
-        getOtroUsuario(1, type);
     }
 
     return (
