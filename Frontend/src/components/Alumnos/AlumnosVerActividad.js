@@ -13,7 +13,7 @@ import './alumno.css';
 
 
 function AlumnosEntregarActividad() {
-  const [id_alumno, setIdAlumno] = useState(306)
+  const [id_alumno, setIdAlumno] = useState(1);
   const [nombre_alumno, setNombreAlumno] = useState("")
   const [asig_act, setAsigAct] = useState(useParams().asig_act)
 
@@ -22,16 +22,15 @@ function AlumnosEntregarActividad() {
   const [estado, setEstado] = useState("");
   const [entregado, setEntregado] = useState(false);
 
-
   const [actividad, setActividad] = useState(useParams().actividad);
-
 
   // para los detalles de la entrega
   const [verDetalles, setVerDet] = useState(false);
   const [fecha_entrega, setFechaEnt] = useState("");
+  const [fecha_hora, setFechaHora] = useState("");
   const [punteo, setPunteo] = useState("");
   const [valor, setValor] = useState("");
-  const [observaciones, setObservaciones] = useState("");
+  const [observaciones, setObs] = useState([]);
 
   const [redirect, setRedirect] = useState(false);
 
@@ -74,9 +73,14 @@ function AlumnosEntregarActividad() {
 
       if (response.data.length > 0) {
         var resp = response.data[0]
+        console.log("lo de la actividad");
+        console.log(response.data[0]);
         setTitulo(resp.titulo);
         setDesc(resp.descripcion);
         setEstado(resp.estado_actividad);
+        setFechaHora(resp.fecha_hora);
+        setValor(resp.valor);
+        setPunteo(resp.puntuacion);
         if (resp.estado_actividad == "Pendiente") {
           setEntregado(false);
         } else {
@@ -100,7 +104,7 @@ function AlumnosEntregarActividad() {
       <Container>
         <NavBar alumno={nombre_alumno} id_alumno={id_alumno} />
         <div class="d-flex justify-content-center align-items-center container-publicacion">
-          <Card style={{ width: '100%', height: '80%' }}>
+          <Card style={{ width: '100%', height: '85%' }}>
             <Card.Header as="h5" >
               {renderRedirect()}
 
@@ -120,12 +124,44 @@ function AlumnosEntregarActividad() {
                   </>
                   :
                   <>
-                    <label>Fecha de entrega: {fecha_entrega}</label><br />
-                    <label>Punteo: {punteo} / {valor}</label><br /><br />
-                    <label>Observaciones: </label> <br />
-                    <p>
-                      {observaciones}hola
-                    </p>
+                    {(punteo === null || punteo === "") ?
+                      <>
+                        <label>Pendiente de Calificación</label><br />
+                        <label>Valor: {valor}</label><br />
+                      </>
+                      :
+                      <>
+                        <label>Punteo: {punteo} / {valor}</label><br /><br />
+                        <div class="bg-light container-tabla-observaciones" >
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>Observaciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {
+                                observaciones.map((log) =>
+                                  <>
+                                    <tr key={log.id_observacion}>
+
+                                      <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {log['texto']}
+                                      </td>
+
+                                    </tr>
+                                  </>
+                                )}
+                            </tbody>
+                          </Table>
+                        </div>
+                        <p>
+                          {observaciones}
+                        </p>
+                        {/**aquiii deberia haber una tabla tal vez */}
+                      </>
+                    }
+
                   </>
                 }
 
@@ -145,7 +181,7 @@ function AlumnosEntregarActividad() {
                 <>
                   <p style={{ textAlign: 'center' }}>Entregado: Entregado</p>
                   <div>
-                    <small className="text-muted">Fecha</small>
+                    <small className="text-muted">Entregado el {fecha_hora}</small>
                     {!verDetalles ?
                       <>
                         <Button onClick={() => setVerDet(true)} style={{ float: 'right' }}>Detalles de Entrega</Button>

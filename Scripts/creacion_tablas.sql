@@ -131,9 +131,10 @@ CREATE TABLE IF NOT EXISTS asignacion_actividad (
 
 
 CREATE TABLE IF NOT EXISTS observacion (
-	id_asignacion_actividad INT NOT NULL AUTO_INCREMENT,
+	id_observacion INT NOT NULL AUTO_INCREMENT,
 	texto VARCHAR(250),
-	PRIMARY KEY (id_asignacion_actividad),
+	id_asignacion_actividad INT,
+	PRIMARY KEY (id_observacion),
 	FOREIGN KEY (id_asignacion_actividad) REFERENCES asignacion_actividad (id_asignacion_actividad) ON DELETE CASCADE
 );
 

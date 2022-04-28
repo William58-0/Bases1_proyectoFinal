@@ -140,19 +140,6 @@ SELECT COUNT(*) AS num_filas FROM pregunta;
 SELECT * FROM pregunta LIMIT 10;
 
 
--- ___________________________ Carga de asignacion_clase ___________________________
-LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\asignacion_clase.csv' 
-INTO TABLE asignacion_clase  
-CHARACTER SET latin1
-FIELDS TERMINATED BY ','  
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-
-SELECT COUNT(*) AS num_filas FROM asignacion_clase;
-SELECT * FROM asignacion_clase LIMIT 10;
-
-
 -- ___________________________ Carga de asignacion_actividad ___________________________
 LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\asignacion_actividad.csv' 
 INTO TABLE asignacion_actividad  

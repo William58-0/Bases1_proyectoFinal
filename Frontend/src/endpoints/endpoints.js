@@ -118,8 +118,20 @@ export function getAlumnosCurso(id_maestro, id_curso) {
   return axios.post(route + 'Maestros/getAlumnosCurso', { id_maestro: id_maestro, id_curso: id_curso })
 }
 
+export function getEntregas(id_maestro) {
+  return axios.post(route + 'Maestros/getEntregas', { id_maestro: id_maestro })
+}
 
-// --------------------------------------------------------------------------------------- Alumno
+export function getEntrega(id_asignacion_actividad) {
+  return axios.post(route + 'Maestros/getEntrega', { id_asignacion_actividad: id_asignacion_actividad })
+}
+
+export function calificarEntrega(punteo, observaciones, id_asignacion_actividad) {
+  return axios.post(route + 'Maestros/calificarEntrega',
+    { punteo: punteo, observaciones: observaciones, id_asignacion_actividad: id_asignacion_actividad })
+}
+
+// --------------------------------------------------------------------------------------- ALUMNO
 export function getAlumno(id_alumno) {
   return axios.post(route + 'Alumnos/getAlumno', { id_alumno: id_alumno })
 }
@@ -135,5 +147,18 @@ export function getActividadesAlumno(id_alumno) {
 export function getActividadAlumno(id_asignacion_actividad) {
   return axios.post(route + 'Alumnos/getActividadAlumno', { id_asignacion_actividad: id_asignacion_actividad })
 }
+
+export function getClasesAlumno(id_alumno) {
+  return axios.post(route + 'Alumnos/getClasesAlumno', { id_alumno: id_alumno })
+}
+
+export function getNotasAlumno(id_alumno, id_clase) {
+  return axios.post(route + 'Alumnos/getNotasAlumno', { id_alumno: id_alumno, id_clase: id_clase })
+}
+
+export function getTotalAlumno(id_alumno, id_clase) {
+  return axios.post(route + 'Alumnos/getTotalAlumno', { id_alumno: id_alumno, id_clase: id_clase })
+}
+
 
 

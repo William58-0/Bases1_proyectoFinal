@@ -82,8 +82,8 @@ function MaestrosActividades() {
     });
 
     cursos.forEach(curso => {
-      if(curso.id_curso.toString() === e.target.value.toString()){
-        setNombreCurso(curso.nombre_curso);     
+      if (curso.id_curso.toString() === e.target.value.toString()) {
+        setNombreCurso(curso.nombre_curso);
       }
     });
 
@@ -131,15 +131,17 @@ function MaestrosActividades() {
 
   const editarActividad = (row) => {
     // obtener los datos para la actividad seleccionada
+    setActi(row.id_actividad);
     setRedirect(true);
 
   }
 
-  const regresar = ()=>{
+  const regresar = () => {
     setTitulo("");
     setDesc("");
     setValor(0);
     setFechaE("");
+    setAlumnosA([]);
     setCrear(false);
   }
 
@@ -325,7 +327,9 @@ function MaestrosActividades() {
 
               </div>
               <div style={{ marginTop: '2%' }}>
-                <Button variant='success' style={{ marginLeft: '75%' }}> Ver Entregas</Button>
+                <Link to={"/maestros/entregas/" + id_maestro}>
+                  <Button variant='success' style={{ marginLeft: '75%' }}> Ver Entregas</Button>
+                </Link>
                 <Button onClick={() => setCrear(true)} style={{ float: 'right', marginRight: '1.5%' }}> Crear Actividad</Button>
               </div>
             </div>
