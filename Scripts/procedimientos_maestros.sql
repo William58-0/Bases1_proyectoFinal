@@ -210,7 +210,7 @@ CALL delete_actividad(100);
 
 
 -- ___________________________ obtener curso de alumno ___________________________
-CREATE PROCEDURE get_alumno_curso (
+CREATE PROCEDURE get_alumnos_curso (
 	IN id_maestro INT,
 	IN id_curso INT
 )
@@ -222,11 +222,73 @@ BEGIN
     AND (clase.id_curso= id_curso);
 END;
 
-DROP PROCEDURE IF EXISTS get_alumno_curso;
-CALL get_alumno_curso(1705, 3);
+DROP PROCEDURE IF EXISTS get_alumnos_curso;
+CALL get_alumnos_curso(1705, 3);
 
 
+-- ___________________________ obtener entregas ___________________________
+CREATE PROCEDURE get_entregas(
+	IN id_maestro INT
+)
+BEGIN 
+    SELECT * FROM clase
+    INNER JOIN curso USING (id_curso)
+    INNER JOIN actividad USING (id_clase)
+    INNER JOIN asignacion_actividad USING (id_actividad)
+    INNER JOIN alumno USING (id_alumno)
+    WHERE (clase.id_maestro = id_maestro)
+    AND (asignacion_actividad.estado_actividad = "Entregado"); 
+END;
 
+DROP PROCEDURE IF EXISTS get_entregas;
+CALL get_entregas(1);
+
+
+-- ___________________________ obtener entrega ___________________________
+CREATE PROCEDURE get_entrega (
+	IN id_observacion INT
+)
+BEGIN 
+    SELECT * FROM clase
+    INNER JOIN curso USING (id_curso)
+    INNER JOIN actividad USING (id_clase)
+    INNER JOIN asignacion_actividad USING (id_actividad)
+    INNER JOIN alumno USING (id_alumno)
+    WHERE (observacion.id_observacion = id_observacion); 
+END;
+
+DROP PROCEDURE IF EXISTS get_entrega;
+CALL get_entrega(1);
+
+
+-- ___________________________ calificar entrega paso 1 ___________________________
+
+CREATE PROCEDURE asignar_punteo_actividad (
+	IN puntacion DECIMAL,
+	IN id_asignacion_actividad INT,
+)
+BEGIN 
+    UPDATE asignacion_actividad SET
+    asignacion_actividad.puntuacion = puntacion
+    WHERE asignacion_actividad.id_asignacion_actividad = id_asignacion_actividad;
+END;
+
+DROP PROCEDURE IF EXISTS asignar_punteo_actividad;
+CALL asignar_punteo_actividad(75, 1);
+
+-- ___________________________ calificar entrega paso 2 ___________________________
+
+CREATE PROCEDURE realizar_observacion_actividad (
+	IN texto VARCHAR(250),
+	IN id_asignacion_actividad INT,
+)
+BEGIN 
+      INSERT INTO observacion(texto, id_asignacion_actividad)
+      VALUES(texto, id_asignacion_actividad);
+END;
+
+DROP PROCEDURE IF EXISTS realizar_observacion_actividad;
+CALL realizar_observacion_actividad('observacion', 1);
 
 
 
