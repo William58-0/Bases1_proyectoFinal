@@ -12,6 +12,13 @@ import MaestrosCalificar from '../components/Maestros/MaestrosCalificar';
 import MaestrosExamenes from '../components/Maestros/MaestrosExamenes';
 import MaestrosCrearExamen from '../components/Maestros/MaestrosCrearExamen';
 
+import AdminAlumnos from '../components/Maestros/AdminAlumnos/AdminAlumnos';
+import CargaMasiva from '../components/Maestros/AdminAlumnos/CargaMasiva';
+import CrearAlumno from '../components/Maestros/AdminAlumnos/CrearAlumno';
+import EditarAlumno from '../components/Maestros/AdminAlumnos/EditarAlumno';
+import EliminarAlumno from '../components/Maestros/AdminAlumnos/EliminarAlumno';
+import AlumnosNotas from '../components/Maestros/AdminAlumnos/AlumnosNotas';
+
 const Maestros = () => {
   return (
     <Switch>
@@ -62,6 +69,43 @@ const Maestros = () => {
         exact
         strict
         component={MaestrosCrearExamen}
+      />
+
+      <Route
+        path="/maestros/adminalumnos/:identificacion"
+        exact
+        strict
+        component={AdminAlumnos}
+      />
+      <Route
+        path="/maestros/adminalumnos/cargamasiva/:identificacion"
+        exact
+        strict
+        component={CargaMasiva}
+      />
+      <Route
+        path="/maestros/adminalumnos/crearalumno/:identificacion"
+        exact
+        strict
+        component={CrearAlumno}
+      />
+      <Route
+        path="/maestros/adminalumnos/editaralumno/:identificacion"
+        exact
+        strict
+        component={EditarAlumno}
+      />
+      <Route
+        path="/maestros/adminalumnos/eliminaralumno/:identificacion"
+        exact
+        strict
+        component={EliminarAlumno}
+      />
+      <Route
+        path="/maestros/adminalumnos/notas/:identificacion"
+        exact
+        strict
+        component={AlumnosNotas}
       />
     </Switch>
   );

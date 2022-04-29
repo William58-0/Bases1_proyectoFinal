@@ -49,8 +49,6 @@ function MaestrosCalificar() {
     });
     // obtener datos de actividad para el maestro
     getEntrega(entrega).then((response) => {
-      console.log("DATOOOS DE LA ENTREGA");
-      console.log(response.data);
       if (response.data.length > 0) {
         var resp = response.data[0];
         setTitulo(resp.titulo);
@@ -63,8 +61,6 @@ function MaestrosCalificar() {
     });
     //get observaciones
     getObservaciones(entrega).then((response) => {
-      console.log("OBSERVACIONES");
-      console.log(response.data);
       setObs(response.data); 
     });
   }, [])

@@ -4,8 +4,6 @@ import { Button } from "react-bootstrap";
 import { Table, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import DateTimePicker from 'react-datetime-picker';
-
 
 import {
   getMaestro, getCursosMaestro, getAlumnosCurso,

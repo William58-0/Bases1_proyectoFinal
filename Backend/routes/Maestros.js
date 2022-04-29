@@ -283,7 +283,6 @@ router.post("/calificarEntrega", async function (req, res) {
   });
 });
 
-
 router.post("/getObservaciones", async function (req, res) {
   const { id_asignacion_actividad } = req.body
 
