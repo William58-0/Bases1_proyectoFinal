@@ -9,6 +9,8 @@ import MaestrosActividades from '../components/Maestros/MaestrosActividades';
 import MaestrosEditarActividad from '../components/Maestros/MaestrosEditarActividad';
 import MaestrosEntregas from '../components/Maestros/MaestrosEntregas';
 import MaestrosCalificar from '../components/Maestros/MaestrosCalificar';
+import MaestrosExamenes from '../components/Maestros/MaestrosExamenes';
+import MaestrosCrearExamen from '../components/Maestros/MaestrosCrearExamen';
 
 const Maestros = () => {
   return (
@@ -48,6 +50,18 @@ const Maestros = () => {
         exact
         strict
         component={MaestrosCalificar}
+      />
+      <Route
+        path="/maestros/examenes/:identificacion"
+        exact
+        strict
+        component={MaestrosExamenes}
+      />
+      <Route
+        path="/maestros/examenes/crear/:identificacion"
+        exact
+        strict
+        component={MaestrosCrearExamen}
       />
     </Switch>
   );

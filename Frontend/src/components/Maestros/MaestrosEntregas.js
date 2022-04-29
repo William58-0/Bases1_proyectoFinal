@@ -2,15 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Link, Redirect, useParams } from 'react-router-dom';
 import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
-import Card from 'react-bootstrap/Card';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 
 import {
-  getMaestro, getActividadesMaestro, getCursosMaestro,
-  getIdClase, crearActividad, getAlumnosCurso,
-  getAlumno, getEntregas
+  getMaestro, getEntregas
 } from '../../endpoints/endpoints';
 
 import NavBar from './MaestrosNavBar';
@@ -24,27 +19,8 @@ function MaestrosEntregas() {
   const [entregas, setEnts] = useState([])
   const [entrega, setEnt] = useState([])
 
-
-
-  const [actividades, setActs] = useState([])
-
   const [indice, setIndice] = useState(0);
-  const [actividad, setActi] = useState(0);
-  const [destino, setDestino] = useState(0);
   const [redirect, setRedirect] = useState(false);
-  //
-  const [crear, setCrear] = useState(false);
-  const [cursos, setCursos] = useState([]);
-  const [curso, setCurso] = useState(0);
-  const [nombreCurso, setNombreCurso] = useState("");
-  const [titulo, setTitulo] = useState("");
-  const [descripcion, setDesc] = useState("");
-  const [valor, setValor] = useState(0);
-  const [fecha_entrega, setFechaE] = useState("");
-  const [fecha_publicacion, setFechaP] = useState("");
-  const [alumnos, setAlumnos] = useState([]);
-  const [alumno, setAlumno] = useState({});
-  const [alumnosA, setAlumnosA] = useState([]);
 
   useEffect(() => {
     // obtener los datos del maestro
@@ -58,79 +34,11 @@ function MaestrosEntregas() {
 
   }, [])
 
-
-  const cambiarCurso = (e) => {
-    setCurso(e.target.value);
-
-    getAlumnosCurso(id_maestro, e.target.value).then((response) => {
-      setAlumnos(response.data);
-      if (response.data.length > 0) {
-        setAlumno(response.data[0]);
-      }
-    });
-
-    cursos.forEach(curso => {
-      if (curso.id_curso.toString() === e.target.value.toString()) {
-        setNombreCurso(curso.nombre_curso);
-      }
-    });
-
-  }
-
-  const cambiarAlumno = (e) => {
-    getAlumno(e.target.value).then((response) => {
-      if (response.data.length > 0) {
-        setAlumno(response.data[0]);
-      }
-    });
-  }
-
-
-  const agregarAlumno = () => {
-    setAlumnosA([...alumnosA, alumno]);
-  }
-
-  const quitarAlumno = (row) => {
-    const del = alumnosA.filter(alumno => alumno.id_alumno !== row.id_alumno);
-    setAlumnosA(del);
-  }
-
-  const CrearActividad = () => {
-    getIdClase(id_maestro, curso).then((response) => {
-      crearActividad({
-        titulo: titulo, descripcion: descripcion,
-        fecha_entrega: fecha_entrega, valor: valor,
-        id_clase: response.data[0].id_clase,
-        alumnos: alumnos
-      }).then((response) => {
-        alert("Actividad Creada");
-        //para actualizar las actividades otra vez
-        getActividadesMaestro(id_maestro).then((response1) => {
-          setActs(response1.data);
-        });
-        regresar();
-
-      }).catch(err => {
-        alert("Error :(");
-      });
-
-    });
-  }
-
   const CalificarEntrega = (row) => {
     // obtener los datos para la actividad seleccionada
     setEnt(row.id_asignacion_actividad);
     setRedirect(true);
 
-  }
-
-  const regresar = () => {
-    setTitulo("");
-    setDesc("");
-    setValor(0);
-    setFechaE("");
-    setAlumnosA([]);
-    setCrear(false);
   }
 
   const renderRedirect = () => {

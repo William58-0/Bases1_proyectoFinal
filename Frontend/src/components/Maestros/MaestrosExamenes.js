@@ -4,162 +4,108 @@ import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 
+import {
+  getMaestro, crearPublicacion, getPublicacionesMaestro,
+  getIdClase, getCursosMaestro
+} from '../../endpoints/endpoints';
+
 
 import NavBar from './MaestrosNavBar';
 import Container from './FondoMaestros';
 import './maestro.css';
 
-let publicaciones = [
-  {
-    id: 1,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 2,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 3,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 4,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 5,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 6,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 7,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 8,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 9,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 10,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 11,
-    tema: 'tarea 1',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-]
+function MaestrosExamenes() {
+  //const [id_maestro, setMaestro] = useState(useParams().identificacion)
+  const [id_maestro, setMaestro] = useState(1);
+  const [nombre_maestro, setNombreMaestro] = useState("");
 
-function MaestrosPublicacion() {
-  const [maestro, setMaestro] = useState(useParams().identificacion)
   const [indice, setIndice] = useState(0);
-  const [examen, setExam] = useState(0);
+  const [examenes, setExams] = useState([]);
   const [redirect, setRedirect] = useState(false);
   //
-  const [asunto, setAsunto] = useState("");
-  const [descripcion, setDesc] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [autor, setAutor] = useState("");
 
   useEffect(() => {
     // obtener los datos del maestro
+    getMaestro(id_maestro).then((response) => {
+      if (response.data.length > 0) {
+        setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
+      }
+    });
+    /*
     // obtener publicaciones para el maestro
+    getExamenesMaestro(id_maestro).then((response) => {
+      setExams(response.data);
+    });
+
+    */
   }, [])
-
-  const handleRowClick = (row) => {
-    alert(row);
-    // obtener los datos para la publicacion seleccionada
-    setExam(row);
-    setRedirect(true);
-
-  }
 
   const renderRedirect = () => {
     if (redirect) {
-      return <Redirect to={'/maestros/examenes/' + maestro + '/' + examen} />
+      return <Redirect to={'/maestros/examenes/crear/' + id_maestro} />
     }
   }
 
   return (
     <>
-
       <Container>
-        <NavBar maestro={maestro} />
+        <NavBar maestro={nombre_maestro} id_maestro={id_maestro} />
         <br />
         <br />
         <div className='principal'>
           <div className="d-flex  justify-content-end align-items-center" style={{ marginLeft: '2%' }}>
             <h2>Examenes</h2>
             <div className="card-body d-flex justify-content-between align-items-center"
-              style={{ marginLeft: '62.5%' }}>
+              style={{ marginLeft: '60%' }}>
               Grupo:
-              <Button onClick={() => handleRowClick(0)}>{'<'}</Button>
-              {(indice / 10) + 1}
-              <Button onClick={() => handleRowClick(0)}>{'>'}</Button>
+              <Button >{'<'}</Button>
+              {(indice / 8) + 1}
+              <Button >{'>'}</Button>
             </div>
           </div>
-          <div class="bg-light container-tabla" >
+          <div class="bg-light container-tabla-publicacion" >
+            {renderRedirect()}
             <Table striped bordered hover >
               <thead>
                 <tr>
-                  <th>Asunto</th>
-                  <th colSpan={12}>Fecha</th>
+                  <th >ID Examen</th>
+                  <th >Publicacion</th>
+                  <th >Curso</th>
+                  <th >Hora Inicio</th>
+                  <th >Hora Fin</th>
                 </tr>
               </thead>
               <tbody>
                 {
-                  publicaciones.slice(indice, indice + 10).map((log) =>
+                  examenes.slice(indice, indice + 8).map((log) =>
                     <>
-                      <tr key={log.id} onClick={() => handleRowClick(log.id)}>
+                      <tr key={log.id}>
 
                         <td >
-                          {log['tema']}
+                          {log['fecha']}
                         </td>
 
-                        <td colSpan={12}>
-                          {log['fecha']}
+                        <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {log['nombre_curso']}
+                        </td>
+
+                        <td style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {log['descripcion']}
                         </td>
                       </tr>
                     </>
                   )}
               </tbody>
-              {renderRedirect()}
             </Table>
+          </div>
+          <br />
+          <div >
+            <Button style={{ float: 'right', marginRight: '2%' }} onClick={() => setRedirect(true)}>Crear Examen</Button>
           </div>
         </div>
       </Container>
-
-
     </>
   );
 }
 
-export default MaestrosPublicacion;
+export default MaestrosExamenes;

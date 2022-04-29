@@ -296,6 +296,59 @@ router.post("/getObservaciones", async function (req, res) {
   });
 });
 
+// ----------------------------------------------------------------------------- EXAMENES
+router.post("/crearExamen", async function (req, res) {
+  const { id_examen, hora_inicio, hora_final, id_clase, alumnos, preguntas } = req.body
 
+  let consulta = `
+    INSERT INTO examen VALUES(${id_examen}, CURDATE(), "${hora_inicio}", "${hora_final}", ${id_clase});
+  `;
+
+  service.consultar(consulta, function (result) {
+    // si insertó bien el examen
+    if (result.status == 200) {
+      // hacer las inserciones de preguntas
+      preguntas.forEach(pregunta => {
+        let consulta1 = `
+          INSERT INTO pregunta(texto, valor, id_examen)
+          VALUES("${pregunta.texto}", ${pregunta.valor}, ${result.datos.insertId});
+        `;
+        service.consultar(consulta1, function (result1) {
+          // si insertó bien una pregunta
+          if (result1.status == 200) {
+            // hacer las inserciones de la opciones de la pregunta
+            pregunta.opciones.forEach(opcion => {
+              let consulta2 = `
+                INSERT INTO opcion(texto, validez, id_pregunta)
+                VALUES("${opcion.texto}", ${opcion.validez}, ${result1.datos.insertId});
+              `;
+              service.consultar(consulta2, function (result2) {
+                console.log("insercion de opcion para pregunta");
+                console.log(result2.datos);
+              });
+            });
+          }
+        });
+      });
+
+      // hacer las inserciones de asignacion_examen para alumnos
+      alumnos.forEach(alumno => {
+        let consulta3 = `
+          INSERT INTO asignacion_examen(id_examen, id_alumno)
+          VALUES(${result.datos.insertId}, ${alumno.id_alumno});
+        `;
+        service.consultar(consulta3, function (result3) {
+          console.log("insercion de asignacion examen alumno");
+          console.log(result3.datos);
+        });
+      });
+
+    } else {
+      res.status(result.status).json(result.datos);
+    }
+  });
+
+  res.status(200).json('OK');
+});
 
 module.exports = router;

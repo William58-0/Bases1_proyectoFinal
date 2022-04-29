@@ -38,7 +38,7 @@
 }
 
 .container-tabla-asignados {
-  height: 266px;
+  height: 196px;
   color: black;
   display: block;
   overflow-y: auto;
@@ -78,6 +78,28 @@
   height: 215px;
   display: block;
   overflow: auto;
+}
+
+.container-tabla-respuestas {
+  height: 186px;
+  display: block;
+  overflow: auto;
+}
+
+.label-examen {
+  width: 30%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 0.5%;
+}
+
+.label-asign-examen {
+  width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 0.5%;
 }
 
 .probarcolores {

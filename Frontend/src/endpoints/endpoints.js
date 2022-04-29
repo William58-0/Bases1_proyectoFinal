@@ -136,6 +136,10 @@ export function getObservaciones(id_asignacion_actividad) {                   //
     { id_asignacion_actividad: id_asignacion_actividad })
 }
 
+export function crearExamen(datos) {                   // sirve tambien para alumno
+  return axios.post(route + 'Maestros/crearExamen', datos)
+}
+
 
 // --------------------------------------------------------------------------------------- ALUMNO
 export function getAlumno(id_alumno) {
