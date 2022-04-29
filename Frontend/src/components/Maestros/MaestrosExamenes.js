@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 
 import {
-  getMaestro, crearPublicacion, getPublicacionesMaestro,
+  getMaestro, crearPublicacion, getExamenesMaestro,
   getIdClase, getCursosMaestro
 } from '../../endpoints/endpoints';
 
@@ -31,13 +31,13 @@ function MaestrosExamenes() {
         setNombreMaestro(response.data[0].nombre + " " + response.data[0].apellido)
       }
     });
-    /*
-    // obtener publicaciones para el maestro
+
+    // obtener examenes para el maestro
     getExamenesMaestro(id_maestro).then((response) => {
       setExams(response.data);
+      console.log(response.data);
     });
 
-    */
   }, [])
 
   const renderRedirect = () => {
@@ -56,7 +56,7 @@ function MaestrosExamenes() {
           <div className="d-flex  justify-content-end align-items-center" style={{ marginLeft: '2%' }}>
             <h2>Examenes</h2>
             <div className="card-body d-flex justify-content-between align-items-center"
-              style={{ marginLeft: '60%' }}>
+              style={{ marginLeft: '64.5%' }}>
               Grupo:
               <Button >{'<'}</Button>
               {(indice / 8) + 1}
@@ -82,15 +82,23 @@ function MaestrosExamenes() {
                       <tr key={log.id}>
 
                         <td >
-                          {log['fecha']}
+                          {log['id_examen']}
+                        </td>
+
+                        <td >
+                          {log['fecha_publicacion']}
                         </td>
 
                         <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {log['nombre_curso']}
                         </td>
 
-                        <td style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                          {log['descripcion']}
+                        <td >
+                          {log['fecha_inicio']}
+                        </td>
+
+                        <td >
+                          {log['fecha_final']}
                         </td>
                       </tr>
                     </>

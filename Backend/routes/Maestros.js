@@ -350,4 +350,29 @@ router.post("/crearExamen", async function (req, res) {
   res.status(200).json('OK');
 });
 
+router.post("/getExamenesMaestro", async function (req, res) {
+  const { id_maestro } = req.body
+
+  let consulta = `
+    SELECT * FROM examen
+    INNER JOIN clase USING (id_clase)
+    INNER JOIN curso ase USING (id_curso)
+    WHERE id_maestro = ${id_maestro};
+  `;
+
+  service.consultar(consulta, function (result) {
+    result.datos.forEach(dato => {
+      dato.fecha_publicacion = fecha.fechaTiempo(dato.fecha_publicacion);
+      dato.fecha_inicio = fecha.fechaTiempo(dato.fecha_inicio);
+      dato.fecha_final = fecha.fechaTiempo(dato.fecha_final);
+    });
+
+
+    res.status(result.status).json(result.datos);
+  });
+
+
+});
+
+
 module.exports = router;
