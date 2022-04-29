@@ -162,5 +162,65 @@ router.post("/getTotalAlumno", async function (req, res) {
   });
 });
 
+// ----------------------------------------------------------------------------- NOTIFICACIONES
+router.post("/getNotificaciones", async function (req, res) {
+  const { id_alumno } = req.body
+
+  let resultado = [];
+
+  let consulta = `
+  SELECT * FROM notificacion
+  INNER JOIN publicacion USING (id_publicacion)
+  INNER JOIN clase USING (id_clase)
+  INNER JOIN curso USING (id_curso)
+  INNER JOIN asignacion_clase USING (id_clase)
+  INNER JOIN alumno USING (id_alumno)
+  WHERE id_alumno = ${id_alumno};`;
+  service.consultar(consulta, function (result) {
+    if (result.status == 200) {
+      resultado = resultado.concat(result.datos);
+    }
+
+    let consulta1 = `
+    SELECT * FROM notificacion
+    INNER JOIN actividad USING (id_actividad)
+    INNER JOIN clase USING (id_clase)
+    INNER JOIN curso USING (id_curso)
+    INNER JOIN asignacion_clase USING (id_clase)
+    INNER JOIN alumno USING (id_alumno)
+    WHERE id_alumno = ${id_alumno};`;
+
+
+    service.consultar(consulta1, function (result1) {
+      if (result1.status == 200) {
+        resultado = resultado.concat(result1.datos);
+      }
+
+      let consulta2 = `
+      SELECT * FROM notificacion
+      INNER JOIN examen USING (id_examen)
+      INNER JOIN clase USING (id_clase)
+      INNER JOIN curso USING (id_curso)
+      INNER JOIN asignacion_clase USING (id_clase)
+      INNER JOIN alumno USING (id_alumno)
+      WHERE id_alumno = ${id_alumno};`;
+
+      service.consultar(consulta2, function (result2) {
+        if (result2.status == 200) {
+          resultado = resultado.concat(result2.datos);
+        }
+      });
+
+    });
+
+    resultado.forEach(dato => {
+      dato.fecha_hora = fecha.fechaTiempo(dato.fecha_hora);
+    });
+
+    res.status(result.status).json(resultado);
+
+  });
+});
+
 
 module.exports = router;

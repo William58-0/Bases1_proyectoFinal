@@ -1,158 +1,98 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
-import { Button } from "react-bootstrap";
-import Table from 'react-bootstrap/Table';
-import Card from 'react-bootstrap/Card';
+import { Button, Table, Card } from "react-bootstrap";
 
 
 import NavBar from './AlumnosNavBar';
 import Container from './FondoAlumnos';
 import './alumno.css';
 
-let publicaciones = [
-  {
-    id: 1,
-    titulo: 'blablfdasssssssssssssssssssblablfdablablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
-    descripcion: 'blablfdassssssssssssssssssssssssssblablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssa' +
-      'blablfdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssa',
-    fecha: 'hoy'
-  },
-  {
-    id: 2,
-    titulo: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 3,
-    titulo: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 4,
-    titulo: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 5,
-    titulo: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 6,
-    titulo: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 7,
-    titulo: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 8,
-    titulo: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 9,
-    titulo: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 10,
-    titulo: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-  {
-    id: 11,
-    titulo: 'matematicas',
-    descripcion: 'blabla',
-    fecha: 'hoy'
-  },
-]
+import {
+  getAlumno, getNotificaciones
+} from '../../endpoints/endpoints';
 
-function AlumnosNotificaciones() {
-  const [alumno, setAlumno] = useState(useParams().identificacion)
+function AlumnosNotificacion() {
+  const [id_alumno, setIdAlumno] = useState(1);
+  const [nombre_alumno, setNombreAlumno] = useState("");
   const [indice, setIndice] = useState(0);
-  const [publicacion, setPub] = useState(0);
+  const [notificaciones, setPubs] = useState([]);
+  const [notificacion, setPub] = useState(0);
   //
-  const [titulo, setCurso] = useState("");
-  const [descripcion, setDesc] = useState("");
-  const [fecha, setFecha] = useState("");
+  const [curso, setCurso] = useState("");
+  const [contenido, setContenido] = useState("");
+  const [fecha_hora, setFechaHora] = useState("");
   const [autor, setAutor] = useState("");
 
   useEffect(() => {
-    // obtener los datos del estudiante
-    // obtener publicaciones para el estudiante
+    // obtener los datos del alumno
+    getAlumno(id_alumno).then((response) => {
+      if (response.data.length > 0) {
+          setNombreAlumno(response.data[0].nombre + " " + response.data[0].apellido)
+      }
+    });
+    // obtener notificaciones para el alumno
+    getNotificaciones(id_alumno).then((response) => {
+      console.log("NOTIFICACIONES");
+      console.log(response)
+      setPubs(response.data);
+    });
   }, [])
 
-  const verPublicacion = (row) => {
-    alert(row);
-    setCurso(row.titulo);
-    setDesc(row.descripcion);
-    setFecha(row.fecha);
-    // obtener los datos para la publicacion seleccionada
+  const verNotificacion = (row) => {
+    setCurso(row.nombre_curso);
+    setContenido(row.contenido);
+    setFechaHora(row.fecha_hora);
     setPub(row);
   }
 
-  const salirDePublicacion = () => {
+  const salirDeNotificacion = () => {
     setCurso("");
-    setDesc("");
-    setFecha("");
-    // obtener los datos para la publicacion seleccionada
+    setContenido("");
+    setFechaHora("");
     setPub(0);
   }
 
   return (
     <>
-      {publicacion === 0 ?
+      {notificacion === 0 ?
         <Container>
-          <NavBar estudiante={alumno} />
+          <NavBar alumno={nombre_alumno} id_alumno={id_alumno} />
           <br />
           <br />
           <div className='principal'>
             <div className="d-flex  justify-content-end align-items-center" style={{ marginLeft: '2%' }}>
               <h2>Notificaciones</h2>
               <div className="card-body d-flex justify-content-between align-items-center"
-                style={{ marginLeft: '59%' }}>
+                style={{ marginLeft: '60%' }}>
                 Grupo:
-                <Button onClick={() => verPublicacion(0)}>{'<'}</Button>
+                <Button onClick={() => verNotificacion(0)}>{'<'}</Button>
                 {(indice / 10) + 1}
-                <Button onClick={() => verPublicacion(0)}>{'>'}</Button>
+                <Button onClick={() => verNotificacion(0)}>{'>'}</Button>
               </div>
             </div>
             <div class="bg-light container-tabla" >
               <Table striped bordered hover >
                 <thead>
                   <tr>
-                    <th >Fecha y Hora</th>
-                    <th >Titulo</th>
+                    <th >Notificación</th>
+                    <th >Curso</th>
                     <th >Contenido</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                    publicaciones.slice(indice, indice + 10).map((log) =>
-                      <tr key={log.id} onClick={() => verPublicacion(log)}>
+                    notificaciones.slice(indice, indice + 10).map((log) =>
+                      <tr key={log.id} onClick={() => verNotificacion(log)}>
 
                         <td >
-                          {log['fecha']}
+                          {log['fecha_hora']}
                         </td>
 
                         <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                          {log['titulo']}
+                          {log['nombre_curso']}
                         </td>
 
                         <td style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                          {log['descripcion']}
+                          {log['contenido']}
                         </td>
                       </tr>
                     )}
@@ -163,22 +103,22 @@ function AlumnosNotificaciones() {
         </Container>
         :
         <Container>
-          <NavBar estudiante={alumno} />
+          <NavBar alumno={nombre_alumno} id_alumno={id_alumno} />
           <div class="d-flex justify-content-center align-items-center container-publicacion">
             <Card style={{ width: '100%', height: '80%' }}>
               <Card.Header as="h5" >
                 <button className='boton-regreso-publicacion'
-                  onClick={() => salirDePublicacion()}> {"<"} </button>
-                <label className='label-publicacion'>Titulo: {titulo}</label>
+                  onClick={() => salirDeNotificacion()}> {"<"} </button>
+                <label className='label-publicacion'>Curso: {curso}</label>
 
               </Card.Header>
               <Card.Body style={{ overflowY: 'auto' }}>
                 <Card.Text>
-                  {descripcion}
+                  {contenido}
                 </Card.Text>
               </Card.Body>
               <Card.Footer style={{ textAlign: 'right' }}>
-                <small className="text-muted">{fecha}</small><br />
+                <small className="text-muted">Notificación: {fecha_hora}</small><br />
               </Card.Footer>
             </Card>
           </div>
@@ -188,4 +128,4 @@ function AlumnosNotificaciones() {
   );
 }
 
-export default AlumnosNotificaciones;
+export default AlumnosNotificacion;

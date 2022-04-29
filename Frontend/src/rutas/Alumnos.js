@@ -39,6 +39,13 @@ const Alumnos = () => {
         component={AlumnosNotas}
       />
       <Route
+        path="/alumnos/notificaciones/:identificacion"
+        exact
+        strict
+        component={AlumnosNotificaciones}
+      />
+
+      <Route
         path="/alumnos/examenes/:identificacion"
         exact
         strict
@@ -49,12 +56,6 @@ const Alumnos = () => {
         exact
         strict
         component={AlumnosHacerExamen}
-      />
-      <Route
-        path="/alumnos/notificaciones/:identificacion"
-        exact
-        strict
-        component={AlumnosNotificaciones}
       />
     </Switch>
   );

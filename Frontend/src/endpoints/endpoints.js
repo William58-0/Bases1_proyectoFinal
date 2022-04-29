@@ -173,5 +173,9 @@ export function getTotalAlumno(id_alumno, id_clase) {
   return axios.post(route + 'Alumnos/getTotalAlumno', { id_alumno: id_alumno, id_clase: id_clase })
 }
 
+export function getNotificaciones(id_alumno) {
+  return axios.post(route + 'Alumnos/getNotificaciones', { id_alumno: id_alumno })
+}
+
 
 
