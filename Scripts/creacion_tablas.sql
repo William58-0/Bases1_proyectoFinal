@@ -141,6 +141,7 @@ CREATE TABLE IF NOT EXISTS observacion (
 
 CREATE TABLE IF NOT EXISTS asignacion_examen (
 	id_asignacion_examen INT NOT NULL AUTO_INCREMENT,
+	puntuacion DECIMAL,
 	id_examen INT,
 	id_alumno INT,
 	PRIMARY KEY (id_asignacion_examen),
@@ -156,16 +157,6 @@ CREATE TABLE IF NOT EXISTS opcion (
 	id_pregunta INT,
 	PRIMARY KEY (id_opcion),
 	FOREIGN KEY (id_pregunta) REFERENCES pregunta (id_pregunta) ON DELETE CASCADE
-);
-
-
-CREATE TABLE IF NOT EXISTS respuesta_alumno (
-	id_respuesta INT NOT NULL AUTO_INCREMENT,
-	id_alumno INT,
-	id_opcion INT,
-	PRIMARY KEY (id_respuesta),
-	FOREIGN KEY (id_alumno) REFERENCES alumno (id_alumno) ON DELETE CASCADE,
-	FOREIGN KEY (id_opcion) REFERENCES opcion (id_opcion) ON DELETE CASCADE
 );
 
 

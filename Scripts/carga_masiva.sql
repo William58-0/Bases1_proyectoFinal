@@ -192,17 +192,4 @@ SELECT COUNT(*) AS num_filas FROM opcion;
 SELECT * FROM opcion LIMIT 10;
 
 
--- ___________________________ Carga de respuesta_alumno ___________________________
-LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\respuesta_alumno.csv' 
-INTO TABLE respuesta_alumno  
-CHARACTER SET latin1
-FIELDS TERMINATED BY ','  
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-
-SELECT COUNT(*) AS num_filas FROM respuesta_alumno;
-SELECT * FROM respuesta_alumno LIMIT 10;
-
-
 

@@ -186,8 +186,14 @@ export function getPregunta(id_examen, pregunta) {
 }
 
 export function getOpciones(id_pregunta) {
-  return axios.post(route + 'Alumnos/getOpciones', { id_pregunta: id_pregunta})
+  return axios.post(route + 'Alumnos/getOpciones', { id_pregunta: id_pregunta })
 }
+
+export function guardarNotaExamen(id_examen, id_alumno, puntuacion) {
+  return axios.post(route + 'Alumnos/guardarNotaExamen',
+    { id_examen: id_examen, id_alumno: id_alumno, puntuacion: puntuacion })
+}
+
 
 
 

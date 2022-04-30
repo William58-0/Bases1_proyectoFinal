@@ -120,16 +120,27 @@ function AlumnosPublicacion() {
   }, [])
 
   const hacerExamen = (row) => {
-    alert(row);
     // obtener los datos para la publicacion seleccionada
-    setExam(row);
-    setRedirect(true);
+    setExam(row.id_examen);
+    if (row.puntuacion !== null) {
+      alert("Ya se respondió este examen");
+    } else {
+      setRedirect(true);
+    }
 
   }
 
   const renderRedirect = () => {
     if (redirect) {
       return <Redirect to={'/alumnos/examenes/' + id_alumno + '/' + examen} />
+    }
+  }
+
+  const calcularNota = (puntuacion, total_examen) => {
+    if (puntuacion === "" || puntuacion === null) {
+      return "Pendiente"
+    } else {
+      return ((puntuacion / total_examen) * 100).toFixed(2) +' %'
     }
   }
 
@@ -159,13 +170,14 @@ function AlumnosPublicacion() {
                   <th>Curso</th>
                   <th>Hora Inicio</th>
                   <th>Hora Fin</th>
+                  <th>Nota Obtenida</th>
                 </tr>
               </thead>
               <tbody>
                 {
                   examenes.slice(indice, indice + 10).map((log) =>
                     <>
-                      <tr key={log.id} onClick={() => hacerExamen(log.id_examen)}>
+                      <tr key={log.id} onClick={() => hacerExamen(log)}>
 
                         <td >
                           {log['fecha_publicacion']}
@@ -181,6 +193,10 @@ function AlumnosPublicacion() {
 
                         <td >
                           {log['fecha_final']}
+                        </td>
+
+                        <td >
+                          {calcularNota(log['puntuacion'], log['total_examen'])}
                         </td>
                       </tr>
                     </>

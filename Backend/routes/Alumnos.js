@@ -227,12 +227,14 @@ router.post("/getExamenesAlumno", async function (req, res) {
   const { id_alumno } = req.body
 
   let consulta = `
-    SELECT * FROM examen
+    SELECT *, SUM(pregunta.valor) as total_examen FROM examen
     INNER JOIN asignacion_examen USING (id_examen)
     INNER JOIN alumno USING (id_alumno)
     INNER JOIN clase USING (id_clase)
     INNER JOIN curso USING (id_curso)
-    WHERE id_alumno = ${id_alumno};
+    INNER JOIN pregunta USING (id_examen)
+    WHERE id_alumno = ${id_alumno}
+    GROUP BY id_examen;
   `;
 
   service.consultar(consulta, function (result) {
@@ -275,6 +277,20 @@ router.post("/getOpciones", async function (req, res) {
   let consulta = `
     SELECT * FROM opcion
     WHERE id_pregunta = "${id_pregunta}";
+  `;
+
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+
+});
+
+router.post("/guardarNotaExamen", async function (req, res) {
+  const { id_examen, id_alumno, puntuacion } = req.body
+
+  let consulta = `
+    UPDATE asignacion_examen SET puntuacion = ${puntuacion}
+    WHERE id_examen = ${id_examen} AND id_alumno = ${id_alumno};
   `;
 
   service.consultar(consulta, function (result) {

@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { Table, Card } from 'react-bootstrap';
 
 import {
-  getAlumno, getPregunta, getOpciones
+  getAlumno, getPregunta, getOpciones, guardarNotaExamen
 } from '../../endpoints/endpoints';
 
 import NavBar from './AlumnosNavBar';
@@ -25,7 +25,7 @@ function AlumnosEntregarActividad() {
 
   const [redirect, setRedirect] = useState(false);
 
-  const [respuestas, setChecked] = useState([]);
+  const [respuestas, setRespuestas] = useState([]);
 
   const [terminado, setTerminado] = useState(false);
 
@@ -39,21 +39,18 @@ function AlumnosEntregarActividad() {
 
     // obtener primer pregunta del examen
     getPregunta(examen, 1).then((response) => {
-      console.log("LA PREGUNTA");
-      console.log(response);
 
       setValorPregunta(response.data.valor);
       setTextoPregunta(response.data.texto);
 
       if (response.data !== "") {
         getOpciones(response.data.id_pregunta).then((response1) => {
-          console.log("las opciones");
-          console.log(response1);
           setOpciones(response1.data);
         });
 
       } else {
         setTextoPregunta("MOSTRAR LA PUNTUACION");
+        setTerminado(true);
       }
 
     });
@@ -79,24 +76,22 @@ function AlumnosEntregarActividad() {
 
       setPuntuacion(puntuacion + puntuacionPregunta);
       setTotalExamen(totalExamen + valorPregunta);
+      setRespuestas([]);
     }
 
     // obtener siguiente pregunta del examen
     getPregunta(examen, pregunta + 1).then((response) => {
-      console.log("LA PREGUNTA");
-      console.log(response);
-
       setValorPregunta(response.data.valor);
       setTextoPregunta(response.data.texto);
 
       if (response.data !== "") {
         getOpciones(response.data.id_pregunta).then((response1) => {
-          console.log("las opciones");
-          console.log(response1);
           setOpciones(response1.data);
         });
 
       } else {
+
+
         setTextoPregunta("MOSTRAR LA PUNTUACION");
         setTerminado(true);
       }
@@ -105,23 +100,12 @@ function AlumnosEntregarActividad() {
     setPregunta(pregunta + 1);
   }
 
-  const anterior = async () => {
-    // jalar las respuestas para la pregunta
-    setPregunta(pregunta - 1);
-  }
-
 
   const renderRedirect = () => {
 
     if (redirect) {
       return <Redirect to={'/alumnos/examenes/' + id_alumno} />
     }
-  }
-
-  const probar = () => {
-
-    //alert(respuestas);
-    console.log(respuestas);
   }
 
   const seleccionarOpcion = (event) => {
@@ -133,8 +117,20 @@ function AlumnosEntregarActividad() {
     } else {
       updatedList.splice(respuestas.indexOf(objeto), 1);
     }
-    setChecked(updatedList);
+    setRespuestas(updatedList);
   };
+
+  const regresarExamenes = () => {
+    // guardar la nota del estudiante
+    guardarNotaExamen(examen, id_alumno, puntuacion).then((response) => {
+      alert("Nota de examen guardada :)");
+      setRedirect(true);
+    }).catch(err => {
+      alert("Error :(");
+    });
+  };
+
+
 
   return (
     <>
@@ -158,7 +154,7 @@ function AlumnosEntregarActividad() {
                     {textoPregunta}
                   </Card.Text>
                   {opciones.map((opcion) => (
-                    <div key={opcion.texto}>
+                    <div key={opcion.id_opcion}>
                       <input value={JSON.stringify(opcion)} type="checkbox" onChange={seleccionarOpcion} />
                       <span style={{ marginLeft: '2%' }}>{opcion.texto}</span>
                     </div>
@@ -179,23 +175,22 @@ function AlumnosEntregarActividad() {
                     onClick={() => setRedirect(true)}> {"<"} </button>
                   <label className='label-publicacion'>Examen Terminado</label>
 
-
                 </Card.Header>
                 <Card.Body style={{ overflowY: 'auto' }}>
                   <Card.Text>
-                    Puntos: {puntuacion} / {totalExamen}<br /><br />
-                    <div style={{fontFamily: 'comic sans ms', textAlign:'center', margin:'auto'}} >
-                      <label style={{fontSize: '30px'}}>Nota:</label>
-                      <div style={{ textAlign: 'center', fontSize:'110px' }}>
-                        {(puntuacion / totalExamen) * 100} %
+                    Puntos: {puntuacion.toFixed(2)} / {totalExamen}<br /><br />
+                    <div style={{ fontFamily: 'comic sans ms', textAlign: 'center', margin: 'auto' }} >
+                      <label style={{ fontSize: '30px' }}>Nota:</label>
+                      <div style={{ textAlign: 'center', fontSize: '110px' }}>
+                        {((puntuacion / totalExamen) * 100).toFixed(2)} %
                       </div>
                     </div>
                   </Card.Text>
                 </Card.Body>
                 <Card.Footer>
-                  <Link to={"/alumnos/examenes/" + id_alumno}>
-                    <Button variant='success' style={{ float: 'right' }}> Regresar a Examenes</Button>
-                  </Link>
+
+                  <Button variant='success' style={{ float: 'right' }}
+                    onClick={() => regresarExamenes()}> Regresar a Examenes</Button>
                 </Card.Footer>
               </>
             }
