@@ -124,6 +124,8 @@ function AlumnosNotas() {
 
   const cambiarCurso = (e) => {
     var objeto = JSON.parse(e.target.value);
+    setCurso(objeto.id_curso);
+    setNombreCurso(objeto.nombre_curso);
     // obtener los alumnos del curso
     getAlumnosCurso(id_maestro, objeto.id_curso).then((response1) => {
       setAlumnos(response1.data);

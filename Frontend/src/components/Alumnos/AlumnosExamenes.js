@@ -3,6 +3,10 @@ import { Link, Redirect, useParams } from 'react-router-dom';
 import { Button } from "react-bootstrap";
 import { Table, Card } from 'react-bootstrap';
 
+import {
+  getExamenesAlumno, getAlumno
+} from '../../endpoints/endpoints';
+
 
 import NavBar from './AlumnosNavBar';
 import Container from './FondoAlumnos';
@@ -14,82 +18,85 @@ let publicaciones = [
     curso: 'tarfdsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaafdea 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
   {
     id: 2,
     curso: 'tarea 1',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
   {
     id: 3,
     curso: 'tarea 1',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
   {
     id: 4,
     curso: 'tarea 1',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
   {
     id: 5,
     curso: 'tarea 1',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
   {
     id: 6,
     curso: 'tarea 1',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
   {
     id: 7,
     curso: 'tarea 1',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
   {
     id: 8,
     curso: 'tarea 1',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
   {
     id: 9,
     curso: 'tarea 1',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
   {
     id: 10,
     curso: 'tarea 1',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
   {
     id: 11,
     curso: 'tarea 1',
     fecha_publicacion: 'blabla',
     inicio: 'hoy',
-    fin:'maniana'
+    fin: 'maniana'
   },
 ]
 
 function AlumnosPublicacion() {
-  const [alumno, setAlumno] = useState(useParams().identificacion)
+  const [id_alumno, setIdAlumno] = useState(1);
+  const [nombre_alumno, setNombreAlumno] = useState("");
+  const [examenes, setExamns] = useState([]);
+
   const [indice, setIndice] = useState(0);
   const [examen, setExam] = useState(0);
   const [redirect, setRedirect] = useState(false);
@@ -100,11 +107,19 @@ function AlumnosPublicacion() {
   const [autor, setAutor] = useState("");
 
   useEffect(() => {
-    // obtener los datos del estudiante
-    // obtener publicaciones para el estudiante
+    // obtener los datos del alumno
+    getAlumno(id_alumno).then((response) => {
+      if (response.data.length > 0) {
+        setNombreAlumno(response.data[0].nombre + " " + response.data[0].apellido)
+      }
+    });
+    // obtener examenes para el alumno
+    getExamenesAlumno(id_alumno).then((response) => {
+      setExamns(response.data);
+    });
   }, [])
 
-  const handleRowClick = (row) => {
+  const hacerExamen = (row) => {
     alert(row);
     // obtener los datos para la publicacion seleccionada
     setExam(row);
@@ -114,7 +129,7 @@ function AlumnosPublicacion() {
 
   const renderRedirect = () => {
     if (redirect) {
-      return <Redirect to={'/alumnos/examenes/' + alumno + '/' + examen} />
+      return <Redirect to={'/alumnos/examenes/' + id_alumno + '/' + examen} />
     }
   }
 
@@ -122,7 +137,7 @@ function AlumnosPublicacion() {
     <>
 
       <Container>
-        <NavBar estudiante={alumno} />
+        <NavBar alumno={nombre_alumno} id_alumno={id_alumno} />
         <br />
         <br />
         <div className='principal'>
@@ -131,9 +146,9 @@ function AlumnosPublicacion() {
             <div className="card-body d-flex justify-content-between align-items-center"
               style={{ marginLeft: '64.5%' }}>
               Grupo:
-              <Button onClick={() => handleRowClick(0)}>{'<'}</Button>
+              <Button onClick={() => hacerExamen(0)}>{'<'}</Button>
               {(indice / 10) + 1}
-              <Button onClick={() => handleRowClick(0)}>{'>'}</Button>
+              <Button onClick={() => hacerExamen(0)}>{'>'}</Button>
             </div>
           </div>
           <div class="bg-light container-tabla" >
@@ -148,24 +163,24 @@ function AlumnosPublicacion() {
               </thead>
               <tbody>
                 {
-                  publicaciones.slice(indice, indice + 10).map((log) =>
+                  examenes.slice(indice, indice + 10).map((log) =>
                     <>
-                      <tr key={log.id} onClick={() => handleRowClick(log.id)}>
+                      <tr key={log.id} onClick={() => hacerExamen(log.id_examen)}>
 
                         <td >
                           {log['fecha_publicacion']}
                         </td>
 
                         <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                          {log['curso']}
+                          {log['nombre_curso']}
                         </td>
 
                         <td >
-                          {log['inicio']}
+                          {log['fecha_inicio']}
                         </td>
 
                         <td >
-                          {log['fin']}
+                          {log['fecha_final']}
                         </td>
                       </tr>
                     </>

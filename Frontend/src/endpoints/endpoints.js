@@ -177,5 +177,18 @@ export function getNotificaciones(id_alumno) {
   return axios.post(route + 'Alumnos/getNotificaciones', { id_alumno: id_alumno })
 }
 
+export function getExamenesAlumno(id_alumno) {
+  return axios.post(route + 'Alumnos/getExamenesAlumno', { id_alumno: id_alumno })
+}
+
+export function getPregunta(id_examen, pregunta) {
+  return axios.post(route + 'Alumnos/getPregunta', { id_examen: id_examen, pregunta: pregunta })
+}
+
+export function getOpciones(id_pregunta) {
+  return axios.post(route + 'Alumnos/getOpciones', { id_pregunta: id_pregunta})
+}
+
+
 
 

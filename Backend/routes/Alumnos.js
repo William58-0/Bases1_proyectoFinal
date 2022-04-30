@@ -222,5 +222,66 @@ router.post("/getNotificaciones", async function (req, res) {
   });
 });
 
+// ----------------------------------------------------------------------------- EXAMENES
+router.post("/getExamenesAlumno", async function (req, res) {
+  const { id_alumno } = req.body
+
+  let consulta = `
+    SELECT * FROM examen
+    INNER JOIN asignacion_examen USING (id_examen)
+    INNER JOIN alumno USING (id_alumno)
+    INNER JOIN clase USING (id_clase)
+    INNER JOIN curso USING (id_curso)
+    WHERE id_alumno = ${id_alumno};
+  `;
+
+  service.consultar(consulta, function (result) {
+    result.datos.forEach(dato => {
+      dato.fecha_publicacion = fecha.fechaTiempo(dato.fecha_publicacion);
+      dato.fecha_inicio = fecha.fechaTiempo(dato.fecha_inicio);
+      dato.fecha_final = fecha.fechaTiempo(dato.fecha_final);
+    });
+
+
+    res.status(result.status).json(result.datos);
+  });
+
+
+});
+
+router.post("/getPregunta", async function (req, res) {
+  const { id_examen, pregunta } = req.body
+
+  let consulta = `
+    SELECT * FROM pregunta
+    INNER JOIN examen USING (id_examen)
+    WHERE id_examen = "${id_examen}";
+  `;
+
+  service.consultar(consulta, function (result) {
+    if (result.datos.length < pregunta) {
+      res.status(result.status).json(undefined);
+    } else {
+      res.status(result.status).json(result.datos[pregunta - 1]);
+    }
+  });
+
+});
+
+router.post("/getOpciones", async function (req, res) {
+  const { id_pregunta } = req.body
+  console.log(id_pregunta);
+
+  let consulta = `
+    SELECT * FROM opcion
+    WHERE id_pregunta = "${id_pregunta}";
+  `;
+
+  service.consultar(consulta, function (result) {
+    res.status(result.status).json(result.datos);
+  });
+
+});
+
 
 module.exports = router;

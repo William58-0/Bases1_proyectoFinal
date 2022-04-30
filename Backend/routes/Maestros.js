@@ -356,7 +356,7 @@ router.post("/getExamenesMaestro", async function (req, res) {
   let consulta = `
     SELECT * FROM examen
     INNER JOIN clase USING (id_clase)
-    INNER JOIN curso ase USING (id_curso)
+    INNER JOIN curso USING (id_curso)
     WHERE id_maestro = ${id_maestro};
   `;
 
