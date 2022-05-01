@@ -17,7 +17,6 @@ import NavBar from './MaestrosNavBar';
 import Container from './FondoMaestros';
 import './maestro.css';
 
-
 function MaestrosActividades() {
   const [id_maestro, setIdMaestro] = useState(1);
   const [nombre_maestro, setNombreMaestro] = useState("")
@@ -151,6 +150,22 @@ function MaestrosActividades() {
     }
   }
 
+  const siguienteGrupo = () => {
+    var index = indice;
+    var acts = actividades;
+    if (index + 8 <= acts.length) {
+      setIndice(index + 8);
+    }
+  }
+
+  const anteriorGrupo = () => {
+    var index = indice;
+    if (index - 8 >= 0) {
+      setIndice(index - 8);
+    }
+  }
+
+
   return (
     <>
       <Container>
@@ -282,9 +297,9 @@ function MaestrosActividades() {
                 <div className="card-body d-flex justify-content-between align-items-center"
                   style={{ marginLeft: '62.5%' }}>
                   Grupo:
-                  <Button onClick={() => editarActividad(0)}>{'<'}</Button>
+                  <Button onClick={() => anteriorGrupo()}>{'<'}</Button>
                   {(indice / 8) + 1}
-                  <Button onClick={() => editarActividad(0)}>{'>'}</Button>
+                  <Button onClick={() => siguienteGrupo()}>{'>'}</Button>
                 </div>
               </div>
               <div class="bg-light container-tabla-publicacion" >

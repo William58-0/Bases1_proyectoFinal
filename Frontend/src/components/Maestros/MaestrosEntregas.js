@@ -47,6 +47,21 @@ function MaestrosEntregas() {
     }
   }
 
+  const siguienteGrupo = () => {
+    var index = indice;
+    var ents = entregas;
+    if (index + 8 <= ents.length) {
+      setIndice(index + 8);
+    }
+  }
+
+  const anteriorGrupo = () => {
+    var index = indice;
+    if (index - 8 >= 0) {
+      setIndice(index - 8);
+    }
+  }
+
   return (
     <>
       <Container>
@@ -60,9 +75,9 @@ function MaestrosEntregas() {
               <div className="card-body d-flex justify-content-between align-items-center"
                 style={{ marginLeft: '66.2%' }}>
                 Grupo:
-                <Button onClick={() => CalificarEntrega(0)}>{'<'}</Button>
+                <Button onClick={() => anteriorGrupo()}>{'<'}</Button>
                 {(indice / 8) + 1}
-                <Button onClick={() => CalificarEntrega(0)}>{'>'}</Button>
+                <Button onClick={() => siguienteGrupo()}>{'>'}</Button>
               </div>
             </div>
             <div class="bg-light container-tabla-publicacion" >

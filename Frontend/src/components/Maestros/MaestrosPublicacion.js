@@ -106,6 +106,22 @@ function MaestrosPublicacion() {
     });
   }
 
+  const siguienteGrupo = () => {
+    var index = indice;
+    var pubs = publicaciones;
+    if (index + 8 <= pubs.length) {
+      setIndice(index + 8);
+    }
+  }
+
+  const anteriorGrupo = () => {
+    var index = indice;
+    if (index - 8 >= 0) {
+      setIndice(index - 8);
+    }
+  }
+
+
   return (
     <>
       <Container>
@@ -155,9 +171,9 @@ function MaestrosPublicacion() {
                 <div className="card-body d-flex justify-content-between align-items-center"
                   style={{ marginLeft: '60%' }}>
                   Grupo:
-                  <Button onClick={() => editarPublicacion({})}>{'<'}</Button>
+                  <Button onClick={() => anteriorGrupo({})}>{'<'}</Button>
                   {(indice / 8) + 1}
-                  <Button onClick={() => editarPublicacion({})}>{'>'}</Button>
+                  <Button onClick={() => siguienteGrupo({})}>{'>'}</Button>
                 </div>
               </div>
               <div class="bg-light container-tabla-publicacion" >

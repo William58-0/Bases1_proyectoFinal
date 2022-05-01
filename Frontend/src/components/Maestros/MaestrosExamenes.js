@@ -35,7 +35,6 @@ function MaestrosExamenes() {
     // obtener examenes para el maestro
     getExamenesMaestro(id_maestro).then((response) => {
       setExams(response.data);
-      console.log(response.data);
     });
 
   }, [])
@@ -43,6 +42,21 @@ function MaestrosExamenes() {
   const renderRedirect = () => {
     if (redirect) {
       return <Redirect to={'/maestros/examenes/crear/' + id_maestro} />
+    }
+  }
+
+  const siguienteGrupo = () => {
+    var index = indice;
+    var exams = examenes;
+    if (index + 8 <= exams.length) {
+      setIndice(index + 8);
+    }
+  }
+
+  const anteriorGrupo = () => {
+    var index = indice;
+    if (index - 8 >= 0) {
+      setIndice(index - 8);
     }
   }
 
@@ -58,9 +72,9 @@ function MaestrosExamenes() {
             <div className="card-body d-flex justify-content-between align-items-center"
               style={{ marginLeft: '64.5%' }}>
               Grupo:
-              <Button >{'<'}</Button>
+              <Button onClick={() => anteriorGrupo()}>{'<'}</Button>
               {(indice / 8) + 1}
-              <Button >{'>'}</Button>
+              <Button onClick={() => siguienteGrupo()}>{'>'}</Button>
             </div>
           </div>
           <div class="bg-light container-tabla-publicacion" >
