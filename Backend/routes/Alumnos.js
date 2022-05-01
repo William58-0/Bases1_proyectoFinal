@@ -15,11 +15,10 @@ router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 router.post("/getAlumno", async function (req, res) {
   const { id_alumno } = req.body
-  let consulta = `
-    SELECT * FROM alumno WHERE id_alumno = "${id_alumno}";
-  `
+  let consulta = `CALL get_alumno(${id_alumno});`
+
   service.consultar(consulta, function (result) {
-    res.status(result.status).json(result.datos);
+    res.status(result.status).json(result.datos[0]);
   });
 });
 
@@ -28,18 +27,13 @@ router.post("/getPublicacionesAlumno", async function (req, res) {
   const { id_alumno } = req.body
 
   let consulta = `
-    SELECT *
-    FROM clase
-    INNER JOIN publicacion USING (id_clase)
-    INNER JOIN curso USING (id_curso)
-    INNER JOIN asignacion_clase USING (id_clase)
-    WHERE id_alumno = ${id_alumno};
+    CALL get_publicaciones_alumno(${id_alumno});
   `;
   service.consultar(consulta, function (result) {
-    result.datos.forEach(dato => {
+    result.datos[0].forEach(dato => {
       dato.fecha = fecha.fechaVisible(dato.fecha);
     });
-    res.status(result.status).json(result.datos);
+    res.status(result.status).json(result.datos[0]);
   });
 });
 
@@ -47,35 +41,30 @@ router.post("/getPublicacionesAlumno", async function (req, res) {
 router.post("/getActividadesAlumno", async function (req, res) {
   const { id_alumno } = req.body
   let consulta = `
-  SELECT * FROM asignacion_actividad
-  INNER JOIN actividad USING (id_actividad)
-  INNER JOIN clase USING (id_clase)
-  INNER JOIN curso USING (id_curso)
-  WHERE id_alumno = "${id_alumno}";`;
+  CALL get_actividades_alumno(${id_alumno});`;
+
   service.consultar(consulta, function (result) {
-    result.datos.forEach(dato => {
+    result.datos[0].forEach(dato => {
       dato.fecha_publicacion = fecha.fechaVisible(dato.fecha_publicacion);
       dato.fecha_entrega = fecha.fechaVisible(dato.fecha_entrega);
       dato.fecha_hora = fecha.fechaTiempo(dato.fecha_hora);
     });
-    res.status(result.status).json(result.datos);
+    res.status(result.status).json(result.datos[0]);
   });
 });
 
 router.post("/getActividadAlumno", async function (req, res) {
   const { id_asignacion_actividad } = req.body
   let consulta = `
-  SELECT * FROM asignacion_actividad
-  INNER JOIN actividad USING (id_actividad)
-  WHERE id_asignacion_actividad = "${id_asignacion_actividad}
-  AND ";`;
+  CALL get_actividad_alumno(${id_asignacion_actividad});`;
+
   service.consultar(consulta, function (result) {
-    result.datos.forEach(dato => {
+    result.datos[0].forEach(dato => {
       dato.fecha_publicacion = fecha.fechaVisible(dato.fecha_publicacion);
       dato.fecha_entrega = fecha.fechaVisible(dato.fecha_entrega);
       dato.fecha_hora = fecha.fechaTiempo(dato.fecha_hora);
     });
-    res.status(result.status).json(result.datos);
+    res.status(result.status).json(result.datos[0]);
   });
 });
 
@@ -85,6 +74,7 @@ router.post('/entregarActividad', archivos.upload.single('file'), async function
   if (req.file == undefined) {
     console.log("ERROR: No hay archivo");
     res.status(400).json("ERROR: No hay archivo");
+    return;
   }
 
   const { id_asignacion_actividad } = req.body
@@ -106,15 +96,12 @@ router.post('/entregarActividad', archivos.upload.single('file'), async function
 
 
     let consulta = `
-    UPDATE asignacion_actividad 
-    SET fecha_hora = SYSDATE(), archivo = '${req.file.filename}',
-    estado_actividad = "Entregado" 
-    WHERE id_asignacion_actividad = '${id_asignacion_actividad}';
+     CALL entregar_actividad('${req.file.filename}', ${id_asignacion_actividad});
     `;
 
 
     service.consultar(consulta, function (result) {
-      res.status(result.status).json(result.datos);
+      res.status(result.status).json(result.datos[0]);
     });
 
 
@@ -130,12 +117,10 @@ router.post('/entregarActividad', archivos.upload.single('file'), async function
 router.post("/getClasesAlumno", async function (req, res) {
   const { id_alumno } = req.body
   let consulta = `
-  SELECT * FROM clase
-  INNER JOIN curso USING (id_curso)
-  INNER JOIN asignacion_clase USING (id_clase)
-  WHERE id_alumno = ${id_alumno};`;
+    CALL get_clases_alumno(${id_alumno});
+  `;
   service.consultar(consulta, function (result) {
-    res.status(result.status).json(result.datos);
+    res.status(result.status).json(result.datos[0]);
   });
 });
 
@@ -144,16 +129,11 @@ router.post("/getNotasAlumno", async function (req, res) {
 
   let notas = [];
 
-  let consulta = `
-  SELECT id_asignacion_actividad AS 'id', actividad.titulo, puntuacion
-  FROM clase
-  INNER JOIN actividad USING (id_clase)
-  INNER JOIN asignacion_actividad USING (id_actividad)
-  WHERE (id_alumno = ${id_alumno}) AND (id_clase = ${id_clase});`;
+  let consulta = `CALL get_notas_alumno(${id_alumno}, ${id_clase});`;
   service.consultar(consulta, function (result) {
 
     if (result.status == 200) {
-      notas = notas.concat(result.datos);
+      notas = notas.concat(result.datos[0]);
     }
 
     let consulta1 = `
@@ -162,7 +142,6 @@ router.post("/getNotasAlumno", async function (req, res) {
     INNER JOIN examen USING (id_clase)
     INNER JOIN asignacion_examen USING (id_examen)
     WHERE (id_alumno = ${id_alumno}) AND (id_clase = ${id_clase});`;
-
 
     service.consultar(consulta1, function (result1) {
       if (result1.status == 200) {
@@ -182,14 +161,11 @@ router.post("/getTotalAlumno", async function (req, res) {
 
   let totales = [];
 
-  let consulta = `
-  SELECT SUM(puntuacion) as total FROM asignacion_actividad
-  INNER JOIN actividad USING (id_actividad)
-  WHERE (id_alumno = ${id_alumno}) AND (id_clase = ${id_clase})
-  GROUP BY id_alumno ;`;
+  let consulta = `CALL get_total_alumno(${id_alumno}, ${id_clase});`;
+
   service.consultar(consulta, function (result) {
     if (result.status == 200) {
-      totales = totales.concat(result.datos);
+      totales = totales.concat(result.datos[0]);
     }
     let consulta1 = `
     SELECT SUM(puntuacion) as total FROM asignacion_examen

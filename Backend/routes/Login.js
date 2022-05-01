@@ -28,6 +28,7 @@ router.post("/iniciarSesion", async function (req, res) {
 
   service.consultar(consulta, async function (result) {
     if (result.status == 200) {
+      console.log("aquii si entra");
       /// CARGAR LA FOTO DEL USUARIO
       const imgDefault = './profile_images/default/default.jpg'
 

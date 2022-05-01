@@ -33,7 +33,6 @@ function AlumnosPublicacion() {
   }, [])
 
   const VerActividad = (row) => {
-    alert(row);
     // obtener los datos para la publicacion seleccionada
     setAsigAct(row.id_asignacion_actividad);
     setRedirect(true);

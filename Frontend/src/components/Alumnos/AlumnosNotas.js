@@ -98,7 +98,6 @@ function AlumnosNotas() {
 
   const cambiarCurso = (e) => {
     var objeto = JSON.parse(e.target.value);
-    alert(objeto.nombre_curso);
     setClase(objeto.id_clase);
     setNombreCurso(objeto.nombre_curso);
     getNotasAlumno(id_alumno, objeto.id_clase).then((response) => {
