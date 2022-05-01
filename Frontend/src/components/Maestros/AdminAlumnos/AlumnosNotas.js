@@ -75,14 +75,18 @@ function AlumnosNotas() {
 
             // obtener el total de puntos para el alumno
             getTotalAlumno(response1.data[0].id_alumno, response1.data[0].id_clase).then((response3) => {
-              if (response3.data.length > 0) {
+              if (response3.data.length === 1) {
                 if (response3.data[0].total !== null) {
                   setTotal(response3.data[0].total);
                 } else {
                   setTotal(0);
                 }
-              } else {
-                setTotal(0);
+              } else if (response3.data.length === 2) {
+                if (response3.data[0].total !== null && response3.data[1].total !== null) {
+                  setTotal(response3.data[0].total + response3.data[1].total);
+                } else {
+                  setTotal(0);
+                }
               }
             });
           }
@@ -141,14 +145,18 @@ function AlumnosNotas() {
 
         // obtener el total de puntos para el alumno
         getTotalAlumno(response1.data[0].id_alumno, response1.data[0].id_clase).then((response3) => {
-          if (response3.data.length > 0) {
+          if (response3.data.length === 1) {
             if (response3.data[0].total !== null) {
               setTotal(response3.data[0].total);
             } else {
               setTotal(0);
             }
-          } else {
-            setTotal(0);
+          } else if (response3.data.length === 2) {
+            if (response3.data[0].total !== null && response3.data[1].total !== null) {
+              setTotal(response3.data[0].total + response3.data[1].total);
+            } else {
+              setTotal(0);
+            }
           }
         });
       }
@@ -171,16 +179,28 @@ function AlumnosNotas() {
     getTotalAlumno(objeto.id_alumno, objeto.id_clase).then((response3) => {
       console.log("pasaa aquiii");
       console.log(response3)
-      if (response3.data.length > 0) {
+      if (response3.data.length === 1) {
         if (response3.data[0].total !== null) {
           setTotal(response3.data[0].total);
         } else {
           setTotal(0);
         }
-      } else {
-        setTotal(0);
+      } else if (response3.data.length === 2) {
+        if (response3.data[0].total !== null && response3.data[1].total !== null) {
+          setTotal(response3.data[0].total + response3.data[1].total);
+        } else {
+          setTotal(0);
+        }
       }
     });
+  }
+
+  const mostrarPuntuacion = (puntuacion) => {
+    if (puntuacion === '' || puntuacion === null) {
+      return "pendiente";
+    } else {
+      return puntuacion;
+    }
   }
 
   return (
@@ -226,12 +246,12 @@ function AlumnosNotas() {
               {
                 notas.map((nota) =>
                   <>
-                    <tr key={nota.id_asignacion_actividad}>
+                    <tr key={nota.id}>
                       <td>
-                        {nota['titulo']}
+                        {nota['titulo'] || 'Examen ID:   ' + nota['id_examen']}
                       </td>
                       <td>
-                        {nota['puntuacion']}
+                        {mostrarPuntuacion(nota['puntuacion'])}
                       </td>
                     </tr>
                   </>
