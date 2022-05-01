@@ -90,14 +90,14 @@ function AlumnosNotas() {
 
     doc.setFontSize(15);
 
-    const title = "Reporte de Notas\nCurso: " + nombreCurso + "\nEstudiante: " + carnet;
+    const title = "Reporte de Notas\nCurso: " + nombreCurso + "\nCarnet Estudiante: " + carnet;
 
     const headers = [["Actividad", "Nota"]];
 
     var datoos = notas;
     datoos.push({ "titulo": "Total", puntuacion: total });
 
-    const data = datoos.map(elt => [elt.titulo, elt.puntuacion]);
+    const data = datoos.map(elt => [elt.titulo || 'Examen ID: ' + elt.id_examen, mostrarPuntuacion(elt.puntuacion)]);
 
     let content = {
       startY: 80,
@@ -107,7 +107,7 @@ function AlumnosNotas() {
 
     doc.text(title, marginLeft, 40);
     doc.autoTable(content);
-    doc.save("report.pdf")
+    doc.save("reporteNotas.pdf")
   }
 
   const cambiarCurso = (e) => {
