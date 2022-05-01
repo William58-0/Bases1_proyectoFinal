@@ -26,11 +26,35 @@ router.post('/crearUsuario', archivos.upload.single('file'), async function (req
       VALUES( "${dpi_carnet}", "${nombre}", "${apellido}", "${telefono}", "${direccion}", "${correo}", "${contrasenia}" );`
   }
 
-  if (req.file != undefined) {
-    /// GUARDAAAR LA FOTO DEL USUARIO
-  }
+
 
   service.consultar(query, function (result) {
+    if (req.file != undefined && result.status == 200) {
+      var ruta = '';
+      if (tipo == 'Maestro') {
+        ruta = './profile_images/maestros'
+      } else {
+        ruta = './profile_images/alumnos'
+      }
+      if (!fs.existsSync(ruta)) {
+        fs.mkdirSync(ruta, { recursive: true });
+        console.log("Carpeta para foto creada");
+      }
+      var buscar = './temp/' + req.file.filename;
+
+      try {
+        // esta cosa en realidad mueve el archivo :o
+        fs.renameSync(buscar, ruta + '/' + dpi_carnet + '.jpg')
+        console.log("se cambio el nombre de la imagen");
+
+      } catch (err) {
+        console.log(err);
+        console.log("no se pudo copiar :c");
+        //res.status(400).json(err);
+      }
+
+    }
+
     res.status(result.status).json(result.datos);
   });
 })

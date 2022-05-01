@@ -194,6 +194,11 @@ export function guardarNotaExamen(id_examen, id_alumno, puntuacion) {
     { id_examen: id_examen, id_alumno: id_alumno, puntuacion: puntuacion })
 }
 
+export function iniciarSesion(dpi_carnet, password, tipo) {
+  return axios.post(route + 'Login/iniciarSesion',
+    { dpi_carnet: dpi_carnet, password: password, tipo: tipo })
+}
+
 
 
 
