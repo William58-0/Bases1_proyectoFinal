@@ -198,7 +198,6 @@ router.post("/getNotificaciones", async function (req, res) {
   INNER JOIN clase USING (id_clase)
   INNER JOIN curso USING (id_curso)
   INNER JOIN asignacion_clase USING (id_clase)
-  INNER JOIN alumno USING (id_alumno)
   WHERE id_alumno = ${id_alumno};`;
   service.consultar(consulta, function (result) {
     if (result.status == 200) {
@@ -211,7 +210,6 @@ router.post("/getNotificaciones", async function (req, res) {
     INNER JOIN clase USING (id_clase)
     INNER JOIN curso USING (id_curso)
     INNER JOIN asignacion_clase USING (id_clase)
-    INNER JOIN alumno USING (id_alumno)
     WHERE id_alumno = ${id_alumno};`;
 
 
@@ -226,22 +224,22 @@ router.post("/getNotificaciones", async function (req, res) {
       INNER JOIN clase USING (id_clase)
       INNER JOIN curso USING (id_curso)
       INNER JOIN asignacion_clase USING (id_clase)
-      INNER JOIN alumno USING (id_alumno)
       WHERE id_alumno = ${id_alumno};`;
 
       service.consultar(consulta2, function (result2) {
         if (result2.status == 200) {
           resultado = resultado.concat(result2.datos);
         }
+
+        resultado.forEach(dato => {
+          dato.fecha_hora = fecha.fechaTiempo(dato.fecha_hora);
+        });
+    
+        res.status(result.status).json(resultado);
+
       });
 
     });
-
-    resultado.forEach(dato => {
-      dato.fecha_hora = fecha.fechaTiempo(dato.fecha_hora);
-    });
-
-    res.status(result.status).json(resultado);
 
   });
 });
