@@ -18,11 +18,6 @@ function AlumnosPublicacion() {
   const [asig_act, setAsigAct] = useState(useParams().asig_act)
   const [actividades, setActs] = useState([]);
   const [redirect, setRedirect] = useState(false);
-  //
-  const [asunto, setAsunto] = useState("");
-  const [descripcion, setDesc] = useState("");
-  const [fecha_publicacion, setFecha] = useState("");
-  const [autor, setAutor] = useState("");
 
   useEffect(() => {
     // obtener los datos del alumno
@@ -51,6 +46,21 @@ function AlumnosPublicacion() {
     }
   }
 
+  const siguienteGrupo = () => {
+    var index = indice;
+    var acts = actividades;
+    if (index + 10 <= acts.length) {
+      setIndice(index + 10);
+    }
+  }
+
+  const anteriorGrupo = () => {
+    var index = indice;
+    if (index - 10 >= 0) {
+      setIndice(index - 10);
+    }
+  }
+
   return (
     <>
 
@@ -64,9 +74,9 @@ function AlumnosPublicacion() {
             <div className="card-body d-flex justify-content-between align-items-center"
               style={{ marginLeft: '62.5%' }}>
               Grupo:
-              <Button onClick={() => VerActividad(0)}>{'<'}</Button>
+              <Button onClick={() => anteriorGrupo()}>{'<'}</Button>
               {(indice / 10) + 1}
-              <Button onClick={() => VerActividad(0)}>{'>'}</Button>
+              <Button onClick={() => siguienteGrupo()}>{'>'}</Button>
             </div>
           </div>
           <div class="bg-light container-tabla" >

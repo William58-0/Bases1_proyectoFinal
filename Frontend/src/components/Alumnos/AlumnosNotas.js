@@ -23,22 +23,7 @@ function AlumnosNotas() {
   const [carnet, setCarnet] = useState("");
   const [total, setTotal] = useState(0);
 
-  const [notas, setNotas] = useState([
-    { titulo: "Parcial 1", puntuacion: "9" },
-    { titulo: "Tarea 1", puntuacion: "2" },
-    { titulo: "Tarea 2", puntuacion: "3" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-    { titulo: "Parcial 2", puntuacion: "10" },
-  ]);
+  const [notas, setNotas] = useState([]);
 
   useEffect(() => {
     // obtener los datos del alumno

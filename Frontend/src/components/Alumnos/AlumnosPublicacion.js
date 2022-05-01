@@ -26,7 +26,7 @@ function AlumnosPublicacion() {
     // obtener los datos del alumno
     getAlumno(id_alumno).then((response) => {
       if (response.data.length > 0) {
-          setNombreAlumno(response.data[0].nombre + " " + response.data[0].apellido)
+        setNombreAlumno(response.data[0].nombre + " " + response.data[0].apellido)
       }
     });
     // obtener publicaciones para el alumno
@@ -49,6 +49,22 @@ function AlumnosPublicacion() {
     setPub(0);
   }
 
+  const siguienteGrupo = () => {
+    var index = indice;
+    var pubs = publicaciones;
+    if (index + 10 <= pubs.length) {
+      setIndice(index + 10);
+    }
+  }
+
+  const anteriorGrupo = () => {
+    var index = indice;
+    if (index - 10 >= 0) {
+      setIndice(index - 10);
+    }
+  }
+
+
   return (
     <>
       {publicacion === 0 ?
@@ -62,9 +78,9 @@ function AlumnosPublicacion() {
               <div className="card-body d-flex justify-content-between align-items-center"
                 style={{ marginLeft: '60%' }}>
                 Grupo:
-                <Button onClick={() => verPublicacion(0)}>{'<'}</Button>
+                <Button onClick={() => anteriorGrupo()}>{'<'}</Button>
                 {(indice / 10) + 1}
-                <Button onClick={() => verPublicacion(0)}>{'>'}</Button>
+                <Button onClick={() => siguienteGrupo()}>{'>'}</Button>
               </div>
             </div>
             <div class="bg-light container-tabla" >

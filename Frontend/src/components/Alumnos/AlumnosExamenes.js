@@ -12,86 +12,6 @@ import NavBar from './AlumnosNavBar';
 import Container from './FondoAlumnos';
 import './alumno.css';
 
-let publicaciones = [
-  {
-    id: 1,
-    curso: 'tarfdsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaafdea 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-  {
-    id: 2,
-    curso: 'tarea 1',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-  {
-    id: 3,
-    curso: 'tarea 1',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-  {
-    id: 4,
-    curso: 'tarea 1',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-  {
-    id: 5,
-    curso: 'tarea 1',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-  {
-    id: 6,
-    curso: 'tarea 1',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-  {
-    id: 7,
-    curso: 'tarea 1',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-  {
-    id: 8,
-    curso: 'tarea 1',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-  {
-    id: 9,
-    curso: 'tarea 1',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-  {
-    id: 10,
-    curso: 'tarea 1',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-  {
-    id: 11,
-    curso: 'tarea 1',
-    fecha_publicacion: 'blabla',
-    inicio: 'hoy',
-    fin: 'maniana'
-  },
-]
-
 function AlumnosPublicacion() {
   const [id_alumno, setIdAlumno] = useState(1);
   const [nombre_alumno, setNombreAlumno] = useState("");
@@ -100,11 +20,7 @@ function AlumnosPublicacion() {
   const [indice, setIndice] = useState(0);
   const [examen, setExam] = useState(0);
   const [redirect, setRedirect] = useState(false);
-  //
-  const [asunto, setAsunto] = useState("");
-  const [fecha_publicacion, setDesc] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [autor, setAutor] = useState("");
+
 
   useEffect(() => {
     // obtener los datos del alumno
@@ -144,6 +60,21 @@ function AlumnosPublicacion() {
     }
   }
 
+  const siguienteGrupo = () => {
+    var index = indice;
+    var exams = examenes;
+    if (index + 10 <= exams.length) {
+      setIndice(index + 10);
+    }
+  }
+
+  const anteriorGrupo = () => {
+    var index = indice;
+    if (index - 10 >= 0) {
+      setIndice(index - 10);
+    }
+  }
+
   return (
     <>
 
@@ -157,9 +88,9 @@ function AlumnosPublicacion() {
             <div className="card-body d-flex justify-content-between align-items-center"
               style={{ marginLeft: '64.5%' }}>
               Grupo:
-              <Button onClick={() => hacerExamen(0)}>{'<'}</Button>
+              <Button onClick={() => anteriorGrupo()}>{'<'}</Button>
               {(indice / 10) + 1}
-              <Button onClick={() => hacerExamen(0)}>{'>'}</Button>
+              <Button onClick={() => siguienteGrupo()}>{'>'}</Button>
             </div>
           </div>
           <div class="bg-light container-tabla" >

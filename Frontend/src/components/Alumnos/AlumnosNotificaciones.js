@@ -10,6 +10,7 @@ import {
   getAlumno, getNotificaciones
 } from '../../endpoints/endpoints';
 
+
 function AlumnosNotificacion() {
   const [id_alumno, setIdAlumno] = useState(1);
   const [nombre_alumno, setNombreAlumno] = useState("");
@@ -51,6 +52,21 @@ function AlumnosNotificacion() {
     setPub(0);
   }
 
+  const siguienteGrupo = () => {
+    var index = indice;
+    var nots = notificaciones;
+    if (index + 10 <= nots.length) {
+      setIndice(index + 10);
+    }
+  }
+
+  const anteriorGrupo = () => {
+    var index = indice;
+    if (index - 10 >= 0) {
+      setIndice(index - 10);
+    }
+  }
+
   return (
     <>
       {notificacion === 0 ?
@@ -64,9 +80,9 @@ function AlumnosNotificacion() {
               <div className="card-body d-flex justify-content-between align-items-center"
                 style={{ marginLeft: '60%' }}>
                 Grupo:
-                <Button onClick={() => verNotificacion(0)}>{'<'}</Button>
+                <Button onClick={() => anteriorGrupo()}>{'<'}</Button>
                 {(indice / 10) + 1}
-                <Button onClick={() => verNotificacion(0)}>{'>'}</Button>
+                <Button onClick={() => siguienteGrupo()}>{'>'}</Button>
               </div>
             </div>
             <div class="bg-light container-tabla" >
