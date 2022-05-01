@@ -53,7 +53,6 @@ function AlumnosNotas() {
       setCursos(response.data);
       if (response.data.length > 0) {
         // obtener las notas del alumno
-        console.log(response.data);
         setClase(response.data[0].id_clase);
         setNombreCurso(response.data[0].nombre_curso);
         getNotasAlumno(id_alumno, response.data[0].id_clase).then((response1) => {
@@ -62,8 +61,6 @@ function AlumnosNotas() {
 
         // obtener el total de puntos para el alumno
         getTotalAlumno(id_alumno, response.data[0].id_clase).then((response2) => {
-          console.log("TOOTAL");
-          console.log(response2.data);
           if (response2.data.length === 1) {
             if (response2.data[0].total !== null) {
               setTotal(response2.data[0].total);
