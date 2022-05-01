@@ -28,11 +28,12 @@ router.post("/iniciarSesion", async function (req, res) {
 
   service.consultar(consulta, async function (result) {
     if (result.status == 200) {
-      if (result.datos.length > 0) {
-        /// CARGAR LA FOTO DEL USUARIO
-        const imgDefault = './profile_images/default/default.jpg'
+      /// CARGAR LA FOTO DEL USUARIO
+      const imgDefault = './profile_images/default/default.jpg'
 
-        var destino = '../Frontend/src/profile_image/imagen.jpg';
+      var destino = '../Frontend/src/profile_image/imagen.jpg';
+
+      if (result.datos.length > 0) {
 
         var buscar = ''
         if (tipo === 'Maestro') {
@@ -40,7 +41,6 @@ router.post("/iniciarSesion", async function (req, res) {
         } else {
           buscar = './profile_images/alumnos/' + dpi_carnet + '.jpg';
         }
-
 
         try {
           if (!fs.existsSync(buscar)) {
@@ -53,8 +53,6 @@ router.post("/iniciarSesion", async function (req, res) {
         } catch (err) {
           console.log("no tiene foto");
           try {
-            img.src = imgDefault;
-
             await archivos.copy(imgDefault, destino);
             console.log("se pudo copiar");
           } catch (err1) {
@@ -62,6 +60,15 @@ router.post("/iniciarSesion", async function (req, res) {
             console.log("no se pudo copiar :c");
           }
         }
+      } else {
+        
+        try {
+          await archivos.copy(imgDefault, destino);
+          console.log("se copio imagen default");
+        } catch (err1) {
+          console.log(err1);
+        }
+
       }
     }
 

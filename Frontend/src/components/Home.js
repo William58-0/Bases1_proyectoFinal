@@ -70,7 +70,7 @@ function Home() {
                 setRedirect(true);
             } else {
                 alert("Credenciales incorrectas");
-                //setRedirect(true);
+                setRedirect(true);
             }
         });
     }

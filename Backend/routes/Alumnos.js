@@ -139,26 +139,72 @@ router.post("/getClasesAlumno", async function (req, res) {
 
 router.post("/getNotasAlumno", async function (req, res) {
   const { id_alumno, id_clase } = req.body
+
+  let notas = [];
+
   let consulta = `
-  SELECT * FROM clase
+  SELECT id_asignacion_actividad AS 'id', actividad.titulo, puntuacion
+  FROM clase
   INNER JOIN actividad USING (id_clase)
   INNER JOIN asignacion_actividad USING (id_actividad)
   WHERE (id_alumno = ${id_alumno}) AND (id_clase = ${id_clase});`;
   service.consultar(consulta, function (result) {
-    res.status(result.status).json(result.datos);
+
+    if (result.status == 200) {
+      notas = notas.concat(result.datos);
+    }
+
+    let consulta1 = `
+    SELECT id_asignacion_examen AS 'id', examen.id_examen, puntuacion
+    FROM clase
+    INNER JOIN examen USING (id_clase)
+    INNER JOIN asignacion_examen USING (id_examen)
+    WHERE (id_alumno = ${id_alumno}) AND (id_clase = ${id_clase});`;
+
+
+    service.consultar(consulta1, function (result1) {
+      if (result1.status == 200) {
+        notas = notas.concat(result1.datos);
+      }
+
+      res.status(result1.status).json(notas);
+
+    });
+
   });
+
 });
 
 router.post("/getTotalAlumno", async function (req, res) {
   const { id_alumno, id_clase } = req.body
+
+  let totales = [];
+
   let consulta = `
   SELECT SUM(puntuacion) as total FROM asignacion_actividad
   INNER JOIN actividad USING (id_actividad)
-  INNER JOIN alumno USING (id_alumno)
   WHERE (id_alumno = ${id_alumno}) AND (id_clase = ${id_clase})
   GROUP BY id_alumno ;`;
   service.consultar(consulta, function (result) {
-    res.status(result.status).json(result.datos);
+    if (result.status == 200) {
+      totales = totales.concat(result.datos);
+    }
+    let consulta1 = `
+    SELECT SUM(puntuacion) as total FROM asignacion_examen
+    INNER JOIN examen USING (id_examen)
+    WHERE (id_alumno = ${id_alumno}) AND (id_clase = ${id_clase})
+    GROUP BY id_alumno ;`;
+
+    service.consultar(consulta1, function (result1) {
+
+      if (result1.status == 200) {
+        totales = totales.concat(result1.datos);
+      }
+
+      res.status(result1.status).json(totales);
+
+    });
+
   });
 });
 

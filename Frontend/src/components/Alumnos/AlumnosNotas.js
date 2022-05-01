@@ -62,9 +62,17 @@ function AlumnosNotas() {
 
         // obtener el total de puntos para el alumno
         getTotalAlumno(id_alumno, response.data[0].id_clase).then((response2) => {
-          if (response2.data.length > 0) {
+          console.log("TOOTAL");
+          console.log(response2.data);
+          if (response2.data.length === 1) {
             if (response2.data[0].total !== null) {
               setTotal(response2.data[0].total);
+            } else {
+              setTotal(0);
+            }
+          } else if (response2.data.length === 2) {
+            if (response2.data[0].total !== null && response2.data[1].total !== null) {
+              setTotal(response2.data[0].total + response2.data[1].total);
             } else {
               setTotal(0);
             }
@@ -111,18 +119,33 @@ function AlumnosNotas() {
     setClase(objeto.id_clase);
     setNombreCurso(objeto.nombre_curso);
     getNotasAlumno(id_alumno, objeto.id_clase).then((response) => {
+
       setNotas(response.data);
     });
     getTotalAlumno(id_alumno, objeto.id_clase).then((response2) => {
-      if (response2.data.length > 0) {
+      if (response2.data.length === 1) {
         if (response2.data[0].total !== null) {
           setTotal(response2.data[0].total);
+        } else {
+          setTotal(0);
+        }
+      } else if (response2.data.length === 2) {
+        if (response2.data[0].total !== null && response2.data[1].total !== null) {
+          setTotal(response2.data[0].total + response2.data[1].total);
         } else {
           setTotal(0);
         }
       }
     });
 
+  }
+
+  const mostrarPuntuacion = (puntuacion) => {
+    if (puntuacion === '' || puntuacion === null) {
+      return "pendiente";
+    } else {
+      return puntuacion;
+    }
   }
 
   return (
@@ -158,12 +181,12 @@ function AlumnosNotas() {
               {
                 notas.map((nota) =>
                   <>
-                    <tr key={nota.id_asignacion_actividad}>
+                    <tr key={nota.id}>
                       <td>
-                        {nota['titulo']}
+                        {nota['titulo'] || 'Examen ID:   ' + nota['id_examen']}
                       </td>
                       <td>
-                        {nota['puntuacion']}
+                        {mostrarPuntuacion(nota['puntuacion'])}
                       </td>
                     </tr>
                   </>
