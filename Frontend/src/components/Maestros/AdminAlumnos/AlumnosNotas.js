@@ -82,8 +82,9 @@ function AlumnosNotas() {
                   setTotal(0);
                 }
               } else if (response3.data.length === 2) {
-                if (response3.data[0].total !== null && response3.data[1].total !== null) {
-                  setTotal(response3.data[0].total + response3.data[1].total);
+                var totaal = response3.data[0].total + response3.data[1].total;
+                if (totaal !== null) {
+                  setTotal(totaal);
                 } else {
                   setTotal(0);
                 }
@@ -152,8 +153,9 @@ function AlumnosNotas() {
               setTotal(0);
             }
           } else if (response3.data.length === 2) {
-            if (response3.data[0].total !== null && response3.data[1].total !== null) {
-              setTotal(response3.data[0].total + response3.data[1].total);
+            var totaal = response3.data[0].total + response3.data[1].total;
+            if (totaal !== null) {
+              setTotal(totaal);
             } else {
               setTotal(0);
             }
@@ -186,8 +188,9 @@ function AlumnosNotas() {
           setTotal(0);
         }
       } else if (response3.data.length === 2) {
-        if (response3.data[0].total !== null && response3.data[1].total !== null) {
-          setTotal(response3.data[0].total + response3.data[1].total);
+        var totaal = response3.data[0].total + response3.data[1].total;
+        if (totaal !== null) {
+          setTotal(totaal);
         } else {
           setTotal(0);
         }

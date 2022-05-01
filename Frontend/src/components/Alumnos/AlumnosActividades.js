@@ -84,6 +84,7 @@ function AlumnosPublicacion() {
               <thead>
                 <tr>
                   <th>Publicacion</th>
+                  <th>Curso</th>
                   <th>Título</th>
                   <th>Descripcion</th>
                   <th>Estado</th>
@@ -97,6 +98,10 @@ function AlumnosPublicacion() {
 
                         <td style={{ maxWidth: '100px' }}>
                           {log['fecha_publicacion']}
+                        </td>
+
+                        <td style={{ maxWidth: '100px' }}>
+                          {log['nombre_curso']}
                         </td>
 
                         <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

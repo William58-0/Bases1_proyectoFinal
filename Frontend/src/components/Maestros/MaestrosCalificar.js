@@ -61,7 +61,11 @@ function MaestrosCalificar() {
     });
     //get observaciones
     getObservaciones(entrega).then((response) => {
-      setObs(response.data); 
+      console.log("datooooos");
+      console.log(response);
+      if (response.data !== "") {
+        setObs(response.data);
+      }
     });
   }, [])
 
@@ -131,7 +135,7 @@ function MaestrosCalificar() {
                       onChange={(e) => setPunteo(e.target.value)}>
                     </input>
                     / {valor} pts<br /><br />
-                    <div class="bg-light container-tabla-observaciones" >
+                    <div class="bg-light container-tabla-observacioness" >
                       <Table striped bordered hover>
                         <thead>
                           <tr>

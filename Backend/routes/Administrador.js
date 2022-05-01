@@ -136,6 +136,7 @@ router.post("/getUsuarios", async function (req, res) {
         dato.fecha_nacimiento = fecha.fechaLegible(dato.fecha_nacimiento);
       });
     }
+
     res.status(result.status).json(result.datos);
   });
 

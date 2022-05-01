@@ -34,7 +34,11 @@ function EliminarAlumno() {
     useEffect(() => {
         // obtener los usuarios
         getUsuarios(tipo).then((response) => {
-            setUsuarios(response.data);
+            console.log("USUAAARIOOOS");
+            console.log(response.data);
+            if (response.data !== "") {
+                setUsuarios(response.data);
+            }
 
             if (response.data.length > 0) {
                 getOtroUsuario(response.data[0].id_alumno);

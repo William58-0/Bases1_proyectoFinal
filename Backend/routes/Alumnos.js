@@ -49,6 +49,8 @@ router.post("/getActividadesAlumno", async function (req, res) {
   let consulta = `
   SELECT * FROM asignacion_actividad
   INNER JOIN actividad USING (id_actividad)
+  INNER JOIN clase USING (id_clase)
+  INNER JOIN curso USING (id_curso)
   WHERE id_alumno = "${id_alumno}";`;
   service.consultar(consulta, function (result) {
     result.datos.forEach(dato => {

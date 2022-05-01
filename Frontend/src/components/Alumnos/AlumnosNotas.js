@@ -53,8 +53,9 @@ function AlumnosNotas() {
               setTotal(0);
             }
           } else if (response2.data.length === 2) {
-            if (response2.data[0].total !== null && response2.data[1].total !== null) {
-              setTotal(response2.data[0].total + response2.data[1].total);
+            var totaal = response2.data[0].total + response2.data[1].total;
+            if (totaal !== null) {
+              setTotal(totaal);
             } else {
               setTotal(0);
             }
@@ -101,7 +102,6 @@ function AlumnosNotas() {
     setClase(objeto.id_clase);
     setNombreCurso(objeto.nombre_curso);
     getNotasAlumno(id_alumno, objeto.id_clase).then((response) => {
-
       setNotas(response.data);
     });
     getTotalAlumno(id_alumno, objeto.id_clase).then((response2) => {
@@ -112,8 +112,9 @@ function AlumnosNotas() {
           setTotal(0);
         }
       } else if (response2.data.length === 2) {
-        if (response2.data[0].total !== null && response2.data[1].total !== null) {
-          setTotal(response2.data[0].total + response2.data[1].total);
+        var totaal = response2.data[0].total + response2.data[1].total;
+        if (totaal !== null) {
+          setTotal(totaal);
         } else {
           setTotal(0);
         }

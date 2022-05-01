@@ -80,6 +80,13 @@
   overflow: auto;
 }
 
+.container-tabla-observacioness {
+  height: 205px;
+  display: block;
+  overflow: auto;
+}
+
+
 .container-tabla-respuestas {
   height: 186px;
   display: block;

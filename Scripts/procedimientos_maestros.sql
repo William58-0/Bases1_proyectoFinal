@@ -100,20 +100,17 @@ END;
 DROP PROCEDURE IF EXISTS update_publicacion;
 CALL update_publicacion(1, 'descripcion nueva');
 
-SELECT * FROM publicacion;
 
 -- ___________________________ Borrar publicacion ___________________________
 CREATE PROCEDURE delete_publicacion (
-	IN id_publucacion INT
+	IN id_publicacion INT
 )
 BEGIN 
-	DELETE FROM publicacion WHERE id_publucacion = id_publucacion;
+	DELETE FROM publicacion WHERE publicacion.id_publicacion = id_publicacion;
 END;
 
 DROP PROCEDURE IF EXISTS delete_publicacion;
 CALL delete_publicacion(1);
-
-SELECT * FROM publicacion;
 
 
 -- ___________________________ Obtener actividad de maestro ___________________________
@@ -146,7 +143,6 @@ END;
 DROP PROCEDURE IF EXISTS insert_actividad;
 CALL insert_actividad('titulo', 'descripcion', NOW(), 100, 1);
 
-
 -- ___________________________ insertar actividad ___________________________
 CREATE PROCEDURE insert_asignacion_actividad (
 	IN estado_actividad VARCHAR(250),
@@ -162,7 +158,7 @@ DROP PROCEDURE IF EXISTS insert_asignacion_actividad;
 CALL insert_asignacion_actividad("Pendiente", 1, 1);
 
 -- ___________________________ get actividad maestro ___________________________
-CREATE PROCEDURE update_actividad_maestro (
+CREATE PROCEDURE get_actividad_maestro (
 	IN id_actividad INT
 )
 BEGIN 
@@ -246,7 +242,7 @@ CALL get_entregas(1);
 
 -- ___________________________ obtener entrega ___________________________
 CREATE PROCEDURE get_entrega (
-	IN id_observacion INT
+	IN id_asignacion_actividad  INT
 )
 BEGIN 
     SELECT * FROM clase
@@ -254,7 +250,7 @@ BEGIN
     INNER JOIN actividad USING (id_clase)
     INNER JOIN asignacion_actividad USING (id_actividad)
     INNER JOIN alumno USING (id_alumno)
-    WHERE (observacion.id_observacion = id_observacion); 
+    WHERE (asignacion_actividad.id_asignacion_actividad = id_asignacion_actividad); 
 END;
 
 DROP PROCEDURE IF EXISTS get_entrega;
@@ -265,7 +261,7 @@ CALL get_entrega(1);
 
 CREATE PROCEDURE asignar_punteo_actividad (
 	IN puntacion DECIMAL,
-	IN id_asignacion_actividad INT,
+	IN id_asignacion_actividad INT
 )
 BEGIN 
     UPDATE asignacion_actividad SET
@@ -280,7 +276,7 @@ CALL asignar_punteo_actividad(75, 1);
 
 CREATE PROCEDURE realizar_observacion_actividad (
 	IN texto VARCHAR(250),
-	IN id_asignacion_actividad INT,
+	IN id_asignacion_actividad INT
 )
 BEGIN 
       INSERT INTO observacion(texto, id_asignacion_actividad)
@@ -289,6 +285,7 @@ END;
 
 DROP PROCEDURE IF EXISTS realizar_observacion_actividad;
 CALL realizar_observacion_actividad('observacion', 1);
+
 
 
 

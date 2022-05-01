@@ -15,9 +15,9 @@ import './maestro.css';
 
 function MaestrosEntregas() {
   const [id_maestro, setIdMaestro] = useState(1);
-  const [nombre_maestro, setNombreMaestro] = useState("")
-  const [entregas, setEnts] = useState([])
-  const [entrega, setEnt] = useState([])
+  const [nombre_maestro, setNombreMaestro] = useState("");
+  const [entregas, setEnts] = useState([]);
+  const [entrega, setEnt] = useState(0);
 
   const [indice, setIndice] = useState(0);
   const [redirect, setRedirect] = useState(false);
@@ -34,9 +34,9 @@ function MaestrosEntregas() {
 
   }, [])
 
-  const CalificarEntrega = (row) => {
+  const CalificarEntrega = async (row) => {
     // obtener los datos para la actividad seleccionada
-    setEnt(row.id_asignacion_actividad);
+    await setEnt(row.id_asignacion_actividad);
     setRedirect(true);
 
   }
