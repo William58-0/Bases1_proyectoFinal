@@ -1,0 +1,89 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F95D0E80-4475-AA4B-F72E-3CB04AB19E60" name="asignacion_clase">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>5030FC3E-5095-3938-1FE6-45F9E9E7B19E</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_asignacion_clase" id="F4D8CA19-716B-DA87-5B72-2B609677280C">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>66A234BD-3C1B-D780-F687-F800BD4278E9</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="clase_id_clase" id="EC5E7921-1551-F19E-9B26-56FCEB1DA2A6">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>02539D4D-923A-67A2-DAEE-FCCF102B879C</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A2C98E62-B7AB-321E-3257-677749F40F86" referredColumn="59967701-A33F-CCCB-68D9-8163B92AAD10"/>
+</associations>
+</Column>
+<Column name="alumno_id_alumno" id="F108C011-BA74-541F-7493-ABCC77115A00">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>A9611B55-F03D-0DE8-AFF8-421FDC6FB52F</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B08786F7-1B11-9F94-B04B-33C3DF5BA4C6" referredColumn="B006011F-6DD6-1603-211A-2081BF6BE174"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="EC9E8E38-6433-D5EA-F6A7-D5085C8100FD" name="asignacion_clase_PK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>7AD14DA6-39B1-82B0-B302-FAA44E83C5A5</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F4D8CA19-716B-DA87-5B72-2B609677280C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="11CF4EF9-5A65-91D3-B5E9-0CD42F7E5755" name="asignacion_clase_clase_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>9E8E3DF4-9E2C-CDD0-FCE4-C41144E010AA</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EC5E7921-1551-F19E-9B26-56FCEB1DA2A6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C59D739A-E5CD-0CCA-7D5A-F4B5A27F79E6" name="asignacion_clase_alumno_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>5420FAD2-D1C2-F577-340F-ED2074939E7E</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F108C011-BA74-541F-7493-ABCC77115A00"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E5E13A04-3E96-308F-E42E-A83C686DED39" name="observacion">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>3059DCE3-4A87-C291-FD9D-50DA267E2883</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_observacion" id="C04924BA-CF7D-64B2-9E50-806A5807FF50">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>10FD7781-A1CC-D79C-EBA1-8E7349F7E790</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="texto" id="9B0B5635-FAED-EB38-9100-37233E6CA3FD">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>5AC184AA-EA06-1B65-5983-792DCAE054E2</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>250 CHAR</dataTypeSize>
+<ownDataTypeParameters>250 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="asignacion_actividad_id_asignacion_actividad" id="0FBA8EA2-6368-B1AE-D3F2-5322C7A18FA0">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>F291D0E5-63D7-8B01-59A7-78A52119220F</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C0489FC8-47B8-FDFD-9110-E294A4998710" referredColumn="250F1300-CD57-8384-BE60-A01BA559862E"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F6E705C8-90F7-730F-BE3F-13BF80772513" name="observacion_PK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>C3608179-7713-DDA5-C77B-2BAF6DE084FF</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C04924BA-CF7D-64B2-9E50-806A5807FF50"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="839A56EF-B7FE-4091-D28E-2A4ED9C3A447" name="observacion_asignacion_actividad_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>2F2019E7-CF79-DD6B-74C0-D8DE7E32D27D</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0FBA8EA2-6368-B1AE-D3F2-5322C7A18FA0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

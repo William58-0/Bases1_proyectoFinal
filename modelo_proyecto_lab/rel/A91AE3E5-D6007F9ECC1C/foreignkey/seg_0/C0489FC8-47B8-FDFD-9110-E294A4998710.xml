@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="C0489FC8-47B8-FDFD-9110-E294A4998710" containerWithKeyObject="E5E13A04-3E96-308F-E42E-A83C686DED39" localFKIndex="839A56EF-B7FE-4091-D28E-2A4ED9C3A447" name="observacion_asignacion_actividad_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>2F2019E7-CF79-DD6B-74C0-D8DE7E32D27D</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<referredTableLongName>asignacion_actividad</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>E21C54EA-46FC-C56E-58CA-62AE9B0C7BF5</referredTableID>
+<keyObject>A2729E65-A772-6085-9337-69848BE85A04</keyObject>
+<referredKeyID>A2729E65-A772-6085-9337-69848BE85A04</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_asignacion_actividad</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

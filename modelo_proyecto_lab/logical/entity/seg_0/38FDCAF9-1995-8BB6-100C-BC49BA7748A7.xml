@@ -1,0 +1,127 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="38FDCAF9-1995-8BB6-100C-BC49BA7748A7" name="asignacion_actividad">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:53:12 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_asignacion_actividad" id="17D79303-E379-8280-8F72-B0BF1C9BDC81">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:53:19 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_hora" id="23A396C9-8CB5-F537-B5B1-021867A13D40">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:53:34 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="archivo" id="0138F953-96AC-02B2-8F37-78D11037C55B">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:53:42 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>250 CHAR</dataTypeSize>
+<ownDataTypeParameters>250 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="estado_actividad" id="49A2000B-E803-6146-B8DC-8EC31730FD55">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:53:58 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>250</dataTypeSize>
+<ownDataTypeParameters>250,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="puntacion" id="E0E08907-8460-8E36-8668-BF80AA76063F">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:54:20 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_actividad" id="8E5EA102-EF7E-AC43-8748-4AD3630FD965">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:55:27 UTC</createdTime>
+<generatorID>A60529FA-E299-A194-5278-4DA7CEA427F8</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<referedAttribute>0D36620E-E139-EAA4-9A48-D7D26D5ED346</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_alumno" id="E0075D44-F7A9-FD3E-3418-70B81DA073A5">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:55:55 UTC</createdTime>
+<generatorID>D512AC68-5AA6-FB09-96B2-6528674ACDB6</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<referedAttribute>D07EEEAC-3887-2B9F-6A1A-5F3C36EF3BC6</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="144A923D-A19D-817C-A232-881506470A71" name="asignacion_clase PK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:53:25 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>17D79303-E379-8280-8F72-B0BF1C9BDC81</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

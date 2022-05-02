@@ -1,0 +1,86 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="16AB6E6E-0B0D-7B3B-0C57-5C2C96B9F990" name="pregunta">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:06:47 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_pregunta" id="1F44EA12-C2E8-71AC-DC42-12505074D392">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:06:59 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="texto" id="086E6122-7C66-8ECB-881B-93722FB8E20F">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:07:14 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>250 CHAR</dataTypeSize>
+<ownDataTypeParameters>250 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="valor" id="885AD8B2-C515-8B88-09A9-66FDEF48940C">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:07:29 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_examen" id="F3B2399B-D8DC-7294-C46D-E248FBAF0596">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:08:08 UTC</createdTime>
+<generatorID>ED65D34B-832E-0B85-38E9-FA312F8EA196</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<referedAttribute>50CD83D0-7D13-8EB2-A4E1-947930CAE64F</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="25C3DBE6-F81D-9FF3-2993-84C824FD7825" name="pregunta PK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:07:12 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>1F44EA12-C2E8-71AC-DC42-12505074D392</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

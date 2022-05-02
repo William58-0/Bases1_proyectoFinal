@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="FB9FE898-7B19-207D-2BC2-F68D51670419" containerWithKeyObject="FD2682D1-D3FB-DE23-8452-CF51B23700E1" localFKIndex="BA6E61F1-B4CD-9D47-8264-9E23D1E3CCE1" name="notificacion_examen_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>914DAD59-81D1-780A-A139-F690EF28DE47</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<referredTableLongName>examen</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>58A86B4B-7EC8-FC43-4EAA-204D9DEBC9DF</referredTableID>
+<keyObject>647356BE-875A-81B1-1010-B7C87883A647</keyObject>
+<referredKeyID>647356BE-875A-81B1-1010-B7C87883A647</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_examen</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

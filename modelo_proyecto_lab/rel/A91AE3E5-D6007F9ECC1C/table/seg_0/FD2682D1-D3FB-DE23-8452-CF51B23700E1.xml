@@ -1,0 +1,153 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="FD2682D1-D3FB-DE23-8452-CF51B23700E1" name="notificacion">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>DBF742C7-B8C7-8C71-0A8B-89EAF81C3524</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_notificacion" id="661B1489-DC10-AF35-3AFA-3EEAADF4532A">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>48E07C48-D394-7FA6-1A6E-82E072FAEE3D</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="titulo" id="24919653-08ED-3274-8856-615C3BBE0876">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>8E84CA80-07AD-4B91-331B-F8A9BBF884CB</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>250 CHAR</dataTypeSize>
+<ownDataTypeParameters>250 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="contenido" id="A9EE09EF-18A8-1E03-9827-E89C3F053866">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>D52D9E00-D061-AB85-9EFE-B2DEB1535480</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>250 CHAR</dataTypeSize>
+<ownDataTypeParameters>250 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha_hora" id="4E4F5E9C-D232-BB18-20A1-E362C50F5BA7">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>3E2F22CA-DFD4-BEC4-8B3A-5BAC32524D04</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="actividad_id_actividad" id="5598F870-B165-EFBA-B517-332B8C2C8A15">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>6AB0A707-4E9B-A07E-331F-17818D9EDB1F</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D276E9C9-E508-5661-3007-74345F81C0BB" referredColumn="1439B27B-9905-1C43-0FFB-F4C95498D060"/>
+</associations>
+</Column>
+<Column name="publicacion_id_publicacion" id="FA5A950C-5EED-966B-B793-247B3F7AD941">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>BD67248A-FB0E-18CA-CD41-9AFB84533767</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2F50A07F-E922-70B2-E18E-8AEB6EDBCB8D" referredColumn="192DDBC7-97F6-ACD5-3F2F-CE51E4734816"/>
+</associations>
+</Column>
+<Column name="examen_id_examen" id="B853FF80-EE57-B66F-7108-C0F9F15CE454">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>783827CC-3A3C-5CC4-9F37-84E20C26B983</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="FB9FE898-7B19-207D-2BC2-F68D51670419" referredColumn="ECE707E5-02E6-DD5D-774F-66D32DFE9506"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="633CEC97-C9FC-B2D5-2FBE-5DD60A0F9B00" name="notificacion_PK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>905388B6-429F-328B-082A-B7D93E4C2B3A</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="661B1489-DC10-AF35-3AFA-3EEAADF4532A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="29C55369-F402-58CC-C33B-B431A6DA71FB" name="notificacion_actividad_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>1EC4AD90-A5C3-C7FD-C615-E96BF2915FA5</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5598F870-B165-EFBA-B517-332B8C2C8A15"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B7393B99-754C-FE1B-33BD-BB3AE6626E2C" name="notificacion_publicacion_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>C6CCC5EA-46A9-5C6F-ECFF-C5F881225F48</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FA5A950C-5EED-966B-B793-247B3F7AD941"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BA6E61F1-B4CD-9D47-8264-9E23D1E3CCE1" name="notificacion_examen_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>914DAD59-81D1-780A-A139-F690EF28DE47</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B853FF80-EE57-B66F-7108-C0F9F15CE454"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

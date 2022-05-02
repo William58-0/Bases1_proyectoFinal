@@ -1,0 +1,128 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="DBF742C7-B8C7-8C71-0A8B-89EAF81C3524" name="notificacion">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:59:05 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_notificacion" id="48E07C48-D394-7FA6-1A6E-82E072FAEE3D">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:59:12 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="titulo" id="8E84CA80-07AD-4B91-331B-F8A9BBF884CB">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:59:22 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>250 CHAR</dataTypeSize>
+<ownDataTypeParameters>250 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="contenido" id="D52D9E00-D061-AB85-9EFE-B2DEB1535480">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:59:33 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>250 CHAR</dataTypeSize>
+<ownDataTypeParameters>250 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_hora" id="3E2F22CA-DFD4-BEC4-8B3A-5BAC32524D04">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 16:59:47 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_actividad" id="6AB0A707-4E9B-A07E-331F-17818D9EDB1F">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:02:02 UTC</createdTime>
+<generatorID>1EC4AD90-A5C3-C7FD-C615-E96BF2915FA5</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<referedAttribute>0D36620E-E139-EAA4-9A48-D7D26D5ED346</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_publicacion" id="BD67248A-FB0E-18CA-CD41-9AFB84533767">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:02:07 UTC</createdTime>
+<generatorID>C6CCC5EA-46A9-5C6F-ECFF-C5F881225F48</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<referedAttribute>5DE777FB-7715-8BD6-ADEE-E352FF5464FD</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_examen" id="783827CC-3A3C-5CC4-9F37-84E20C26B983">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:02:13 UTC</createdTime>
+<generatorID>914DAD59-81D1-780A-A139-F690EF28DE47</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<referedAttribute>50CD83D0-7D13-8EB2-A4E1-947930CAE64F</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="905388B6-429F-328B-082A-B7D93E4C2B3A" name="notificacion PK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:10:25 UTC</createdTime>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<engineerTo>
+<item key="A91AE3E5-7A4F-1711-764D-D6007F9ECC1C" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>48E07C48-D394-7FA6-1A6E-82E072FAEE3D</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

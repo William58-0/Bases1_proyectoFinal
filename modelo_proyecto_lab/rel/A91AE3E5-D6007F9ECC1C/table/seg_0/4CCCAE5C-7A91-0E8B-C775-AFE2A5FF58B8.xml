@@ -1,0 +1,101 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="4CCCAE5C-7A91-0E8B-C775-AFE2A5FF58B8" name="asignacion_examen">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>F7253442-0409-89F8-53B0-500CD2403E55</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_asignacion_examen" id="60770DB6-44A5-DA01-160D-1A5D5E97B09B">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>6EE90757-C478-969A-D408-0A3322EAAF0E</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="puntuacion" id="24F26038-1353-59A5-DD5F-5045487B1809">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>34491EC9-C89B-B2F4-0AE1-085F073C7C00</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="alumno_id_alumno" id="955AAA47-4AF1-ED44-81D5-DF1AAA62C281">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>4EE513D6-C0FE-20B4-844F-B1285433642D</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F4303AE8-8F82-C5DA-905F-311F885AEF6B" referredColumn="B006011F-6DD6-1603-211A-2081BF6BE174"/>
+</associations>
+</Column>
+<Column name="examen_id_examen" id="7431204F-2278-BECD-19A7-0B6A144CC9E9">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>84B18582-49D0-2B59-9CD4-F042CA23EE6F</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6499644E-C82F-1F48-AA32-5FC1F9F8B86A" referredColumn="ECE707E5-02E6-DD5D-774F-66D32DFE9506"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="0729F861-C605-23D8-4351-32675D626378" name="asignacion_examen_PK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>306FEA14-0742-84BE-0AA9-4593361D36CF</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="60770DB6-44A5-DA01-160D-1A5D5E97B09B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="40856064-5629-3244-DFBA-B0A092389E7B" name="asignacion_examen_alumno_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>2177803A-C53D-674B-0F19-B000270A3804</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="955AAA47-4AF1-ED44-81D5-DF1AAA62C281"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="341FA4C0-B362-755C-C1C9-4F5C5F62BB55" name="asignacion_examen_examen_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>D2F5FFC7-90B9-3E51-0DC4-3C385C0EA1E6</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7431204F-2278-BECD-19A7-0B6A144CC9E9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

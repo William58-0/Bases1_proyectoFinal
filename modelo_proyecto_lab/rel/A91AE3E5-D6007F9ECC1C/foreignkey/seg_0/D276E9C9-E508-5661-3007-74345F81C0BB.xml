@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="D276E9C9-E508-5661-3007-74345F81C0BB" containerWithKeyObject="FD2682D1-D3FB-DE23-8452-CF51B23700E1" localFKIndex="29C55369-F402-58CC-C33B-B431A6DA71FB" name="notificacion_actividad_FK">
+<createdBy>josed</createdBy>
+<createdTime>2022-05-02 17:19:12 UTC</createdTime>
+<generatorID>1EC4AD90-A5C3-C7FD-C615-E96BF2915FA5</generatorID>
+<ownerDesignName>modelo_proyecto_lab</ownerDesignName>
+<referredTableLongName>actividad</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>4615E947-9390-EAAC-BC5D-127EB1752EDF</referredTableID>
+<keyObject>629D2F5F-870A-A0EE-DB3A-08BE0377547B</keyObject>
+<referredKeyID>629D2F5F-870A-A0EE-DB3A-08BE0377547B</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_actividad</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>
