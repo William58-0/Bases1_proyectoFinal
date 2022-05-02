@@ -3,6 +3,11 @@ import axios from 'axios';
 const route = 'http://localhost:9000/'
 
 // --------------------------------------------------------------------------------------- Administrador
+export function verificarUsuario(tipo, correo, dpi_carnet) {
+  return axios.post(route + 'Administrador/verificarUsuario',
+    { tipo: tipo, correo: correo, dpi_carnet: dpi_carnet, })
+}
+
 export function crearUsuario(datos) {
   return axios.post(route + 'Administrador/crearUsuario', datos)
 }

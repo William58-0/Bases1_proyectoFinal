@@ -5,8 +5,7 @@ import { Button, Card } from "react-bootstrap";
 import { Container } from '../AdminContainer'
 
 import {
-    editarUsuario, getUsuarios, getUsuario,
-    getClases, getCursos, getCurso, getMaestros, getAlumnos,
+    getUsuario, getCursos, getCurso, getMaestros,
     asignarCurso, crearCurso
 } from '../../../endpoints/endpoints';
 

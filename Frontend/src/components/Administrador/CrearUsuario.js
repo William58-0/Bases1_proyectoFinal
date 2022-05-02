@@ -4,24 +4,23 @@ import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 import { Button, Card } from "react-bootstrap";
 import { Container } from './AdminContainer'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 import {
-    crearUsuario
+    crearUsuario, verificarUsuario
 } from '../../endpoints/endpoints';
 
 
 function CrearUsuario() {
     const [tipo, setTipo] = useState("Maestro");
     const [usuario, setUsuario] = useState(0);
-    const [nombre, setNombre] = useState("fdsafa");
-    const [apellido, setApellido] = useState("fdassd");
-    const [telefono, setTelefono] = useState("465456")
-    const [direccion, setDireccion] = useState("jhgdhgd")
-    const [correo, setCorreo] = useState("ghdhd");
+    const [nombre, setNombre] = useState("");
+    const [apellido, setApellido] = useState("");
+    const [telefono, setTelefono] = useState("")
+    const [direccion, setDireccion] = useState("")
+    const [correo, setCorreo] = useState("");
     const [nacimiento, setNacimiento] = useState("2021-08-14");
-    const [dpi_carnet, setDPICarnet] = useState("45646856");
-    const [contrasenia, setContrasenia] = useState("hgdhghgf");
+    const [dpi_carnet, setDPICarnet] = useState("");
+    const [contrasenia, setContrasenia] = useState("");
     const [imagen, setImagen] = useState({ preview: '', data: '' });
 
     const [redirect, setRedirect] = useState(false);
@@ -141,23 +140,48 @@ function CrearUsuario() {
             let formData = new FormData()
             formData.append('file', imagen.data);
             prepararDatosUsuario(formData);
-            const response = await fetch('http://localhost:9000/Administrador/crearUsuario', {
-                method: 'POST',
-                body: formData,
-            })
-            if (response.status === 200) {
-                alert("Usuario Creado");
-            } else {
-                alert("Rayos :(");
-            }
-        }
-        else {
-            var nuevo = prepararUsuario();
-            crearUsuario(nuevo).then((response) => {
-                alert("Usuario Creado");
+
+            verificarUsuario(tipo, correo, dpi_carnet).then(async (response) => {
+                if (response.data === 'REPETIDO') {
+                    alert("DPI/CARNET o Correo Repetido");
+                    return;
+                } else {
+                    const response = await fetch('http://localhost:9000/Administrador/crearUsuario', {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    if (response.status === 200) {
+                        alert("Usuario Creado");
+                    } else {
+                        alert("Error :(");
+                    }
+                }
             }).catch(err => {
                 alert("Error :(");
             });
+
+
+
+        }
+        else {
+            verificarUsuario(tipo, correo, dpi_carnet).then((response) => {
+                if (response.data === 'REPETIDO') {
+                    alert("DPI/CARNET o Correo Repetido");
+                    return;
+                } else {
+                    var nuevo = prepararUsuario();
+                    crearUsuario(nuevo).then((response) => {
+                        alert("Usuario Creado");
+                    }).catch(err => {
+                        alert("Error :(");
+                    });
+                }
+            }).catch(err => {
+                alert("Error :(");
+            });
+
+
+
         }
 
     }

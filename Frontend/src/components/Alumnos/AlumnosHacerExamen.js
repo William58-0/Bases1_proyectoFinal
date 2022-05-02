@@ -12,7 +12,7 @@ import Container from './FondoAlumnos';
 import './alumno.css';
 
 function AlumnosEntregarActividad() {
-  const [id_alumno, setIdAlumno] = useState(1);
+  const [id_alumno, setIdAlumno] = useState(useParams().identificacion);
   const [nombre_alumno, setNombreAlumno] = useState("");
   const [examen, setExam] = useState(useParams().examen);
   const [pregunta, setPregunta] = useState(1);

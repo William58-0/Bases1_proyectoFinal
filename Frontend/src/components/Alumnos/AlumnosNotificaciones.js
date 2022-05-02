@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Table, Card } from "react-bootstrap";
-
+import { useParams } from 'react-router-dom';
 
 import NavBar from './AlumnosNavBar';
 import Container from './FondoAlumnos';
@@ -12,7 +12,7 @@ import {
 
 
 function AlumnosNotificacion() {
-  const [id_alumno, setIdAlumno] = useState(1);
+  const [id_alumno, setIdAlumno] = useState(useParams().identificacion);
   const [nombre_alumno, setNombreAlumno] = useState("");
   const [indice, setIndice] = useState(0);
   const [notificaciones, setPubs] = useState([]);
@@ -32,8 +32,6 @@ function AlumnosNotificacion() {
     });
     // obtener notificaciones para el alumno
     getNotificaciones(id_alumno).then((response) => {
-      console.log("NOTIFICACIONES");
-      console.log(response)
       setPubs(response.data);
     });
   }, [])

@@ -13,6 +13,30 @@ router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
 router.use(bodyParser.json({ limit: "50mb", extended: true }));
 router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
+router.post("/verificarUsuario", async function (req, res) {
+  const { tipo, correo, dpi_carnet } = req.body
+  let verificacion = '';
+  if (tipo == 'Maestro') {
+    verificacion = `SELECT * FROM maestro 
+    WHERE (dpi = ${dpi_carnet}) OR correo = '${correo}'`
+  } else {
+    verificacion = `SELECT * FROM alumno 
+    WHERE (carnet = ${dpi_carnet}) OR (correo = '${correo}')`
+  }
+
+  service.consultar(verificacion, function (result3) {
+    if (result3.datos.length > 0) {
+      res.status(200).json('REPETIDO');
+    } else {
+      res.status(200).json('Todo Gud');
+    }
+
+  });
+
+});
+
+
+
 router.post('/crearUsuario', archivos.upload.single('file'), async function (req, res) {
   const { tipo, nombre, apellido, telefono, direccion,
     correo, nacimiento, dpi_carnet, contrasenia, imagen } = req.body
@@ -74,6 +98,7 @@ router.post('/cargaMasiva', archivos.upload.single('file'), async function (req,
   if (req.file == undefined) {
     console.log("ERROR: No hay archivo");
     res.status(400).json("ERROR: No hay archivo");
+    return;
   }
 
   if (!fs.existsSync('./temp/')) {

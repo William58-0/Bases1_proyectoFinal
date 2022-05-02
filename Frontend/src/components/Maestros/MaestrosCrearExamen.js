@@ -15,7 +15,7 @@ import Container from './FondoMaestros';
 import './maestro.css';
 
 function MaestrosEntregarActividad() {
-  const [id_maestro, setMaestro] = useState(1);
+  const [id_maestro, setMaestro] = useState(useParams().identificacion);
   const [nombre_maestro, setNombreMaestro] = useState("");
   const [redirect, setRedirect] = useState(false);
 
@@ -202,10 +202,6 @@ function MaestrosEntregarActividad() {
         alert("Error :(");
       });
     });
-  }
-
-  const probar = () => {
-    alert(fecha_inicio + " " + hora_inicio);
   }
 
   return (

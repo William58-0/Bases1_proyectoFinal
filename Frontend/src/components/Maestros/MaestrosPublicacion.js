@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
@@ -16,7 +16,7 @@ import './maestro.css';
 
 function MaestrosPublicacion() {
   //const [id_maestro, setMaestro] = useState(useParams().identificacion)
-  const [id_maestro, setMaestro] = useState(1);
+  const [id_maestro, setMaestro] = useState(useParams().identificacion);
   const [nombre_maestro, setNombreMaestro] = useState("")
   const [cursos, setCursos] = useState([]);
   const [curso, setCurso] = useState(0);

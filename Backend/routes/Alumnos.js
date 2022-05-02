@@ -68,7 +68,6 @@ router.post("/getActividadAlumno", async function (req, res) {
   });
 });
 
-
 router.post('/entregarActividad', archivos.upload.single('file'), async function (req, res) {
 
   if (req.file == undefined) {
@@ -294,7 +293,6 @@ router.post("/getPregunta", async function (req, res) {
 
 router.post("/getOpciones", async function (req, res) {
   const { id_pregunta } = req.body
-  console.log(id_pregunta);
 
   let consulta = `
     SELECT * FROM opcion

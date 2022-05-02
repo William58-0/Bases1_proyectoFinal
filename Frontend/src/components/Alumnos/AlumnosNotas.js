@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import jsPDF from "jspdf";
-import { Link, Redirect, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import "jspdf-autotable";
 import { Button, Table } from "react-bootstrap";
 
@@ -15,7 +15,7 @@ import './alumno.css';
 
 function AlumnosNotas() {
 
-  const [id_alumno, setIdAlumno] = useState(1);
+  const [id_alumno, setIdAlumno] = useState(useParams().identificacion);
   const [nombre_alumno, setNombreAlumno] = useState("");
   const [cursos, setCursos] = useState([]);
   const [clase, setClase] = useState("");

@@ -12,14 +12,14 @@ import {
 function EliminarAlumnos() {
     const [tipo, setTipo] = useState("Alumno");
     const [usuario, setUsuario] = useState(0);
-    const [nombre, setNombre] = useState("fdsafa");
-    const [apellido, setApellido] = useState("fdassd");
-    const [telefono, setTelefono] = useState("465456")
-    const [direccion, setDireccion] = useState("jhgdhgd")
-    const [correo, setCorreo] = useState("ghdhd");
+    const [nombre, setNombre] = useState("");
+    const [apellido, setApellido] = useState("");
+    const [telefono, setTelefono] = useState("")
+    const [direccion, setDireccion] = useState("")
+    const [correo, setCorreo] = useState("");
     const [nacimiento, setNacimiento] = useState("2021-08-14");
-    const [dpi_carnet, setDPICarnet] = useState("45646856");
-    const [contrasenia, setContrasenia] = useState("hgdhghgf");
+    const [dpi_carnet, setDPICarnet] = useState("");
+    const [contrasenia, setContrasenia] = useState("");
     const [imagen, setImagen] = useState({ preview: '', data: '' });
 
     const [redirect, setRedirect] = useState(false);

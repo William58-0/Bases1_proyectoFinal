@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Redirect } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { Button, Card } from "react-bootstrap";
 import Container from '../FondoMaestros';
 
@@ -12,23 +12,23 @@ import {
 
 
 function EditarAlumno() {
+    const [id_maestro, setMaestro] = useState(useParams().identificacion);
+    const [nombre_maestro, setNombreMaestro] = useState("");
+
     const [tipo, setTipo] = useState("Alumno");
     const [usuario, setUsuario] = useState(0);
-    const [nombre, setNombre] = useState("fdsafa");
-    const [apellido, setApellido] = useState("fdassd");
-    const [telefono, setTelefono] = useState("465456")
-    const [direccion, setDireccion] = useState("jhgdhgd")
-    const [correo, setCorreo] = useState("ghdhd");
+    const [nombre, setNombre] = useState("");
+    const [apellido, setApellido] = useState("");
+    const [telefono, setTelefono] = useState("")
+    const [direccion, setDireccion] = useState("")
+    const [correo, setCorreo] = useState("");
     const [nacimiento, setNacimiento] = useState("2021-08-14");
-    const [dpi_carnet, setDPICarnet] = useState("45646856");
-    const [contrasenia, setContrasenia] = useState("hgdhghgf");
+    const [dpi_carnet, setDPICarnet] = useState("");
+    const [contrasenia, setContrasenia] = useState("");
 
     const [redirect, setRedirect] = useState(false);
 
     const [usuarios, setUsuarios] = useState([]);
-
-    const [id_maestro, setMaestro] = useState(1);
-    const [nombre_maestro, setNombreMaestro] = useState("");
 
     useEffect(() => {
         getUsuarios(tipo).then((response) => {

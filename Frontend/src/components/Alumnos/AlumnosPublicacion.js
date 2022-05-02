@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Table, Card } from "react-bootstrap";
+import { useParams } from 'react-router-dom';
 
 
 import NavBar from './AlumnosNavBar';
@@ -11,7 +12,7 @@ import {
 } from '../../endpoints/endpoints';
 
 function AlumnosPublicacion() {
-  const [id_alumno, setIdAlumno] = useState(1);
+  const [id_alumno, setIdAlumno] = useState(useParams().identificacion);
   const [nombre_alumno, setNombreAlumno] = useState("");
   const [indice, setIndice] = useState(0);
   const [publicaciones, setPubs] = useState([]);

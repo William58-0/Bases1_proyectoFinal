@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 
@@ -14,7 +14,7 @@ import './maestro.css';
 
 
 function MaestrosEntregas() {
-  const [id_maestro, setIdMaestro] = useState(1);
+  const [id_maestro, setIdMaestro] = useState(useParams().identificacion);
   const [nombre_maestro, setNombreMaestro] = useState("");
   const [entregas, setEnts] = useState([]);
   const [entrega, setEnt] = useState(0);

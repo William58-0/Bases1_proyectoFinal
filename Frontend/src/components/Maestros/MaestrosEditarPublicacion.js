@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Redirect } from 'react-router-dom';
 import { Button } from "react-bootstrap";
-import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 
 import {
@@ -15,7 +14,7 @@ import './maestro.css';
 
 
 function MaestrosVerPublicacion() {
-  const [id_maestro, setIdMaestro] = useState(1);
+  const [id_maestro, setIdMaestro] = useState(useParams().identificacion);
   const [nombre_maestro, setNombreMaestro] = useState("")
   const [publicacion, setPub] = useState(useParams().publicacion);
 

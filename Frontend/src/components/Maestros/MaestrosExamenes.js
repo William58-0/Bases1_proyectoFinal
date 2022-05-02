@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { Button } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
-import Card from 'react-bootstrap/Card';
 
 import {
-  getMaestro, crearPublicacion, getExamenesMaestro,
-  getIdClase, getCursosMaestro
+  getMaestro, getExamenesMaestro
 } from '../../endpoints/endpoints';
 
 
@@ -16,7 +14,7 @@ import './maestro.css';
 
 function MaestrosExamenes() {
   //const [id_maestro, setMaestro] = useState(useParams().identificacion)
-  const [id_maestro, setMaestro] = useState(1);
+  const [id_maestro, setMaestro] = useState(useParams().identificacion);
   const [nombre_maestro, setNombreMaestro] = useState("");
 
   const [indice, setIndice] = useState(0);

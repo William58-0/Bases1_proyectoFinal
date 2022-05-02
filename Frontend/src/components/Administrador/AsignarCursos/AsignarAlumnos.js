@@ -5,9 +5,8 @@ import { Button, Card } from "react-bootstrap";
 import { Container } from '../AdminContainer'
 
 import {
-    editarUsuario, getUsuarios, getUsuario,
-    getClases, getCursos, getCurso, getMaestros, getAlumnos,
-    asignarCurso, crearCurso
+    getUsuario, getClases, getAlumnos,
+    asignarCurso
 } from '../../../endpoints/endpoints';
 
 
@@ -30,8 +29,7 @@ function AsignarAlumnos() {
     useEffect(() => {
         getClases().then((response) => {
             setClases(response.data);
-            console.log("CLAASES");
-            console.log(response.data);
+
             if (response.data.length > 0) {
                 setClase(response.data[0].id_clase);
                 setMaestro(response.data[0].nombre + " " + response.data[0].apellido);

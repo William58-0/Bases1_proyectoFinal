@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { Redirect, Link } from 'react-router-dom';
-import { Button, Card } from "react-bootstrap";
+import { Redirect, Link, useParams } from 'react-router-dom';
+import { Button } from "react-bootstrap";
 
 import fondo from '../../../images/maestro.jpg';
 import NavBar from '../MaestrosNavBar';
@@ -33,12 +33,12 @@ overflow-y: hidden;
 `;
 
 function CargaMasiva() {
+    const [id_maestro, setMaestro] = useState(useParams().identificacion);
+    const [nombre_maestro, setNombreMaestro] = useState("");
+
     const [tipo, setTipo] = useState("Alumno");
     const [imagen, setImagen] = useState({ preview: '', data: '' });
     const [redirect, setRedirect] = useState(false);
-
-    const [id_maestro, setMaestro] = useState(1);
-    const [nombre_maestro, setNombreMaestro] = useState("");
 
     useEffect(() => {
         // obtener los datos del maestro

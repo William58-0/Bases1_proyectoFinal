@@ -34,7 +34,6 @@ function Home() {
     const [id_usuario, setIdUsuario] = useState(1);
 
     const handleChange = (e) => {
-        alert(e.target.value);
         setTipo(e.target.value);
         //setTipo(e.target.value);
     }
@@ -58,8 +57,18 @@ function Home() {
             alert("Ingrese las credenciales");
             return;
         }
+
+        if (tipo === "Administrador") {
+            if (identificacion === "admin" && password === "admin") {
+                alert("inicio sesion como administrador");
+                setRedirect(true);
+            } else {
+                alert("credenciales incorrectas");
+            }
+            return;
+        }
+
         await iniciarSesion(identificacion, password, tipo).then((response) => {
-            console.log(response);
             if (response.data.length > 0) {
                 if (tipo === 'Maestro') {
                     setIdUsuario(response.data[0].id_maestro)
@@ -70,7 +79,7 @@ function Home() {
                 setRedirect(true);
             } else {
                 alert("Credenciales incorrectas");
-                setRedirect(true);
+                //setRedirect(true);
             }
         });
     }

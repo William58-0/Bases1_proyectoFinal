@@ -18,13 +18,12 @@ import Container from './FondoMaestros';
 import './maestro.css';
 
 function MaestrosActividades() {
-  const [id_maestro, setIdMaestro] = useState(1);
+  const [id_maestro, setIdMaestro] = useState(useParams().identificacion);
   const [nombre_maestro, setNombreMaestro] = useState("")
   const [actividades, setActs] = useState([])
 
   const [indice, setIndice] = useState(0);
   const [actividad, setActi] = useState(0);
-  const [destino, setDestino] = useState(0);
   const [redirect, setRedirect] = useState(false);
   //
   const [crear, setCrear] = useState(false);
@@ -35,7 +34,6 @@ function MaestrosActividades() {
   const [descripcion, setDesc] = useState("");
   const [valor, setValor] = useState(0);
   const [fecha_entrega, setFechaE] = useState("");
-  const [fecha_publicacion, setFechaP] = useState("");
   const [alumnos, setAlumnos] = useState([]);
   const [alumno, setAlumno] = useState({});
   const [alumnosA, setAlumnosA] = useState([]);
@@ -112,7 +110,7 @@ function MaestrosActividades() {
         titulo: titulo, descripcion: descripcion,
         fecha_entrega: fecha_entrega, valor: valor,
         id_clase: response.data[0].id_clase,
-        alumnos: alumnos
+        alumnos: alumnosA
       }).then((response) => {
         alert("Actividad Creada");
         //para actualizar las actividades otra vez
@@ -233,7 +231,6 @@ function MaestrosActividades() {
                   </Card.Header>
                   <Card.Body style={{ overflowY: 'auto' }}>
                     <Card.Text>
-                      id_clase: <label>{id_maestro}</label><br /><br />
                       id_alumno: <select style={{ marginLeft: '2%', marginRight: '2%' }}
                         onChange={(e) => cambiarAlumno(e)} >
                         {
@@ -278,6 +275,7 @@ function MaestrosActividades() {
                         </Table>
                       </div>
                     </Card.Text>
+                    <br /><br />
                   </Card.Body>
                 </Card>
                 <br />

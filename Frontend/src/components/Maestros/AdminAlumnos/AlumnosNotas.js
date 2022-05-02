@@ -14,7 +14,7 @@ import Container from '../FondoMaestros';
 import '../maestro.css';
 
 function AlumnosNotas() {
-  const [id_maestro, setMaestro] = useState(1);
+  const [id_maestro, setMaestro] = useState(useParams().identificacion);
   const [nombre_maestro, setNombreMaestro] = useState("");
 
   const [alumnos, setAlumnos] = useState([]);
@@ -69,7 +69,7 @@ function AlumnosNotas() {
             setCarnet(response1.data[0].carnet);
 
             // obtener las notas para ese alumno
-            getNotasAlumno(id_maestro, response1.data[0].id_clase).then((response2) => {
+            getNotasAlumno(response1.data[0].id_alumno, response1.data[0].id_clase).then((response2) => {
               setNotas(response2.data);
             });
 
@@ -140,7 +140,7 @@ function AlumnosNotas() {
         setCarnet(response1.data[0].carnet);
 
         // obtener las notas para ese alumno
-        getNotasAlumno(id_maestro, response1.data[0].id_clase).then((response2) => {
+        getNotasAlumno(response1.data[0].id_alumno, response1.data[0].id_clase).then((response2) => {
           setNotas(response2.data);
         });
 
@@ -179,8 +179,7 @@ function AlumnosNotas() {
 
     // obtener el total de puntos para el alumno
     getTotalAlumno(objeto.id_alumno, objeto.id_clase).then((response3) => {
-      console.log("pasaa aquiii");
-      console.log(response3)
+      
       if (response3.data.length === 1) {
         if (response3.data[0].total !== null) {
           setTotal(response3.data[0].total);

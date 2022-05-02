@@ -13,7 +13,7 @@ import './alumno.css';
 
 
 function AlumnosEntregarActividad() {
-  const [id_alumno, setIdAlumno] = useState(1);
+  const [id_alumno, setIdAlumno] = useState(useParams().identificacion);
   const [nombre_alumno, setNombreAlumno] = useState("")
   const [asig_act, setAsigAct] = useState(useParams().asig_act)
 
@@ -73,8 +73,7 @@ function AlumnosEntregarActividad() {
 
       if (response.data.length > 0) {
         var resp = response.data[0]
-        console.log("lo de la actividad");
-        console.log(response.data[0]);
+        
         setTitulo(resp.titulo);
         setDesc(resp.descripcion);
         setEstado(resp.estado_actividad);
@@ -90,8 +89,7 @@ function AlumnosEntregarActividad() {
     });
     //get observaciones
     getObservaciones(asig_act).then((response) => {
-      console.log("OBSERVACIONES");
-      console.log(response.data);
+      
       setObs(response.data);
     });
   }, [])

@@ -14,7 +14,7 @@ import './maestro.css';
 
 
 function MaestrosCalificar() {
-  const [id_maestro, setIdMaestro] = useState(1);
+  const [id_maestro, setIdMaestro] = useState(useParams().identificacion);
   const [nombre_maestro, setNombreMaestro] = useState("");
   const [entrega, setEntrega] = useState(useParams().entrega);
   const [nuevaOb, setNuevaOb] = useState("");
@@ -61,8 +61,7 @@ function MaestrosCalificar() {
     });
     //get observaciones
     getObservaciones(entrega).then((response) => {
-      console.log("datooooos");
-      console.log(response);
+      
       if (response.data !== "") {
         setObs(response.data);
       }

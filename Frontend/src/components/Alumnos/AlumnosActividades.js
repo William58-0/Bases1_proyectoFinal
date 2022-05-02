@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { Button } from "react-bootstrap";
-import { Table, Card } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 
 import {
   getAlumno, getActividadesAlumno
@@ -12,7 +12,7 @@ import Container from './FondoAlumnos';
 import './alumno.css';
 
 function AlumnosPublicacion() {
-  const [id_alumno, setIdAlumno] = useState(1);
+  const [id_alumno, setIdAlumno] = useState(useParams().identificacion);
   const [nombre_alumno, setNombreAlumno] = useState("");
   const [indice, setIndice] = useState(0);
   const [asig_act, setAsigAct] = useState(useParams().asig_act)

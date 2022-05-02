@@ -404,10 +404,6 @@ class Administrador extends React.Component {
                                 Asignar Cursos
                             </Button>
                         </Link><br />
-
-                        <Button style={{ marginBottom: "8%" }}>
-                            Ingresar como Usuario
-                        </Button><br />
                     </Form>
                 </Container>
             );

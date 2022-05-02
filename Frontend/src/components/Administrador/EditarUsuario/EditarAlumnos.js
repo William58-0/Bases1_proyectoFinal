@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { Redirect } from 'react-router-dom';
 import { Button, Card } from "react-bootstrap";
-import { Container, Form } from '../AdminContainer'
+import { Container } from '../AdminContainer'
 
 import {
     editarUsuario, getUsuarios, getUsuario

@@ -13,7 +13,7 @@ import Container from './FondoAlumnos';
 import './alumno.css';
 
 function AlumnosPublicacion() {
-  const [id_alumno, setIdAlumno] = useState(1);
+  const [id_alumno, setIdAlumno] = useState(useParams().identificacion);
   const [nombre_alumno, setNombreAlumno] = useState("");
   const [examenes, setExamns] = useState([]);
 
